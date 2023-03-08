@@ -1,1 +1,0 @@
-# Ready-Trader-Go

@@ -98,11 +98,11 @@ class AutoTrader(BaseAutoTrader):
                 self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, LOT_SIZE, Lifespan.GOOD_FOR_DAY)
                 self.bids.add(self.bid_id)
 
-            # if self.ask_id == 0 and new_ask_price != 0 and self.position > -POSITION_LIMIT:
-            #     self.ask_id = next(self.order_ids)
-            #     self.ask_price = new_ask_price
-            #     self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, LOT_SIZE, Lifespan.GOOD_FOR_DAY)
-            #     self.asks.add(self.ask_id)
+            if self.ask_id == 0 and new_ask_price != 0 and self.position > -POSITION_LIMIT:
+                self.ask_id = next(self.order_ids)
+                self.ask_price = new_ask_price
+                self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, LOT_SIZE, Lifespan.GOOD_FOR_DAY)
+                self.asks.add(self.ask_id)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
         """Called when one of your orders is filled, partially or fully.

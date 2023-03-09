@@ -188,8 +188,8 @@ class AutoTrader(BaseAutoTrader):
 
             # save values to csv file
             avg_price = (best_ask_price + best_bid_price) / 2
-            bid_distances = [abs(avg_price - bid_price) for bid_price in bid_prices]
-            bid_weights = [avg_price / bid_distances[i] for i in range(len(bid_distances))]
+            bid_distances = [math.log(bid_prices[i]) / math.log(avg_price) for i in range(len(bid_prices))]
+            bid_weights = [bid_distances[i] * bid_volumes[i] for i in range(len(bid_volumes))] 
             sum_bid_weights = sum(bid_weights)
             
             try:
@@ -197,4 +197,4 @@ class AutoTrader(BaseAutoTrader):
                     writer = csv.writer(f)
                     writer.writerow([sum_bid_weights])
             except:
-                print("Error writing to csv file:", sum_bit_weights)
+                print("Error writing to csv file:", sum_bid_weights)

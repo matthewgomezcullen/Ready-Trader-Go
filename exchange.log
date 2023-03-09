@@ -1794,3 +1794,281 @@ task: <Task pending name='Task-1' coro=<Controller.start() running at /Users/hub
 2023-03-09 01:20:48,976 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3601 score records
 2023-03-09 01:20:48,976 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 470373 match events
 2023-03-09 01:20:48,976 [INFO   ] [APP] closing event loop
+2023-03-09 11:19:16,668 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-09 11:19:16,669 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:19:16,669 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:19:16,669 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:19:16,670 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:19:16,673 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:19:16,674 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:19:16,883 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49446
+2023-03-09 11:19:16,884 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:19:18,232 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49447
+2023-03-09 11:19:21,679 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:20:40,712 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=79.034753 client_order_id=410 message='0 is not a valid volume'
+2023-03-09 11:20:53,384 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=91.706417 client_order_id=501 message='0 is not a valid volume'
+2023-03-09 11:22:19,979 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-09 11:22:19,980 [INFO   ] [APP] closing event loop
+2023-03-09 11:25:36,420 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-09 11:25:36,420 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:25:36,420 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:25:36,420 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:25:36,420 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:25:36,425 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:25:36,425 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:25:36,638 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49540
+2023-03-09 11:25:36,638 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:25:37,889 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49543
+2023-03-09 11:25:41,429 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:25:58,695 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-09 11:25:58,695 [INFO   ] [APP] closing event loop
+2023-03-09 11:28:05,202 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:28:05,202 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:28:05,203 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:28:05,203 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:28:05,203 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:28:05,207 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:28:05,207 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:28:05,335 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49592
+2023-03-09 11:28:05,335 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:28:05,339 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49593
+2023-03-09 11:28:05,340 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:28:06,598 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:49594
+2023-03-09 11:28:10,211 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:28:11,256 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=1.044367 client_order_id=9 message='0 is not a valid volume'
+2023-03-09 11:28:38,164 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=27.952489 client_order_id=154 message='0 is not a valid volume'
+2023-03-09 11:28:39,447 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-09 11:28:39,447 [INFO   ] [APP] closing event loop
+2023-03-09 11:29:06,289 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:29:06,289 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:29:06,290 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:29:06,290 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:29:06,291 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:29:06,296 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:29:06,296 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:29:06,410 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49614
+2023-03-09 11:29:06,410 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:29:06,411 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49615
+2023-03-09 11:29:06,415 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:29:07,671 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:49618
+2023-03-09 11:29:11,300 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:29:11,408 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.073265 client_order_id=11 message='0 is not a valid volume'
+2023-03-09 11:29:14,097 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=27.965785 client_order_id=156 message='0 is not a valid volume'
+2023-03-09 11:29:20,472 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=91.716283 client_order_id=484 message='0 is not a valid volume'
+2023-03-09 11:29:22,445 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=111.448570 client_order_id=591 message='0 is not a valid volume'
+2023-03-09 11:29:36,566 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=252.659650 client_order_id=1334 message='0 is not a valid volume'
+2023-03-09 11:29:53,000 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=417.002725 client_order_id=2192 message='0 is not a valid volume'
+2023-03-09 11:30:11,082 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=597.830840 client_order_id=3083 message='0 is not a valid volume'
+2023-03-09 11:30:26,281 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=749.823562 client_order_id=3812 message='0 is not a valid volume'
+2023-03-09 11:30:40,049 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=887.501198 client_order_id=4524 message='0 is not a valid volume'
+2023-03-09 11:30:40,150 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=888.511138 client_order_id=4529 message='0 is not a valid volume'
+2023-03-09 11:30:40,454 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=891.548244 client_order_id=4559 message='0 is not a valid volume'
+2023-03-09 11:30:40,945 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 11:30:41,165 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=898.665171 client_order_id=4592 message='0 is not a valid volume'
+2023-03-09 11:30:41,300 [INFO   ] [TIMER] shutting down the match: time=899.967758 reason='match complete'
+2023-03-09 11:30:41,300 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.967758
+2023-03-09 11:30:41,300 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=899.967758
+2023-03-09 11:30:41,300 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:30:41,300 [INFO   ] [CONNECTION] fd=25 connection lost
+2023-03-09 11:30:41,300 [INFO   ] [SCORE_BOARD] writer thread complete after processing 7202 score records
+2023-03-09 11:30:41,301 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 479002 match events
+2023-03-09 11:30:41,301 [INFO   ] [APP] closing event loop
+2023-03-09 11:31:26,813 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:31:26,814 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:31:26,814 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:31:26,814 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:31:26,814 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:31:26,818 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:31:26,818 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:31:26,942 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49650
+2023-03-09 11:31:26,943 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:31:26,948 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49651
+2023-03-09 11:31:26,948 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:31:28,174 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:49654
+2023-03-09 11:31:31,823 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:31:31,930 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.068215 client_order_id=9 message='0 is not a valid volume'
+2023-03-09 11:31:32,640 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=8.163668 client_order_id=54 message='0 is not a valid volume'
+2023-03-09 11:31:33,950 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=21.263551 client_order_id=124 message='ETF position limit breached'
+2023-03-09 11:31:33,950 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=21.263551
+2023-03-09 11:31:33,950 [INFO   ] [CONNECTION] fd=25 connection lost
+2023-03-09 11:31:37,386 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=55.625125 client_order_id=293 message='0 is not a valid volume'
+2023-03-09 11:31:39,730 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=79.065900 client_order_id=418 message='0 is not a valid volume'
+2023-03-09 11:31:40,995 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=91.717283 client_order_id=490 message='0 is not a valid volume'
+2023-03-09 11:31:51,943 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=201.204436 client_order_id=1056 message='0 is not a valid volume'
+2023-03-09 11:32:06,630 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=348.071088 client_order_id=1824 message='0 is not a valid volume'
+2023-03-09 11:32:13,524 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=417.011319 client_order_id=2182 message='0 is not a valid volume'
+2023-03-09 11:32:32,903 [INFO   ] [COMPETITOR] Unhedged lots timer expired for TraderTwo at etf=107 fut=-48 rel=59
+2023-03-09 11:32:48,403 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=765.810874 client_order_id=3857 message='0 is not a valid volume'
+2023-03-09 11:32:50,854 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=790.317419 client_order_id=3971 message='0 is not a valid volume'
+2023-03-09 11:32:58,227 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=864.057232 client_order_id=4344 message='0 is not a valid volume'
+2023-03-09 11:33:00,604 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=887.820773 client_order_id=4479 message='0 is not a valid volume'
+2023-03-09 11:33:00,672 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.501237 client_order_id=4485 message='0 is not a valid volume'
+2023-03-09 11:33:01,026 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=892.047777 client_order_id=4520 message='0 is not a valid volume'
+2023-03-09 11:33:01,466 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 11:33:01,825 [INFO   ] [TIMER] shutting down the match: time=899.995125 reason='match complete'
+2023-03-09 11:33:01,825 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.995125
+2023-03-09 11:33:01,825 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:33:01,825 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 470459 match events
+2023-03-09 11:33:01,826 [INFO   ] [SCORE_BOARD] writer thread complete after processing 7203 score records
+2023-03-09 11:33:01,826 [INFO   ] [APP] closing event loop
+2023-03-09 11:33:21,890 [INFO   ] [APP] exchange started with arguments={rtg.py, run, testtrader.py}
+2023-03-09 11:33:21,890 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:33:21,890 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:33:21,890 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:33:21,890 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:33:21,896 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:33:21,896 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:33:22,088 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49681
+2023-03-09 11:33:22,089 [INFO   ] [EXECUTION] fd=24 'TraderTwo' is ready!
+2023-03-09 11:33:23,292 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49682
+2023-03-09 11:33:26,901 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:33:33,231 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=63.303617 client_order_id=291 message='ETF position limit breached'
+2023-03-09 11:33:33,231 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=63.303617
+2023-03-09 11:33:33,232 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:34:32,858 [INFO   ] [COMPETITOR] Unhedged lots timer expired for TraderTwo at etf=-104 fut=46 rel=-58
+2023-03-09 11:34:56,545 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 11:34:56,900 [INFO   ] [TIMER] shutting down the match: time=899.969168 reason='match complete'
+2023-03-09 11:34:56,901 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 462096 match events
+2023-03-09 11:34:56,901 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3604 score records
+2023-03-09 11:34:56,901 [INFO   ] [APP] closing event loop
+2023-03-09 11:35:10,752 [INFO   ] [APP] exchange started with arguments={rtg.py, run, testtrader.py}
+2023-03-09 11:35:10,752 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:35:10,752 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:35:10,752 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:35:10,753 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:35:10,757 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:35:10,757 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:35:10,948 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49715
+2023-03-09 11:35:10,949 [INFO   ] [EXECUTION] fd=24 'TraderTwo' is ready!
+2023-03-09 11:35:12,149 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49716
+2023-03-09 11:35:15,760 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:35:16,693 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=9.328311 client_order_id=53 message='0 is not a valid volume'
+2023-03-09 11:35:17,161 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=14.012163 client_order_id=86 message='ETF position limit breached'
+2023-03-09 11:35:17,161 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=14.012163
+2023-03-09 11:35:17,162 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=14.012163 client_order_id=86 message='ETF position limit breached'
+2023-03-09 11:35:17,162 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=14.012163
+2023-03-09 11:35:17,162 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:35:57,623 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-09 11:35:57,623 [INFO   ] [APP] closing event loop
+2023-03-09 11:36:33,587 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:36:33,587 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:36:33,588 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:36:33,588 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:36:33,588 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:36:33,592 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:36:33,592 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:36:33,759 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49735
+2023-03-09 11:36:33,759 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:36:33,760 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49736
+2023-03-09 11:36:33,763 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:36:34,977 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:49737
+2023-03-09 11:36:38,596 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:36:38,701 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=1.054051 client_order_id=8 message='0 is not a valid volume'
+2023-03-09 11:36:44,163 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=55.673157 client_order_id=330 message='0 is not a valid volume'
+2023-03-09 11:36:47,767 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=91.714071 client_order_id=566 message='0 is not a valid volume'
+2023-03-09 11:36:57,693 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=190.965422 client_order_id=1019 message='0 is not a valid volume'
+2023-03-09 11:36:58,725 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=201.290852 client_order_id=1074 message='0 is not a valid volume'
+2023-03-09 11:37:02,126 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=235.303584 client_order_id=1489 message='0 is not a valid volume'
+2023-03-09 11:37:03,283 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=246.872479 client_order_id=1567 message='0 is not a valid volume'
+2023-03-09 11:37:03,861 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=252.648720 client_order_id=1357 message='0 is not a valid volume'
+2023-03-09 11:37:05,836 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=272.407578 client_order_id=1442 message='0 is not a valid volume'
+2023-03-09 11:37:11,366 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=327.701245 client_order_id=2102 message='0 is not a valid volume'
+2023-03-09 11:37:18,349 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=397.531500 client_order_id=2526 message='0 is not a valid volume'
+2023-03-09 11:37:20,293 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=416.972503 client_order_id=2214 message='0 is not a valid volume'
+2023-03-09 11:37:28,013 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=494.173738 client_order_id=3086 message='0 is not a valid volume'
+2023-03-09 11:37:28,951 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=503.560730 client_order_id=2616 message='0 is not a valid volume'
+2023-03-09 11:37:32,751 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=541.557136 client_order_id=2803 message='0 is not a valid volume'
+2023-03-09 11:37:33,828 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=552.329193 client_order_id=3462 message='0 is not a valid volume'
+2023-03-09 11:37:43,024 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=644.287697 client_order_id=4070 message='0 is not a valid volume'
+2023-03-09 11:37:46,173 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=675.780412 client_order_id=4276 message='0 is not a valid volume'
+2023-03-09 11:37:47,954 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=693.589467 client_order_id=4380 message='0 is not a valid volume'
+2023-03-09 11:37:53,570 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=749.749829 client_order_id=4722 message='0 is not a valid volume'
+2023-03-09 11:37:57,627 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=790.318850 client_order_id=4956 message='0 is not a valid volume'
+2023-03-09 11:38:05,251 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=866.566778 client_order_id=4425 message='0 is not a valid volume'
+2023-03-09 11:38:05,400 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=868.053373 client_order_id=4440 message='0 is not a valid volume'
+2023-03-09 11:38:07,352 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=887.575897 client_order_id=5609 message='0 is not a valid volume'
+2023-03-09 11:38:07,446 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=888.515882 client_order_id=5614 message='0 is not a valid volume'
+2023-03-09 11:38:07,748 [INFO   ] [COMPETITOR] 'TraderTwo' sent error message: time=891.538896 client_order_id=5643 message='0 is not a valid volume'
+2023-03-09 11:38:08,240 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 11:38:08,403 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=898.087305 client_order_id=4619 message='0 is not a valid volume'
+2023-03-09 11:38:08,596 [INFO   ] [TIMER] shutting down the match: time=899.982152 reason='match complete'
+2023-03-09 11:38:08,597 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.982152
+2023-03-09 11:38:08,597 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=899.982152
+2023-03-09 11:38:08,597 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:38:08,597 [INFO   ] [CONNECTION] fd=25 connection lost
+2023-03-09 11:38:08,597 [INFO   ] [SCORE_BOARD] writer thread complete after processing 7202 score records
+2023-03-09 11:38:08,597 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 480652 match events
+2023-03-09 11:38:08,597 [INFO   ] [APP] closing event loop
+2023-03-09 11:39:14,140 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:39:14,140 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:39:14,140 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:39:14,141 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:39:14,141 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:39:14,145 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:39:14,145 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:39:14,275 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49781
+2023-03-09 11:39:14,275 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:39:14,276 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49782
+2023-03-09 11:39:14,278 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:39:15,482 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:49783
+2023-03-09 11:39:19,149 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:39:27,109 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=79.597074 client_order_id=414 message='0 is not a valid volume'
+2023-03-09 11:39:44,414 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=252.648787 client_order_id=1357 message='0 is not a valid volume'
+2023-03-09 11:40:00,848 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=416.994276 client_order_id=2223 message='0 is not a valid volume'
+2023-03-09 11:40:34,129 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=749.814173 client_order_id=3866 message='0 is not a valid volume'
+2023-03-09 11:40:47,999 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.512895 client_order_id=4596 message='0 is not a valid volume'
+2023-03-09 11:40:48,301 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=891.535512 client_order_id=4623 message='0 is not a valid volume'
+2023-03-09 11:40:48,793 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 11:40:49,009 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=898.610529 client_order_id=4661 message='0 is not a valid volume'
+2023-03-09 11:40:49,153 [INFO   ] [TIMER] shutting down the match: time=900.022448 reason='match complete'
+2023-03-09 11:40:49,153 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=900.022448
+2023-03-09 11:40:49,154 [INFO   ] [COMPETITOR] 'TraderTwo' closing execution channel at time=900.022448
+2023-03-09 11:40:49,154 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 11:40:49,154 [INFO   ] [CONNECTION] fd=25 connection lost
+2023-03-09 11:40:49,154 [INFO   ] [SCORE_BOARD] writer thread complete after processing 7202 score records
+2023-03-09 11:40:49,154 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 480723 match events
+2023-03-09 11:40:49,154 [INFO   ] [APP] closing event loop
+2023-03-09 11:53:15,446 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py, testtrader.py}
+2023-03-09 11:53:15,446 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 11:53:15,446 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 11:53:15,446 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 11:53:15,446 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 11:53:15,451 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 11:53:15,451 [INFO   ] [INFORMATION] information channel established
+2023-03-09 11:53:15,623 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:50045
+2023-03-09 11:53:15,624 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 11:53:15,625 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:50046
+2023-03-09 11:53:15,627 [INFO   ] [EXECUTION] fd=25 'TraderTwo' is ready!
+2023-03-09 11:53:16,885 [INFO   ] [CONNECTION] fd=26 connection established: peer=127.0.0.1:50047
+2023-03-09 11:53:20,456 [INFO   ] [CONTROLLER] market open
+2023-03-09 11:53:30,668 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-09 11:53:30,668 [INFO   ] [APP] closing event loop
+2023-03-09 16:40:59,578 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-09 16:40:59,578 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-09 16:40:59,578 [INFO   ] [CONTROLLER] starting the match
+2023-03-09 16:40:59,578 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-09 16:40:59,579 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-09 16:40:59,586 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-09 16:40:59,586 [INFO   ] [INFORMATION] information channel established
+2023-03-09 16:40:59,833 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:52621
+2023-03-09 16:40:59,833 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-09 16:41:01,274 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:52623
+2023-03-09 16:41:04,591 [INFO   ] [CONTROLLER] market open
+2023-03-09 16:41:04,695 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.034726 client_order_id=10 message='0 is not a valid volume'
+2023-03-09 16:41:12,499 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=79.082150 client_order_id=407 message='0 is not a valid volume'
+2023-03-09 16:41:24,713 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=201.218156 client_order_id=1068 message='0 is not a valid volume'
+2023-03-09 16:41:44,171 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=395.805039 client_order_id=2109 message='0 is not a valid volume'
+2023-03-09 16:41:46,287 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=416.963204 client_order_id=2204 message='0 is not a valid volume'
+2023-03-09 16:41:54,007 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=494.164465 client_order_id=2580 message='0 is not a valid volume'
+2023-03-09 16:42:21,151 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=765.601832 client_order_id=3953 message='0 is not a valid volume'
+2023-03-09 16:42:31,401 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=868.111131 client_order_id=4470 message='0 is not a valid volume'
+2023-03-09 16:42:33,401 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.107736 client_order_id=4575 message='0 is not a valid volume'
+2023-03-09 16:42:33,441 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.506474 client_order_id=4579 message='0 is not a valid volume'
+2023-03-09 16:42:33,793 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=892.028716 client_order_id=4612 message='0 is not a valid volume'
+2023-03-09 16:42:34,237 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-09 16:42:34,595 [INFO   ] [TIMER] shutting down the match: time=899.994806 reason='match complete'
+2023-03-09 16:42:34,595 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.994806
+2023-03-09 16:42:34,595 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-09 16:42:34,595 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 470405 match events
+2023-03-09 16:42:34,595 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3601 score records
+2023-03-09 16:42:34,595 [INFO   ] [APP] closing event loop

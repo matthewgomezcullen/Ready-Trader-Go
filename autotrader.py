@@ -17,6 +17,7 @@
 #     <https://www.gnu.org/licenses/>.
 import asyncio
 import itertools
+import csv
 
 from typing import List
 
@@ -47,6 +48,9 @@ class AutoTrader(BaseAutoTrader):
         self.bids = set()
         self.asks = set()
         self.ask_id = self.ask_price = self.bid_id = self.bid_price = self.position = 0
+        with open('output/liquidity.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["liquidity"])
 
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -181,14 +185,15 @@ class AutoTrader(BaseAutoTrader):
             #         best_bid_volume > LIQUIDITY_THRESHOLD:
             #     self.liquid = True
 
+            # save values to csv file
             avg_price = (best_ask_price + best_bid_price) / 2
-            print("avg_price: ", avg_price)
             bid_distances = [abs(avg_price - bid_price) for bid_price in bid_prices]
-            print("bid_distances: ", bid_distances)
             bid_weights = [avg_price / bid_distances[i] for i in range(len(bid_distances))]
-            print("bid_weights: ", bid_weights)
             sum_bid_weights = sum(bid_weights)
-            print("sum_bid_weights: ", sum_bid_weights)
-            print()
-            print()
-            print()
+            
+            try:
+                with open('output/liquidity.csv', 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([sum_bid_weights])
+            except:
+                print("Error writing to csv file:", sum_bit_weights)

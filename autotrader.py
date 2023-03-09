@@ -24,11 +24,12 @@ from typing import List
 from ready_trader_go import BaseAutoTrader, Instrument, Lifespan, MAXIMUM_ASK, MINIMUM_BID, Side
 
 
-LOT_SIZE = 10
+# LOT_SIZE = 10
 POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
+LIQUIDITY_THRESHOLD = 2000
 
 
 class AutoTrader(BaseAutoTrader):
@@ -45,6 +46,8 @@ class AutoTrader(BaseAutoTrader):
         """Initialise a new instance of the AutoTrader class."""
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
+        self.liquid = False
+        self.lot_size = 10
         self.bids = set()
         self.asks = set()
         self.ask_id = self.ask_price = self.bid_id = self.bid_price = self.position = 0
@@ -82,13 +85,14 @@ class AutoTrader(BaseAutoTrader):
         price levels.
         """
         if instrument == Instrument.ETF:
-            print('Ask prices: ', ask_prices, 'Ask volumes: ', ask_volumes, 'Bid prices: ', bid_prices, 'Bid volumes: ', bid_volumes)
+            #print('Ask prices: ', ask_prices, 'Ask volumes: ', ask_volumes, 'Bid prices: ', bid_prices, 'Bid volumes: ', bid_volumes)
             self.determine_market_liquidity(ask_prices, ask_volumes, bid_prices, bid_volumes)
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)
+        print(self.liquid)
         if instrument == Instrument.FUTURE:
-            price_adjustment = - (self.position // LOT_SIZE) * TICK_SIZE_IN_CENTS
+            price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
             new_bid_price = bid_prices[2] + price_adjustment if bid_prices[2] != 0 else 0
             new_ask_price = ask_prices[2] + price_adjustment if ask_prices[2] != 0 else 0
 
@@ -102,13 +106,13 @@ class AutoTrader(BaseAutoTrader):
             if self.bid_id == 0 and new_bid_price != 0 and self.position < POSITION_LIMIT:
                 self.bid_id = next(self.order_ids)
                 self.bid_price = new_bid_price
-                self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, LOT_SIZE, Lifespan.GOOD_FOR_DAY)
+                self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, self.lot_size, Lifespan.GOOD_FOR_DAY)
                 self.bids.add(self.bid_id)
 
             if self.ask_id == 0 and new_ask_price != 0 and self.position > -POSITION_LIMIT:
                 self.ask_id = next(self.order_ids)
                 self.ask_price = new_ask_price
-                self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, LOT_SIZE, Lifespan.GOOD_FOR_DAY)
+                self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, self.lot_size, Lifespan.GOOD_FOR_DAY)
                 self.asks.add(self.ask_id)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
@@ -188,9 +192,38 @@ class AutoTrader(BaseAutoTrader):
 
             # save values to csv file
             avg_price = (best_ask_price + best_bid_price) / 2
-            bid_distances = [math.log(bid_prices[i]) / math.log(avg_price) for i in range(len(bid_prices))]
+
+            bid_distances = [0, 0, 0, 0, 0]
+            for i in range(len(bid_prices)):
+                if bid_prices[i] != 0:
+                    bid_distances[i] = abs(math.log(bid_prices[i]) - math.log(avg_price))
+                else:
+                    bid_distances[i] = 0
             bid_weights = [bid_distances[i] * bid_volumes[i] for i in range(len(bid_volumes))] 
             sum_bid_weights = sum(bid_weights)
+
+            if sum_bid_weights > LIQUIDITY_THRESHOLD:
+                self.liquid = True
+                self.lot_size = 15
+            else:
+                self.liquid = False
+                self.lot_size = 5
+
+            # ask_distances = [0, 0, 0, 0, 0]
+            # for i in range(len(ask_prices)):
+            #     if ask_prices[i] != 0:
+            #         ask_distances[i] = math.log(ask_prices[i]) - math.log(avg_price)
+            #     else:
+            #         ask_distances[i] = 0
+            # ask_weights = [ask_distances[i] * ask_volumes[i] for i in range(len(ask_volumes))]
+            # sum_ask_weights = sum(ask_weights)
+
+            # if sum_ask_weights > LIQUIDITY_THRESHOLD:
+            #     self.liquid = True
+            #     self.lot_size = 15
+            # else:
+            #     self.liquid = False
+            #     self.lot_size = 5
             
             try:
                 with open('output/liquidity.csv', 'a', newline='') as f:

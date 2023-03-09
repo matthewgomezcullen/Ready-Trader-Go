@@ -77,6 +77,10 @@ class AutoTrader(BaseAutoTrader):
         prices are reported along with the volume available at each of those
         price levels.
         """
+        if instrument == Instrument.ETF:
+            print('Ask prices: ', ask_prices, 'Ask volumes: ', ask_volumes, 'Bid prices: ', bid_prices, 'Bid volumes: ', bid_volumes)
+            self.determine_market_liquidity(ask_prices, ask_volumes, bid_prices, bid_volumes)
+        
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)
         if instrument == Instrument.FUTURE:
@@ -115,9 +119,11 @@ class AutoTrader(BaseAutoTrader):
         if client_order_id in self.bids:
             self.position += volume
             self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
+            print(MIN_BID_NEAREST_TICK)
         elif client_order_id in self.asks:
             self.position -= volume
             self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
+            print(MAX_ASK_NEAREST_TICK)
 
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
                                 fees: int) -> None:
@@ -155,3 +161,34 @@ class AutoTrader(BaseAutoTrader):
         """
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
+
+    def determine_market_liquidity(self, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
+                                   bid_volumes: List[int]) -> None:
+        """Determines the market liquidity based on the order book.
+
+        The market is considered to be liquid if there is a spread between the
+        best bid and ask prices and the volume at the best bid and ask prices
+        is greater than a threshold.
+        """
+        self.liquid = False
+        if ask_prices[0] != 0 and bid_prices[0] != 0:
+            best_ask_price = ask_prices[0]
+            best_ask_volume = ask_volumes[0]
+            best_bid_price = bid_prices[0]
+            best_bid_volume = bid_volumes[0]
+
+            # if best_ask_price > best_bid_price and best_ask_volume > LIQUIDITY_THRESHOLD and \
+            #         best_bid_volume > LIQUIDITY_THRESHOLD:
+            #     self.liquid = True
+
+            avg_price = (best_ask_price + best_bid_price) / 2
+            print("avg_price: ", avg_price)
+            bid_distances = [abs(avg_price - bid_price) for bid_price in bid_prices]
+            print("bid_distances: ", bid_distances)
+            bid_weights = [avg_price / bid_distances[i] for i in range(len(bid_distances))]
+            print("bid_weights: ", bid_weights)
+            sum_bid_weights = sum(bid_weights)
+            print("sum_bid_weights: ", sum_bid_weights)
+            print()
+            print()
+            print()

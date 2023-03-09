@@ -174,6 +174,7 @@ class AutoTrader(BaseAutoTrader):
         best bid and ask prices and the volume at the best bid and ask prices
         is greater than a threshold.
         """
+        import math
         self.liquid = False
         if ask_prices[0] != 0 and bid_prices[0] != 0:
             best_ask_price = ask_prices[0]

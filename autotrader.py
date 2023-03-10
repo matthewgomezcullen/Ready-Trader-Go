@@ -108,6 +108,13 @@ class AutoTrader(BaseAutoTrader):
                 self.send_cancel_order(self.ask_id)
                 self.ask_id = 0
 
+            if self.bid_shifted_id != 0:
+                self.send_cancel_order(self.bid_shifted_id)
+                self.bid_shifted_id = 0
+            if self.ask_shifted_id != 0:
+                self.send_cancel_order(self.ask_shifted_id)
+                self.ask_shifted_id = 0
+
             if self.bid_id == 0 and new_bid_price != 0 and self.position < POSITION_LIMIT:
                 self.bid_id = next(self.order_ids)
                 self.bid_price = new_bid_price
@@ -161,6 +168,7 @@ class AutoTrader(BaseAutoTrader):
             else:
                 self.ask_shifted_lot = volume
                 self.ask_shifted_id = next(self.order_ids)
+                print("Sending insert order for ask shifted: ", self.asks, self.ask_shifted_id, self.ask_shifted_lot, self.ask_id, self.ask_lot)
                 self.send_insert_order(self.ask_id, Side.SELL, price - TICK_SIZE_IN_CENTS, self.ask_shifted_lot, Lifespan.GOOD_FOR_DAY)
                 self.asks.add(self.ask_shifted_id)
         
@@ -184,6 +192,7 @@ class AutoTrader(BaseAutoTrader):
             else:
                 self.bid_shifted_lot = volume
                 self.bid_shifted_id = next(self.order_ids)
+                print("Sending insert order for bid shifted: ", self.bids, self.bid_shifted_id, self.bid_shifted_lot, self.bid_id, self.bid_lot)
                 self.send_insert_order(self.bid_id, Side.BUY, price + TICK_SIZE_IN_CENTS, self.bid_shifted_lot, Lifespan.GOOD_FOR_DAY)
                 self.bids.add(self.bid_shifted_id)
             

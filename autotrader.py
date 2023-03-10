@@ -56,7 +56,7 @@ class AutoTrader(BaseAutoTrader):
         # Tracking the liquidity of the market
         with open('output/liquidity.csv', 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["bid_liquidity", "ask_liquidity"])
+            writer.writerow(["bid_liquidity", "ask_liquidity", "avg_price"])
 
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -146,14 +146,17 @@ class AutoTrader(BaseAutoTrader):
             self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
 
             self.send_cancel_order(self.bid_id)
-            self.send_insert_order(next(self.order_ids), Side.BUY, price - TICK_SIZE_IN_CENTS, volume, Lifespan.GOOD_FOR_DAY)
+            self.bid_id = next(self.order_ids)
+            self.send_insert_order(self.bid_id, Side.BUY, price + TICK_SIZE_IN_CENTS, volume, Lifespan.GOOD_FOR_DAY)
         # they are lifting our asks
         elif client_order_id in self.asks:
             self.position -= volume
             self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
 
             self.send_cancel_order(self.ask_id)
-            self.send_insert_order(next(self.order_ids), Side.SELL, price + TICK_SIZE_IN_CENTS, volume, Lifespan.GOOD_FOR_DAY)
+            self.ask_id = next(self.order_ids)            
+            self.send_insert_order(self.ask_id, Side.SELL, price - TICK_SIZE_IN_CENTS, volume, Lifespan.GOOD_FOR_DAY)
+
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
                                 fees: int) -> None:
         """Called when the status of one of your orders changes.
@@ -219,9 +222,9 @@ class AutoTrader(BaseAutoTrader):
             try:
                 with open('output/liquidity.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
-                    writer.writerow([bid_liquidity, ask_liquidity])
+                    writer.writerow([bid_liquidity, ask_liquidity, avg_price])
             except:
-                print("Error writing to csv file:", bid_liquidity, ask_liquidity)
+                print("Error writing to csv file:", bid_liquidity, ask_liquidity, avg_price)
 
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):

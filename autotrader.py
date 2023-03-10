@@ -18,6 +18,7 @@
 import asyncio
 import itertools
 import csv
+import math
 
 from typing import List
 
@@ -29,7 +30,7 @@ POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
-LIQUIDITY_THRESHOLD = 2000
+LIQUIDITY_THRESHOLD = 1000000
 
 
 class AutoTrader(BaseAutoTrader):
@@ -44,16 +45,18 @@ class AutoTrader(BaseAutoTrader):
 
     def __init__(self, loop: asyncio.AbstractEventLoop, team_name: str, secret: str):
         """Initialise a new instance of the AutoTrader class."""
+        # print("Initialising autotrader...")
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
-        self.liquid = False
-        self.lot_size = 10
+        self.bid_lot = self.ask_lot = 10
         self.bids = set()
         self.asks = set()
         self.ask_id = self.ask_price = self.bid_id = self.bid_price = self.position = 0
+
+        # Tracking the liquidity of the market
         with open('output/liquidity.csv', 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["liquidity"])
+            writer.writerow(["bid_liquidity", "ask_liquidity"])
 
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -84,13 +87,15 @@ class AutoTrader(BaseAutoTrader):
         prices are reported along with the volume available at each of those
         price levels.
         """
+        # print("Received order book update message.")
         if instrument == Instrument.ETF:
-            #print('Ask prices: ', ask_prices, 'Ask volumes: ', ask_volumes, 'Bid prices: ', bid_prices, 'Bid volumes: ', bid_volumes)
-            self.determine_market_liquidity(ask_prices, ask_volumes, bid_prices, bid_volumes)
+            # print("Calculating lot sizes...")
+            self.calc_lot_sizes(ask_prices, ask_volumes, bid_prices, bid_volumes)
+            print(f"Lots calculated: {self.bid_lot}, {self.ask_lot}")
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)
-        print(self.liquid)
+
         if instrument == Instrument.FUTURE:
             price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
             new_bid_price = bid_prices[2] + price_adjustment if bid_prices[2] != 0 else 0
@@ -106,32 +111,34 @@ class AutoTrader(BaseAutoTrader):
             if self.bid_id == 0 and new_bid_price != 0 and self.position < POSITION_LIMIT:
                 self.bid_id = next(self.order_ids)
                 self.bid_price = new_bid_price
-                self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, self.lot_size, Lifespan.GOOD_FOR_DAY)
+                # print(f"Sending insert order for bid: {self.bid_id}, {Side.BUY}, {new_bid_price}, {self.bid_lot}, {Lifespan.GOOD_FOR_DAY}")
+                self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, self.bid_lot, Lifespan.GOOD_FOR_DAY)
                 self.bids.add(self.bid_id)
 
             if self.ask_id == 0 and new_ask_price != 0 and self.position > -POSITION_LIMIT:
                 self.ask_id = next(self.order_ids)
                 self.ask_price = new_ask_price
-                self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, self.lot_size, Lifespan.GOOD_FOR_DAY)
+                # print(f"Sending insert order for ask: {self.ask_id}, {Side.SELL}, {new_ask_price}, {self.ask_lot}, {Lifespan.GOOD_FOR_DAY}")
+                self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, self.ask_lot, Lifespan.GOOD_FOR_DAY)
                 self.asks.add(self.ask_id)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
         """Called when one of your orders is filled, partially or fully.
 
         The price is the price at which the order was (partially) filled,
-        which may be better than the order's limit price. The volume is
+        which may be better than the order's limit price. The volume isj
         the number of lots filled at that price.
+
+        TODO: Shift our orders depending on our position.
         """
         self.logger.info("received order filled for order %d with price %d and volume %d", client_order_id,
                          price, volume)
         if client_order_id in self.bids:
             self.position += volume
             self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
-            print(MIN_BID_NEAREST_TICK)
         elif client_order_id in self.asks:
             self.position -= volume
             self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
-            print(MAX_ASK_NEAREST_TICK)
 
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
                                 fees: int) -> None:
@@ -170,64 +177,69 @@ class AutoTrader(BaseAutoTrader):
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
 
-    def determine_market_liquidity(self, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
+    def calc_lot_sizes(self, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
                                    bid_volumes: List[int]) -> None:
-        """Determines the market liquidity based on the order book.
+        """Calculates lot sizes based on liquidity and position.
 
-        The market is considered to be liquid if there is a spread between the
-        best bid and ask prices and the volume at the best bid and ask prices
-        is greater than a threshold.
+        We consider the liquidity of the bid and ask prices separately based
+        on the average price between the best bid and ask, the volume traded,
+        and the prices traded at for bids and asks.
         """
-        import math
-        self.liquid = False
         if ask_prices[0] != 0 and bid_prices[0] != 0:
+            # best_ask_volume = ask_volumes[0]
+            # best_bid_volume = bid_volumes[0]
+
             best_ask_price = ask_prices[0]
-            best_ask_volume = ask_volumes[0]
             best_bid_price = bid_prices[0]
-            best_bid_volume = bid_volumes[0]
-
-            # if best_ask_price > best_bid_price and best_ask_volume > LIQUIDITY_THRESHOLD and \
-            #         best_bid_volume > LIQUIDITY_THRESHOLD:
-            #     self.liquid = True
-
-            # save values to csv file
+            # print("Calculating average price...")
             avg_price = (best_ask_price + best_bid_price) / 2
 
-            bid_distances = [0, 0, 0, 0, 0]
-            for i in range(len(bid_prices)):
-                if bid_prices[i] != 0:
-                    bid_distances[i] = abs(math.log(bid_prices[i]) - math.log(avg_price))
-                else:
-                    bid_distances[i] = 0
-            bid_weights = [bid_distances[i] * bid_volumes[i] for i in range(len(bid_volumes))] 
-            sum_bid_weights = sum(bid_weights)
+            # print("Calculating bid liquidity...")
+            bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
+            self.bid_lot = self.calc_lot_size(bid_liquidity)
 
-            if sum_bid_weights > LIQUIDITY_THRESHOLD:
-                self.liquid = True
-                self.lot_size = 15
-            else:
-                self.liquid = False
-                self.lot_size = 5
+            # print("Calculating ask liquidity...")
+            ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
+            self.ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
 
-            # ask_distances = [0, 0, 0, 0, 0]
-            # for i in range(len(ask_prices)):
-            #     if ask_prices[i] != 0:
-            #         ask_distances[i] = math.log(ask_prices[i]) - math.log(avg_price)
-            #     else:
-            #         ask_distances[i] = 0
-            # ask_weights = [ask_distances[i] * ask_volumes[i] for i in range(len(ask_volumes))]
-            # sum_ask_weights = sum(ask_weights)
-
-            # if sum_ask_weights > LIQUIDITY_THRESHOLD:
-            #     self.liquid = True
-            #     self.lot_size = 15
-            # else:
-            #     self.liquid = False
-            #     self.lot_size = 5
-            
             try:
                 with open('output/liquidity.csv', 'a', newline='') as f:
                     writer = csv.writer(f)
-                    writer.writerow([sum_bid_weights])
+                    writer.writerow([bid_liquidity, ask_liquidity])
             except:
-                print("Error writing to csv file:", sum_bid_weights)
+                print("Error writing to csv file:", bid_liquidity, ask_liquidity)
+
+
+    def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
+        """Calculates liquidity of the market for bids and asks.
+
+        TODO: Calculate the average price based on the entire distribution of
+        bids and asks rather than just the best bid and ask.
+        """
+        distances = [0,0,0,0,0]
+        for i in range(len(prices)):
+            if prices[i] != 0:
+                distances[i] = 1 / abs(math.log(prices[i]) - math.log(avg_price))
+            else:
+                distances[i] = 0
+            weights = [distances[i] * volumes[i] for i in range(len(volumes))] 
+            liquidity = sum(weights)
+        return liquidity
+        
+
+    def calc_lot_size(self, liquidity: int, is_ask=False):
+        """Calculates the lot size for bids and asks.
+
+        TODO: 
+            x Calculate the lot size based on the liquidity and position.
+            x Calculate lot size linearly to position.
+            x Calculate lot size linearly to liquidity.
+        """
+        max_l = 2 * 10 ** 7
+        liquidity = min(liquidity, max_l)
+        
+        position = -1*self.position if is_ask else self.position
+        p = math.sqrt(1 - (position+100)/200)
+        l = math.sqrt(1 - (max_l-liquidity)/max_l)
+
+        return math.floor(30 * p * l)

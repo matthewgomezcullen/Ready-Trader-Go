@@ -1,2 +1,6 @@
 __pychache__/
 .venv
+exchange.log
+match_events.csv
+autotrader.log
+score_board.csv

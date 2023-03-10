@@ -1,0 +1,47 @@
+2023-03-10 15:45:34,179 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-10 15:45:34,179 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":8.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-10 15:45:34,180 [INFO   ] [CONTROLLER] starting the match
+2023-03-10 15:45:34,180 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-10 15:45:34,180 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-10 15:45:34,186 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-10 15:45:34,186 [INFO   ] [INFORMATION] information channel established
+2023-03-10 15:45:34,363 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:55915
+2023-03-10 15:45:34,364 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-10 15:45:35,577 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:55916
+2023-03-10 15:45:39,188 [INFO   ] [CONTROLLER] market open
+2023-03-10 15:45:39,324 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.083791 client_order_id=11 message='0 is not a valid volume'
+2023-03-10 15:45:41,712 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-10 15:45:41,712 [INFO   ] [APP] closing event loop
+2023-03-10 15:46:18,570 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-10 15:46:18,570 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":8.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-10 15:46:18,571 [INFO   ] [CONTROLLER] starting the match
+2023-03-10 15:46:18,571 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-10 15:46:18,571 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-10 15:46:18,575 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-10 15:46:18,575 [INFO   ] [INFORMATION] information channel established
+2023-03-10 15:46:18,756 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:55929
+2023-03-10 15:46:18,756 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-10 15:46:19,951 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:55930
+2023-03-10 15:46:23,584 [INFO   ] [CONTROLLER] market open
+2023-03-10 15:46:23,681 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=0.778582 client_order_id=6 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:23,718 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.073713 client_order_id=10 message='0 is not a valid volume'
+2023-03-10 15:46:23,718 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=1.075154 client_order_id=8 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:23,893 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=2.471518 client_order_id=16 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,010 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=3.407597 client_order_id=20 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,041 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=3.660013 client_order_id=22 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,146 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=4.498903 client_order_id=26 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,365 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=6.251652 client_order_id=42 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,400 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=6.527057 client_order_id=45 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,698 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=8.911674 client_order_id=57 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,715 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=9.048519 client_order_id=59 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,745 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=9.293605 client_order_id=62 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,867 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=10.269378 client_order_id=71 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,904 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=10.559145 client_order_id=74 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:24,938 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=10.836607 client_order_id=72 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:25,054 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=11.760073 client_order_id=79 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:26,124 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=20.323344 client_order_id=113 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:26,145 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=20.488922 client_order_id=116 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:26,185 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=20.810478 client_order_id=120 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:26,206 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=20.979250 client_order_id=122 message='duplicate or out-of-order client_order_id'
+2023-03-10 15:46:26,451 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-10 15:46:26,451 [INFO   ] [APP] closing event loop

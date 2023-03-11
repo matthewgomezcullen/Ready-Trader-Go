@@ -120,13 +120,13 @@ class AutoTrader(BaseAutoTrader):
             for bid in [self.bid_base, self.bid_shifted]:
                 if bid:
                     self.send_cancel_order(bid.id)
-                    del self.bids[bid.id]
+                    # del self.bids[bid.id]
                     bid = None
             
             for ask in [self.ask_base, self.ask_shifted]:
                 if ask:
                     self.send_cancel_order(ask.id)
-                    del self.asks[ask.id]
+                    # del self.asks[ask.id]
                     ask = None
             print("Orders cleared:", self.bids, self.asks)
             
@@ -188,7 +188,7 @@ class AutoTrader(BaseAutoTrader):
                 order_set[shifted.id]=shifted
         elif shifted:
             self.send_cancel_order(base.id)
-            del order_set[base.id]
+            # del order_set[base.id]
             shifted.lot += volume
             self.send_enlargen_order(shifted, side)
             base = shifted.copy()
@@ -229,14 +229,14 @@ class AutoTrader(BaseAutoTrader):
             else:
                 print("No more lots in base order, cancelling...")
                 self.send_cancel_order(self.bid_base.id)
-                del self.bids[self.bid_base.id]
+                # del self.bids[self.bid_base.id]
                 if self.bid_shifted:
                     self.bid_base = self.bid_shifted.copy()
                     self.bid_shifted = None
                 else:
                     self.bid_base = None
             print("After hit:")
-            print(self.bids, None if not self.bid_base.id else self.bid_base.id, self.asks, None if not self.ask_base else self.ask_base.id)
+            # print(self.bids, None if not self.bid_base.id else self.bid_base.id, self.asks, None if not self.ask_base else self.ask_base.id)
             
         # they are lifting our asks
         elif client_order_id in self.asks:
@@ -253,14 +253,14 @@ class AutoTrader(BaseAutoTrader):
             else:
                 print("No more lots in base order, cancelling...")
                 self.send_cancel_order(self.ask_base.id)
-                del self.asks[self.ask_base.id]
+                # del self.asks[self.ask_base.id]
                 if self.ask_shifted:
                     self.ask_base = self.ask_shifted.copy()
                     self.ask_shifted = None
                 else:
                     self.ask_base = None
             print("After lifted:")
-            print(self.bids, None if not self.bid_base.id else self.bid_base.id, self.asks, None if not self.ask_base else self.ask_base.id)
+            # print(self.bids, None if not self.bid_base.id else self.bid_base.id, self.asks, None if not self.ask_base else self.ask_base.id)
         
         print("Returning...")
   
@@ -276,17 +276,25 @@ class AutoTrader(BaseAutoTrader):
 
         If an order is cancelled its remaining volume will be zero.
         """
+        print("Order status message!")
         self.logger.info("received order status for order %d with fill volume %d remaining %d and fees %d",
                          client_order_id, fill_volume, remaining_volume, fees)
+        
+        # print out parameters to one line
+        print(self.bid_base, self.ask_base)
         if remaining_volume == 0:
-            if client_order_id == self.bid_base.id:
+            if self.bid_base is not None and client_order_id == self.bid_base.id:
                 self.bid_base.id = 0
-            elif client_order_id == self.ask_base.id:
+            elif self.ask_base is not None and client_order_id == self.ask_base.id:
                 self.ask_base.id = 0
 
             # It could be either a bid or an ask
-            del self.bids[client_order_id]
-            del self.asks[client_order_id]
+            if client_order_id in self.bids:
+                del self.bids[client_order_id]
+            if client_order_id in self.asks:
+                del self.asks[client_order_id]
+
+            
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
                                ask_volumes: List[int], bid_prices: List[int], bid_volumes: List[int]) -> None:

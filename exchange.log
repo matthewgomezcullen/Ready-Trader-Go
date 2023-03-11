@@ -114,3 +114,509 @@ Traceback (most recent call last):
     data = self._sock.recv(self.max_size)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:48:12,288 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 17:48:12,289 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 17:48:12,289 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 17:48:12,289 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 17:48:12,289 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 17:48:12,294 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 17:48:12,294 [INFO   ] [INFORMATION] information channel established
+2023-03-11 17:48:12,499 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62251
+2023-03-11 17:48:12,499 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 17:48:13,734 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62252
+2023-03-11 17:48:17,298 [INFO   ] [CONTROLLER] market open
+2023-03-11 17:48:17,852 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 17:48:17,853 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 17:48:26,289 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 17:48:26,289 [INFO   ] [APP] closing event loop
+2023-03-11 18:07:52,906 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:07:52,906 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:07:52,907 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:07:52,907 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:07:52,907 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:07:52,911 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:07:52,911 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:07:53,112 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62423
+2023-03-11 18:07:53,112 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:07:54,350 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62426
+2023-03-11 18:07:57,912 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:07:58,458 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:07:58,458 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:08:08,776 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:08:08,777 [INFO   ] [APP] closing event loop
+2023-03-11 18:08:28,570 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:08:28,570 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:08:28,571 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:08:28,571 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:08:28,571 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:08:28,575 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:08:28,575 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:08:28,750 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62437
+2023-03-11 18:08:28,750 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:08:29,951 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62438
+2023-03-11 18:08:33,578 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:08:34,065 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:08:34,066 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:08:38,856 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:08:38,857 [INFO   ] [APP] closing event loop
+2023-03-11 18:11:35,532 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:11:35,532 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:11:35,532 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:11:35,532 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:11:35,532 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:11:35,537 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:11:35,537 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:11:35,721 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62503
+2023-03-11 18:11:35,722 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:11:36,963 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62504
+2023-03-11 18:11:40,540 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:11:41,025 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:11:41,026 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:11:45,331 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:11:45,331 [INFO   ] [APP] closing event loop
+2023-03-11 18:12:41,297 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:12:41,297 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:12:41,298 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:12:41,298 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:12:41,298 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:12:41,302 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:12:41,302 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:12:41,452 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62527
+2023-03-11 18:12:41,452 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:12:42,650 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62528
+2023-03-11 18:12:46,304 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:12:46,827 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:12:46,828 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:12:50,000 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:12:50,001 [INFO   ] [APP] closing event loop
+2023-03-11 18:13:15,006 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:13:15,006 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:13:15,007 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:13:15,007 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:13:15,007 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:13:15,011 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:13:15,011 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:13:15,196 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62545
+2023-03-11 18:13:15,196 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:13:16,436 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62546
+2023-03-11 18:13:20,014 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:13:20,548 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:13:20,548 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:13:22,668 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:13:22,668 [INFO   ] [APP] closing event loop
+2023-03-11 18:15:47,441 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:15:47,442 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:15:47,442 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:15:47,442 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:15:47,443 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:15:47,447 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:15:47,447 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:15:47,623 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62589
+2023-03-11 18:15:47,624 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:15:48,855 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62590
+2023-03-11 18:15:52,450 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:15:52,934 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:15:52,934 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:15:58,972 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:15:58,973 [INFO   ] [APP] closing event loop
+2023-03-11 18:17:01,296 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:17:01,296 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:17:01,297 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:17:01,297 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:17:01,297 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:17:01,303 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:17:01,303 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:17:01,434 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62617
+2023-03-11 18:17:01,435 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:17:02,624 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62618
+2023-03-11 18:17:06,307 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:17:06,815 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:17:06,815 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:17:12,655 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:17:12,656 [INFO   ] [APP] closing event loop
+2023-03-11 18:17:59,179 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:17:59,180 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:17:59,180 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:17:59,180 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:17:59,181 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:17:59,185 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:17:59,185 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:17:59,405 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62638
+2023-03-11 18:17:59,406 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:18:00,601 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62639
+2023-03-11 18:18:04,187 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:18:04,739 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:18:04,740 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:18:10,375 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:18:10,376 [INFO   ] [APP] closing event loop
+2023-03-11 18:18:24,208 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:18:24,208 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:18:24,209 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:18:24,209 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:18:24,212 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:18:24,217 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:18:24,217 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:18:24,355 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62647
+2023-03-11 18:18:24,356 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:18:25,553 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62648
+2023-03-11 18:18:29,222 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:18:29,732 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:18:29,733 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:18:35,375 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:18:35,375 [INFO   ] [APP] closing event loop
+2023-03-11 18:19:15,211 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:19:15,211 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:19:15,212 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:19:15,212 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:19:15,212 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:19:15,217 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:19:15,218 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:19:15,424 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62664
+2023-03-11 18:19:15,424 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:19:16,607 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62665
+2023-03-11 18:19:20,221 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:19:20,756 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:19:20,756 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:19:24,625 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:19:24,625 [INFO   ] [APP] closing event loop
+2023-03-11 18:21:03,095 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:21:03,095 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:21:03,096 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:21:03,096 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:21:03,096 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:21:03,100 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:21:03,100 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:21:03,308 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62698
+2023-03-11 18:21:03,309 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:21:04,553 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62701
+2023-03-11 18:21:08,102 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:21:08,582 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:21:08,582 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:21:14,564 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:21:14,564 [INFO   ] [APP] closing event loop
+2023-03-11 18:21:45,593 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:21:45,593 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:21:45,593 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:21:45,593 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:21:45,594 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:21:45,599 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:21:45,599 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:21:45,769 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62716
+2023-03-11 18:21:45,769 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:21:46,981 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62717
+2023-03-11 18:21:50,605 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:21:51,115 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:21:51,115 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:21:59,843 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:21:59,844 [INFO   ] [APP] closing event loop
+2023-03-11 18:22:19,776 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:22:19,777 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:22:19,777 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:22:19,780 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:22:19,783 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:22:19,788 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:22:19,788 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:22:19,895 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62742
+2023-03-11 18:22:19,896 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:22:21,112 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62743
+2023-03-11 18:22:24,794 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:22:25,322 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:22:25,323 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:22:30,296 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:22:30,296 [INFO   ] [APP] closing event loop
+2023-03-11 18:23:50,808 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:23:50,809 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:23:50,809 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:23:50,810 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:23:50,810 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:23:50,819 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:23:50,819 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:23:51,000 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62771
+2023-03-11 18:23:51,000 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:23:52,252 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62772
+2023-03-11 18:23:55,824 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:23:56,939 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:23:56,940 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:24:04,658 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:24:04,658 [INFO   ] [APP] closing event loop
+2023-03-11 18:25:46,526 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:25:46,527 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:25:46,527 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:25:46,527 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:25:46,527 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:25:46,531 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:25:46,531 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:25:46,717 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62816
+2023-03-11 18:25:46,717 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:25:47,922 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62817
+2023-03-11 18:25:51,536 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:25:52,644 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:25:52,644 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:25:56,168 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:25:56,169 [INFO   ] [APP] closing event loop
+2023-03-11 18:29:55,621 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:29:55,621 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:29:55,622 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:29:55,622 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:29:55,622 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:29:55,627 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:29:55,627 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:29:55,826 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62887
+2023-03-11 18:29:55,827 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:29:57,061 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62888
+2023-03-11 18:30:00,632 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:30:10,910 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:30:10,911 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:30:23,389 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:30:23,389 [INFO   ] [APP] closing event loop
+2023-03-11 18:32:14,652 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:32:14,653 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:32:14,653 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:32:14,653 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:32:14,653 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:32:14,658 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:32:14,659 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:32:14,836 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62931
+2023-03-11 18:32:14,836 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:32:16,034 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62934
+2023-03-11 18:32:19,661 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:32:20,157 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:32:20,158 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:32:30,464 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:32:30,464 [INFO   ] [APP] closing event loop
+2023-03-11 18:33:05,006 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:33:05,006 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:33:05,006 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:33:05,007 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:33:05,007 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:33:05,011 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:33:05,011 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:33:05,204 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62952
+2023-03-11 18:33:05,205 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:33:06,391 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62955
+2023-03-11 18:33:10,015 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:33:10,485 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:33:10,485 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:33:14,628 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:33:14,628 [INFO   ] [APP] closing event loop
+2023-03-11 18:34:01,875 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:34:01,875 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:34:01,876 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:34:01,876 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:34:01,880 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:34:01,884 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:34:01,884 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:34:02,029 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:62971
+2023-03-11 18:34:02,029 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:34:03,207 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:62974
+2023-03-11 18:34:06,889 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:34:31,294 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:34:31,294 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:34:44,873 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:34:44,873 [INFO   ] [APP] closing event loop
+2023-03-11 18:35:46,361 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:35:46,361 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:35:46,362 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:35:46,362 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:35:46,362 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:35:46,367 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:35:46,367 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:35:46,562 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:63008
+2023-03-11 18:35:46,563 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:35:47,754 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:63009
+2023-03-11 18:35:51,373 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:36:02,723 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:36:02,724 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:36:07,736 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:36:07,736 [INFO   ] [APP] closing event loop
+2023-03-11 18:36:50,630 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 18:36:50,630 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 18:36:50,630 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 18:36:50,630 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 18:36:50,630 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 18:36:50,634 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 18:36:50,635 [INFO   ] [INFORMATION] information channel established
+2023-03-11 18:36:50,808 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:63026
+2023-03-11 18:36:50,808 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 18:36:51,992 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:63027
+2023-03-11 18:36:55,639 [INFO   ] [CONTROLLER] market open
+2023-03-11 18:36:56,182 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:36:56,182 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 18:36:59,892 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 18:36:59,892 [INFO   ] [APP] closing event loop

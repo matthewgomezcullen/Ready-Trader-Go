@@ -1,23 +1,116 @@
-2023-03-10 23:42:28,526 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=827.190000 client_order_id=6689 message='amend operation would increase order volume'
-2023-03-10 23:42:29,859 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=834.220000 client_order_id=6733 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:30,587 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=837.815000 client_order_id=6754 message='amend operation would increase order volume'
-2023-03-10 23:42:30,620 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=837.970000 client_order_id=6756 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:30,929 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=839.455000 client_order_id=6758 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:32,106 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=845.390000 client_order_id=6770 message='amend operation would increase order volume'
-2023-03-10 23:42:32,178 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=845.780000 client_order_id=6780 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:34,551 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=857.655000 client_order_id=6803 message='amend operation would increase order volume'
-2023-03-10 23:42:34,552 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=857.655000 client_order_id=6804 message='amend operation would increase order volume'
-2023-03-10 23:42:37,383 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=871.800000 client_order_id=6907 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:37,996 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=874.845000 client_order_id=6930 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:38,490 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=877.345000 client_order_id=6949 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:39,157 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=880.705000 client_order_id=6974 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:39,796 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=883.905000 client_order_id=7003 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:41,047 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=890.155000 client_order_id=7061 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:42,723 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 614706 market events
-2023-03-10 23:42:42,761 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=898.675000 client_order_id=7124 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:43,034 [INFO   ] [TIMER] shutting down the match: time=900.080000 reason='match complete'
-2023-03-10 23:42:43,034 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=900.080000
-2023-03-10 23:42:43,035 [INFO   ] [CONNECTION] fd=764 connection lost
-2023-03-10 23:42:43,035 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 629123 match events
-2023-03-10 23:42:43,036 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3221 score records
-2023-03-10 23:42:43,036 [INFO   ] [APP] closing event loop
+2023-03-11 16:55:59,728 [INFO   ] [APP] closing event loop
+2023-03-11 16:56:10,926 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 16:56:10,926 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 16:56:10,926 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 16:56:10,926 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 16:56:10,926 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 16:56:10,926 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 16:56:10,926 [INFO   ] [INFORMATION] information channel established
+2023-03-11 16:56:10,981 [INFO   ] [CONNECTION] fd=348 connection established: peer=127.0.0.1:56509
+2023-03-11 16:56:10,981 [INFO   ] [EXECUTION] fd=348 'TraderOne' is ready!
+2023-03-11 16:56:12,185 [INFO   ] [CONNECTION] fd=792 connection established: peer=127.0.0.1:56510
+2023-03-11 16:56:15,948 [INFO   ] [CONTROLLER] market open
+2023-03-11 16:56:16,452 [ERROR  ] [CONNECTION] fd=348 connection lost:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 16:56:16,456 [WARNING] [EXECUTION] fd=348 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:00:17,038 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 17:00:17,038 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 17:00:17,039 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 17:00:17,039 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 17:00:17,039 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 17:00:17,040 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 17:00:17,040 [INFO   ] [INFORMATION] information channel established
+2023-03-11 17:00:17,065 [INFO   ] [CONNECTION] fd=704 connection established: peer=127.0.0.1:56579
+2023-03-11 17:00:17,066 [INFO   ] [EXECUTION] fd=704 'TraderOne' is ready!
+2023-03-11 17:00:18,308 [INFO   ] [CONNECTION] fd=364 connection established: peer=127.0.0.1:56580
+2023-03-11 17:00:22,045 [INFO   ] [CONTROLLER] market open
+2023-03-11 17:00:22,553 [ERROR  ] [CONNECTION] fd=704 connection lost:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:00:22,556 [WARNING] [EXECUTION] fd=704 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:05:21,603 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 17:05:21,603 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 17:05:21,604 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 17:05:21,604 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 17:05:21,606 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 17:05:21,607 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 17:05:21,607 [INFO   ] [INFORMATION] information channel established
+2023-03-11 17:05:21,686 [INFO   ] [CONNECTION] fd=820 connection established: peer=127.0.0.1:56893
+2023-03-11 17:05:21,687 [INFO   ] [EXECUTION] fd=820 'TraderOne' is ready!
+2023-03-11 17:05:22,533 [INFO   ] [CONNECTION] fd=380 connection established: peer=127.0.0.1:56894
+2023-03-11 17:05:26,631 [INFO   ] [CONTROLLER] market open
+2023-03-11 17:05:27,197 [ERROR  ] [CONNECTION] fd=820 connection lost:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:05:27,200 [WARNING] [EXECUTION] fd=820 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:06:25,634 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 17:06:25,634 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 17:06:25,635 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 17:06:25,635 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 17:06:25,636 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 17:06:25,637 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 17:06:25,637 [INFO   ] [INFORMATION] information channel established
+2023-03-11 17:06:25,690 [INFO   ] [CONNECTION] fd=992 connection established: peer=127.0.0.1:56931
+2023-03-11 17:06:25,691 [INFO   ] [EXECUTION] fd=992 'TraderOne' is ready!
+2023-03-11 17:06:26,832 [INFO   ] [CONNECTION] fd=956 connection established: peer=127.0.0.1:56932
+2023-03-11 17:06:30,649 [INFO   ] [CONTROLLER] market open
+2023-03-11 17:06:31,207 [ERROR  ] [CONNECTION] fd=992 connection lost:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:06:31,210 [WARNING] [EXECUTION] fd=992 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:08:04,219 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 17:08:04,220 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":1.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 17:08:04,220 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 17:08:04,220 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 17:08:04,221 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 17:08:04,221 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 17:08:04,221 [INFO   ] [INFORMATION] information channel established
+2023-03-11 17:08:04,244 [INFO   ] [CONNECTION] fd=1004 connection established: peer=127.0.0.1:56969
+2023-03-11 17:08:04,245 [INFO   ] [EXECUTION] fd=1004 'TraderOne' is ready!
+2023-03-11 17:08:05,398 [INFO   ] [CONNECTION] fd=1016 connection established: peer=127.0.0.1:56972
+2023-03-11 17:08:09,252 [INFO   ] [CONTROLLER] market open
+2023-03-11 17:08:09,751 [ERROR  ] [CONNECTION] fd=1004 connection lost:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2023-03-11 17:08:09,755 [WARNING] [EXECUTION] fd=1004 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "C:\Users\asus\AppData\Local\Programs\Python\Python311\Lib\asyncio\selector_events.py", line 995, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host

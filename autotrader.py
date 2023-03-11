@@ -363,16 +363,16 @@ class AutoTrader(BaseAutoTrader):
             x Calculate lot size linearly to position.
             x Calculate lot size linearly to liquidity.
         """
-        # max_l = 2 * 10 ** 7
-        # liquidity = min(liquidity, max_l)
+        max_l = 2 * 10 ** 7
+        liquidity = min(liquidity, max_l)
         
-        # position = -1*self.position if is_ask else self.position
-        # p = math.sqrt(1 - (position+100)/200)
-        # l = math.sqrt(1 - (max_l-liquidity)/max_l)
+        position = -1*self.position if is_ask else self.position
+        p = math.sqrt(1 - (position+100)/200)
+        l = math.sqrt(1 - (max_l-liquidity)/max_l)
 
-        if liquidity > LIQUIDITY_THRESHOLD:
-            return 15
-        else:
-            return 5
+        # if liquidity > LIQUIDITY_THRESHOLD:
+        #     return 15
+        # else:
+        #     return 5
 
         return math.floor(30 * p * l)

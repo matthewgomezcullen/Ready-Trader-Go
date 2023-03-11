@@ -138,7 +138,7 @@ class AutoTrader(BaseAutoTrader):
             price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
             
             if self.next_bid_lot and self.position < POSITION_LIMIT:
-                new_bid_price = bid_prices[2] + price_adjustment if bid_prices[2] != 0 else 0
+                new_bid_price = bid_prices[0] + price_adjustment if bid_prices[0] != 0 else 0
 
                 if new_bid_price :
                     self.bid_base = Order(next(self.order_ids), new_bid_price, self.next_bid_lot, 0)
@@ -147,7 +147,7 @@ class AutoTrader(BaseAutoTrader):
             
 
             if self.next_ask_lot and self.position > -POSITION_LIMIT:
-                new_ask_price = ask_prices[2] + price_adjustment if ask_prices[2] != 0 else 0
+                new_ask_price = ask_prices[0] + price_adjustment if ask_prices[0] != 0 else 0
 
                 if new_ask_price:
                     self.ask_base = Order(next(self.order_ids), new_ask_price, self.next_ask_lot, 0)

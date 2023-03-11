@@ -4,3 +4,4 @@ exchange.log
 match_events.csv
 autotrader.log
 score_board.csv
+*.json

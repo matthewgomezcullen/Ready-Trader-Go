@@ -61,9 +61,9 @@ class AutoTrader(BaseAutoTrader):
 
     def __init__(self, loop: asyncio.AbstractEventLoop, team_name: str, secret: str):
         """Initialise a new instance of the AutoTrader class."""
-        print("")
-        print("Initialising autotrader...")
-        print("")
+        self.log("")
+        self.log("Initialising autotrader...")
+        self.log("")
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
@@ -75,10 +75,18 @@ class AutoTrader(BaseAutoTrader):
         with open('output/liquidity.csv', 'w', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(["bid_liquidity", "ask_liquidity", "avg_price"])
+
+        with open('output/logs.txt' , 'w') as f:
+            f.write("")
     
     def print_status(self):
-        print(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}")
-        print(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}")
+        with open('output/logs.txt', 'a') as f:
+            f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
+            f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
+    
+    def log(self, text):
+        with open('output/logs.txt', 'a') as f:
+            f.write(text + "\n")
         
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -120,10 +128,12 @@ class AutoTrader(BaseAutoTrader):
             for bid in [self.bid_base, self.bid_shifted]:
                 if bid:
                     self.send_cancel_order(bid.id)
+                    bid = None
             
             for ask in [self.ask_base, self.ask_shifted]:
                 if ask:
                     self.send_cancel_order(ask.id)
+                    ask = None
             
             price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
             
@@ -145,18 +155,17 @@ class AutoTrader(BaseAutoTrader):
                     self.asks[self.ask_base.id] = self.ask_base
 
     
-    def send_enlargen_order(self, order, side):
+    def send_enlargen_order(self, order, side, order_set):
         """Sends an enlargen order to the exchange 
         
         Required to amend orders to be larger than the original
         order size as amend order only allows for smaller orders"""
-        # new_order = Order(next(self.order_ids), order.price, order.lot, 0)
-        print("Enlarging order...")
+        self.log("Enlarging order...")
         self.send_cancel_order(order.id)
-        # order = new_order
         order.id = next(self.order_ids)
         self.send_insert_order(order.id, side, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-        print("Enlarged order")
+        order_set[order.id] = order
+        self.log("Enlarged order")
 
     def shift_order_lots(self, base, shifted, order_set, side, volume):
         """Shifts orders when partially or fully filled
@@ -166,32 +175,41 @@ class AutoTrader(BaseAutoTrader):
         from the order set. If the shifted order is fully filled, the
         excess volume is moved to a new shifted order, and the base order
         becomes the previous shifted order."""
-        volume = min(volume, base.lot)
+        if base.lot:
+            volume = min(volume, base.lot)
 
-        if volume < base.lot:
-            base.lot -= volume
-            self.send_amend_order(base.id, base.lot)
-            if shifted:
+            if volume < base.lot:
+                base.lot -= volume
+                self.send_amend_order(base.id, base.lot)
+                if shifted:
+                    shifted.lot += volume
+                    self.send_enlargen_order(shifted, side, order_set)
+                else:
+                    price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
+                    shifted = Order(next(self.order_ids), price, volume, 0)
+                    self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
+                    order_set[shifted.id]=shifted
+            elif shifted:
+                self.send_cancel_order(base.id)
                 shifted.lot += volume
-                self.send_enlargen_order(shifted, side)
+                self.send_enlargen_order(shifted, side, order_set)
+                base = shifted.copy()
+                shifted = None
             else:
-                price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
-                shifted = Order(next(self.order_ids), price, volume, 0)
-                self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
-                order_set[shifted.id]=shifted
-        elif shifted:
-            self.send_cancel_order(base.id)
-            shifted.lot += volume
-            self.send_enlargen_order(shifted, side)
-            base = shifted.copy()
-            shifted = None
+                self.send_cancel_order(base.id)
+                base.price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
+                base.id = next(self.order_ids)
+                self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
+                order_set[base.id] = base
         else:
-            self.send_cancel_order(base.id)
-            base.price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
-            base.id = next(self.order_ids)
-            self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
+            if shifted:
+                base = shifted.copy()
+                shifted = None
+            else:
+                base = None
+        
+        return base, shifted
             
-
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
         """Called when one of your orders is filled, partially or fully.
@@ -202,42 +220,48 @@ class AutoTrader(BaseAutoTrader):
 
         TODO: Shift our orders depending on our position.
         """
-        print("")
-        print("Order filled:", client_order_id, price, volume)
+        self.log("")
+        self.log(f"Order filled: {client_order_id} {price} {volume}")
         self.print_status()
         self.logger.info("received order filled for order %d with price %d and volume %d", client_order_id,
                          price, volume)
 
         # they are hitting our bids
         if client_order_id in self.bids:
-            self.position += volume
-            order = self.bids[client_order_id]
-            order.lot -= volume
-            self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
-            if order.lot:
-                self.shift_order_lots(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume)
-            else:
+            if self.bid_base and client_order_id != self.bid_base.id:
                 self.send_cancel_order(self.bid_base.id)
-                if self.bid_shifted:
-                    self.bid_base = self.bid_shifted.copy()
-                    self.bid_shifted = None
+                self.bid_base = self.bids[client_order_id].copy()
+            elif not self.bid_base:
+                self.bid_base = self.bids[client_order_id].copy()
+            if client_order_id == self.bid_base.id and volume > self.bid_base.lot:
+                self.send_cancel_order(self.bid_shifted.id)
+                self.bid_shifted = None
+                self.bid_base.lot = 0
+            else:
+                self.bid_base.lot -= volume
+                self.bid_base, self.bid_shifted = self.shift_order_lots(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume)
+            self.position += volume
+            self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
             
         # they are lifting our asks
         elif client_order_id in self.asks:
-            self.position -= volume
-            order = self.asks[client_order_id]
-            order.lot -= volume
-            self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
-            if order.lot:
-                self.shift_order_lots(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume)
-            else:
+            if self.ask_base and client_order_id != self.ask_base.id:
                 self.send_cancel_order(self.ask_base.id)
-                if self.ask_shifted:
-                    self.ask_base = self.ask_shifted.copy()
-                    self.ask_shifted = None
+                self.ask_base = self.asks[client_order_id].copy()
+            if not self.ask_base:
+                self.ask_base = self.asks[client_order_id].copy()
+            if client_order_id == self.ask_base.id and volume > self.ask_base.lot:
+                self.send_cancel_order(self.ask_shifted.id)
+                self.ask_shifted = None
+                self.ask_base.lot = 0
+            else:
+                self.ask_base.lot -= volume
+                self.ask_base, self.ask_shifted = self.shift_order_lots(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume)
+            self.position -= volume
+            self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
         
         self.print_status()
-        print("")
+        self.log("")
 
 
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
@@ -250,25 +274,26 @@ class AutoTrader(BaseAutoTrader):
         you receive fees for being a market maker, so fees can be negative.
 
         If an order is cancelled its remaining volume will be zero.
+
+        NB: this function only triggers when an order status changes, not when
+        we change the status of an order ourselves.
         """
-        print("")
-        print("Order status:", client_order_id, fill_volume, remaining_volume, fees)
+        self.log("")
+        self.log(f"Order status: {client_order_id} {fill_volume} {remaining_volume} {fees}")
         self.print_status()
         self.logger.info("received order status for order %d with fill volume %d remaining %d and fees %d",
                          client_order_id, fill_volume, remaining_volume, fees)
         
         if remaining_volume == 0:
-            for bid in [self.bid_base, self.bid_shifted]:
-                if bid and client_order_id == bid.id:
-                    bid = None
-                    del self.bids[client_order_id]
+            if client_order_id in self.bids:
+                del self.bids[client_order_id]
+            elif client_order_id in self.asks:
+                del self.asks[client_order_id]
+            else:
+                raise Exception("Order not found")
             
-            for ask in [self.ask_base, self.ask_shifted]:
-                if ask:
-                    ask = None
-                    del self.asks[client_order_id]
         self.print_status()
-        print("")
+        self.log("")
             
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -310,7 +335,7 @@ class AutoTrader(BaseAutoTrader):
                     writer = csv.writer(f)
                     writer.writerow([bid_liquidity, ask_liquidity, avg_price])
             except:
-                print("Error writing to csv file:", bid_liquidity, ask_liquidity, avg_price)
+                self.log(f"Error writing to csv file: {bid_liquidity} {ask_liquidity} {avg_price}")
 
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
@@ -338,11 +363,16 @@ class AutoTrader(BaseAutoTrader):
             x Calculate lot size linearly to position.
             x Calculate lot size linearly to liquidity.
         """
-        max_l = 2 * 10 ** 7
-        liquidity = min(liquidity, max_l)
+        # max_l = 2 * 10 ** 7
+        # liquidity = min(liquidity, max_l)
         
-        position = -1*self.position if is_ask else self.position
-        p = math.sqrt(1 - (position+100)/200)
-        l = math.sqrt(1 - (max_l-liquidity)/max_l)
+        # position = -1*self.position if is_ask else self.position
+        # p = math.sqrt(1 - (position+100)/200)
+        # l = math.sqrt(1 - (max_l-liquidity)/max_l)
+
+        if liquidity > LIQUIDITY_THRESHOLD:
+            return 15
+        else:
+            return 5
 
         return math.floor(30 * p * l)

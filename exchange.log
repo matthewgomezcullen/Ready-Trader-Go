@@ -1,23 +1,224 @@
-2023-03-10 23:42:28,526 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=827.190000 client_order_id=6689 message='amend operation would increase order volume'
-2023-03-10 23:42:29,859 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=834.220000 client_order_id=6733 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:30,587 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=837.815000 client_order_id=6754 message='amend operation would increase order volume'
-2023-03-10 23:42:30,620 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=837.970000 client_order_id=6756 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:30,929 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=839.455000 client_order_id=6758 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:32,106 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=845.390000 client_order_id=6770 message='amend operation would increase order volume'
-2023-03-10 23:42:32,178 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=845.780000 client_order_id=6780 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:34,551 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=857.655000 client_order_id=6803 message='amend operation would increase order volume'
-2023-03-10 23:42:34,552 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=857.655000 client_order_id=6804 message='amend operation would increase order volume'
-2023-03-10 23:42:37,383 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=871.800000 client_order_id=6907 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:37,996 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=874.845000 client_order_id=6930 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:38,490 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=877.345000 client_order_id=6949 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:39,157 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=880.705000 client_order_id=6974 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:39,796 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=883.905000 client_order_id=7003 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:41,047 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=890.155000 client_order_id=7061 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:42,723 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 614706 market events
-2023-03-10 23:42:42,761 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=898.675000 client_order_id=7124 message='order rejected: in cross with an existing order'
-2023-03-10 23:42:43,034 [INFO   ] [TIMER] shutting down the match: time=900.080000 reason='match complete'
-2023-03-10 23:42:43,034 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=900.080000
-2023-03-10 23:42:43,035 [INFO   ] [CONNECTION] fd=764 connection lost
-2023-03-10 23:42:43,035 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 629123 match events
-2023-03-10 23:42:43,036 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3221 score records
-2023-03-10 23:42:43,036 [INFO   ] [APP] closing event loop
+2023-03-11 21:22:46,958 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 21:22:46,959 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data1.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 21:22:46,959 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 21:22:46,959 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 21:22:46,959 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 21:22:46,964 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 21:22:46,964 [INFO   ] [INFORMATION] information channel established
+2023-03-11 21:22:47,153 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49876
+2023-03-11 21:22:47,153 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 21:22:48,359 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49877
+2023-03-11 21:22:51,969 [INFO   ] [CONTROLLER] market open
+2023-03-11 21:22:56,006 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=40.371266 client_order_id=350 message='0 is not a valid volume'
+2023-03-11 21:22:58,556 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=65.862391 client_order_id=562 message='0 is not a valid volume'
+2023-03-11 21:22:59,859 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=78.893161 client_order_id=670 message='0 is not a valid volume'
+2023-03-11 21:23:02,399 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=104.291320 client_order_id=893 message='0 is not a valid volume'
+2023-03-11 21:23:10,118 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=181.485209 client_order_id=1555 message='0 is not a valid volume'
+2023-03-11 21:23:12,090 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=201.203736 client_order_id=1730 message='0 is not a valid volume'
+2023-03-11 21:23:15,403 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=234.337346 client_order_id=2035 message='0 is not a valid volume'
+2023-03-11 21:23:18,561 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=265.919882 client_order_id=2299 message='0 is not a valid volume'
+2023-03-11 21:23:19,211 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=272.414679 client_order_id=2357 message='0 is not a valid volume'
+2023-03-11 21:23:23,312 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=313.427500 client_order_id=2728 message='0 is not a valid volume'
+2023-03-11 21:23:23,430 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=314.610028 client_order_id=2739 message='0 is not a valid volume'
+2023-03-11 21:23:26,735 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=347.657416 client_order_id=3022 message='0 is not a valid volume'
+2023-03-11 21:23:26,775 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=348.050755 client_order_id=3025 message='0 is not a valid volume'
+2023-03-11 21:23:27,968 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=359.990448 client_order_id=3125 message='0 is not a valid volume'
+2023-03-11 21:23:28,678 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=367.088522 client_order_id=3187 message='0 is not a valid volume'
+2023-03-11 21:23:33,205 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=412.354533 client_order_id=3584 message='0 is not a valid volume'
+2023-03-11 21:23:33,478 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=415.084005 client_order_id=3608 message='0 is not a valid volume'
+2023-03-11 21:23:34,429 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=424.600819 client_order_id=3687 message='0 is not a valid volume'
+2023-03-11 21:23:37,130 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=451.607133 client_order_id=3910 message='0 is not a valid volume'
+2023-03-11 21:23:44,929 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=529.594760 client_order_id=4571 message='0 is not a valid volume'
+2023-03-11 21:23:44,953 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=529.834729 client_order_id=4574 message='0 is not a valid volume'
+2023-03-11 21:23:45,064 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=530.944222 client_order_id=4584 message='0 is not a valid volume'
+2023-03-11 21:23:45,077 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=531.073682 client_order_id=4587 message='0 is not a valid volume'
+2023-03-11 21:23:45,346 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=533.770882 client_order_id=4614 message='0 is not a valid volume'
+2023-03-11 21:23:47,644 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=556.746185 client_order_id=4814 message='0 is not a valid volume'
+2023-03-11 21:23:49,430 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=574.609350 client_order_id=4961 message='0 is not a valid volume'
+2023-03-11 21:23:50,061 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=580.913067 client_order_id=5016 message='0 is not a valid volume'
+2023-03-11 21:23:50,346 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=583.762631 client_order_id=5041 message='0 is not a valid volume'
+2023-03-11 21:23:52,710 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=607.410488 client_order_id=5244 message='0 is not a valid volume'
+2023-03-11 21:23:52,806 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=608.368420 client_order_id=5253 message='0 is not a valid volume'
+2023-03-11 21:23:53,377 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=614.079804 client_order_id=5304 message='0 is not a valid volume'
+2023-03-11 21:23:56,052 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=640.831701 client_order_id=5530 message='0 is not a valid volume'
+2023-03-11 21:23:56,681 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=647.115347 client_order_id=5587 message='0 is not a valid volume'
+2023-03-11 21:23:59,636 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=676.666178 client_order_id=5845 message='0 is not a valid volume'
+2023-03-11 21:23:59,650 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=676.806741 client_order_id=5848 message='0 is not a valid volume'
+2023-03-11 21:24:02,390 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=704.209664 client_order_id=6084 message='0 is not a valid volume'
+2023-03-11 21:24:07,525 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=755.558283 client_order_id=6506 message='0 is not a valid volume'
+2023-03-11 21:24:08,333 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=763.631277 client_order_id=6580 message='0 is not a valid volume'
+2023-03-11 21:24:08,405 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=764.354134 client_order_id=6587 message='0 is not a valid volume'
+2023-03-11 21:24:10,230 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=782.610985 client_order_id=6750 message='0 is not a valid volume'
+2023-03-11 21:24:11,186 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=792.164482 client_order_id=6833 message='0 is not a valid volume'
+2023-03-11 21:24:12,005 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=800.357073 client_order_id=6902 message='0 is not a valid volume'
+2023-03-11 21:24:15,560 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=835.911349 client_order_id=7204 message='0 is not a valid volume'
+2023-03-11 21:24:15,774 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=838.040041 client_order_id=7224 message='0 is not a valid volume'
+2023-03-11 21:24:20,175 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=882.058754 client_order_id=7613 message='0 is not a valid volume'
+2023-03-11 21:24:20,225 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=882.559939 client_order_id=7618 message='0 is not a valid volume'
+2023-03-11 21:24:20,323 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=883.538200 client_order_id=7627 message='0 is not a valid volume'
+2023-03-11 21:24:20,820 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.503985 client_order_id=7678 message='0 is not a valid volume'
+2023-03-11 21:24:20,820 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=888.508873 client_order_id=7681 message='%d is not a valid volume'
+2023-03-11 21:24:21,616 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 461484 market events
+2023-03-11 21:24:21,972 [INFO   ] [TIMER] shutting down the match: time=899.986084 reason='match complete'
+2023-03-11 21:24:21,972 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.986084
+2023-03-11 21:24:21,972 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-11 21:24:21,972 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 476612 match events
+2023-03-11 21:24:21,973 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3601 score records
+2023-03-11 21:24:21,973 [INFO   ] [APP] closing event loop
+2023-03-11 21:25:05,892 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 21:25:05,892 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 21:25:05,892 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 21:25:05,892 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 21:25:05,893 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 21:25:05,897 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 21:25:05,898 [INFO   ] [INFORMATION] information channel established
+2023-03-11 21:25:06,086 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:49913
+2023-03-11 21:25:06,086 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 21:25:07,272 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:49914
+2023-03-11 21:25:10,905 [INFO   ] [CONTROLLER] market open
+2023-03-11 21:25:11,766 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=8.614006 client_order_id=74 message='0 is not a valid volume'
+2023-03-11 21:25:14,951 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=40.462242 client_order_id=361 message='0 is not a valid volume'
+2023-03-11 21:25:16,195 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=52.901177 client_order_id=465 message='0 is not a valid volume'
+2023-03-11 21:25:16,657 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=57.519558 client_order_id=511 message='%d is not a valid volume'
+2023-03-11 21:25:16,763 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=58.575820 client_order_id=520 message='0 is not a valid volume'
+2023-03-11 21:25:16,787 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=58.825805 client_order_id=523 message='0 is not a valid volume'
+2023-03-11 21:25:22,141 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=112.356295 client_order_id=989 message='0 is not a valid volume'
+2023-03-11 21:25:22,616 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=117.109074 client_order_id=1034 message='0 is not a valid volume'
+2023-03-11 21:25:23,813 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=129.078725 client_order_id=1142 message='0 is not a valid volume'
+2023-03-11 21:25:24,645 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=137.404832 client_order_id=1220 message='0 is not a valid volume'
+2023-03-11 21:25:30,765 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=198.597854 client_order_id=1752 message='0 is not a valid volume'
+2023-03-11 21:25:30,888 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=199.823579 client_order_id=1763 message='0 is not a valid volume'
+2023-03-11 21:25:30,932 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=200.270275 client_order_id=1766 message='0 is not a valid volume'
+2023-03-11 21:25:31,486 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=205.816242 client_order_id=1816 message='0 is not a valid volume'
+2023-03-11 21:25:33,495 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=225.906625 client_order_id=1989 message='0 is not a valid volume'
+2023-03-11 21:25:43,008 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=321.036378 client_order_id=2809 message='0 is not a valid volume'
+2023-03-11 21:25:43,306 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=324.008941 client_order_id=2838 message='0 is not a valid volume'
+2023-03-11 21:25:46,946 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=360.407583 client_order_id=3149 message='0 is not a valid volume'
+2023-03-11 21:25:46,985 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=360.800196 client_order_id=3152 message='0 is not a valid volume'
+2023-03-11 21:25:49,032 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=381.267674 client_order_id=3322 message='0 is not a valid volume'
+2023-03-11 21:25:52,032 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=411.273079 client_order_id=3583 message='0 is not a valid volume'
+2023-03-11 21:25:52,301 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=413.960503 client_order_id=3607 message='0 is not a valid volume'
+2023-03-11 21:25:52,967 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=420.620111 client_order_id=3669 message='0 is not a valid volume'
+2023-03-11 21:25:55,521 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=446.162405 client_order_id=3891 message='0 is not a valid volume'
+2023-03-11 21:25:55,951 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=450.464599 client_order_id=3928 message='0 is not a valid volume'
+2023-03-11 21:25:56,521 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=456.163553 client_order_id=3978 message='0 is not a valid volume'
+2023-03-11 21:25:56,585 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=456.799961 client_order_id=3985 message='0 is not a valid volume'
+2023-03-11 21:25:59,850 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=489.453916 client_order_id=4277 message='0 is not a valid volume'
+2023-03-11 21:26:00,380 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=494.749364 client_order_id=4327 message='0 is not a valid volume'
+2023-03-11 21:26:00,486 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=495.817430 client_order_id=4338 message='order rejected: in cross with an existing order'
+2023-03-11 21:26:04,765 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=538.607510 client_order_id=4707 message='0 is not a valid volume'
+2023-03-11 21:26:06,407 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=555.022407 client_order_id=4864 message='0 is not a valid volume'
+2023-03-11 21:26:06,841 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=559.365456 client_order_id=4909 message='%d is not a valid volume'
+2023-03-11 21:26:06,844 [ERROR  ] [CONNECTION] fd=24 connection lost:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 21:26:06,845 [WARNING] [EXECUTION] fd=24 lost connection to auto-trader:
+Traceback (most recent call last):
+  File "/Users/huba/.pyenv/versions/3.9.16/lib/python3.9/asyncio/selector_events.py", line 854, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 54] Connection reset by peer
+2023-03-11 21:26:14,106 [INFO   ] [APP] SIGTERM signal received - shutting down...
+2023-03-11 21:26:14,107 [INFO   ] [APP] closing event loop
+2023-03-11 22:01:11,368 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 22:01:11,368 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 22:01:11,368 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 22:01:11,368 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 22:01:11,369 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 22:01:11,374 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 22:01:11,374 [INFO   ] [INFORMATION] information channel established
+2023-03-11 22:01:11,544 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:50543
+2023-03-11 22:01:11,544 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 22:01:12,831 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:50544
+2023-03-11 22:01:16,377 [INFO   ] [CONTROLLER] market open
+2023-03-11 22:01:21,668 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=52.917705 client_order_id=462 message='0 is not a valid volume'
+2023-03-11 22:01:28,086 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=117.095194 client_order_id=1030 message='0 is not a valid volume'
+2023-03-11 22:01:29,303 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=129.261152 client_order_id=1143 message='0 is not a valid volume'
+2023-03-11 22:01:30,119 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=137.420402 client_order_id=1219 message='0 is not a valid volume'
+2023-03-11 22:01:31,328 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=149.509990 client_order_id=1323 message='0 is not a valid volume'
+2023-03-11 22:01:31,729 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=153.521367 client_order_id=1358 message='0 is not a valid volume'
+2023-03-11 22:01:31,779 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=154.024167 client_order_id=1368 message='0 is not a valid volume'
+2023-03-11 22:01:35,492 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=191.153175 client_order_id=1689 message='0 is not a valid volume'
+2023-03-11 22:01:36,235 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=198.586352 client_order_id=1753 message='0 is not a valid volume'
+2023-03-11 22:01:38,967 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=225.903739 client_order_id=1988 message='0 is not a valid volume'
+2023-03-11 22:01:44,664 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=282.880979 client_order_id=2475 message='0 is not a valid volume'
+2023-03-11 22:01:48,776 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=323.997611 client_order_id=2836 message='0 is not a valid volume'
+2023-03-11 22:01:51,077 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=347.002228 client_order_id=3028 message='0 is not a valid volume'
+2023-03-11 22:01:54,502 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=381.260749 client_order_id=3316 message='0 is not a valid volume'
+2023-03-11 22:01:57,502 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=411.262225 client_order_id=3572 message='0 is not a valid volume'
+2023-03-11 22:01:58,533 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=421.572393 client_order_id=3665 message='0 is not a valid volume'
+2023-03-11 22:02:00,992 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=446.153345 client_order_id=3879 message='0 is not a valid volume'
+2023-03-11 22:02:01,810 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=454.335452 client_order_id=3948 message='0 is not a valid volume'
+2023-03-11 22:02:01,908 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=455.318841 client_order_id=3957 message='0 is not a valid volume'
+2023-03-11 22:02:01,992 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=456.159126 client_order_id=3964 message='0 is not a valid volume'
+2023-03-11 22:02:05,322 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=489.460035 client_order_id=4265 message='0 is not a valid volume'
+2023-03-11 22:02:06,563 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=501.866478 client_order_id=4380 message='0 is not a valid volume'
+2023-03-11 22:02:10,054 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=536.778169 client_order_id=4681 message='0 is not a valid volume'
+2023-03-11 22:02:10,087 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=537.103270 client_order_id=4684 message='0 is not a valid volume'
+2023-03-11 22:02:11,880 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=555.034130 client_order_id=4852 message='0 is not a valid volume'
+2023-03-11 22:02:12,938 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=565.617678 client_order_id=4949 message='0 is not a valid volume'
+2023-03-11 22:02:16,223 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=598.468038 client_order_id=5242 message='0 is not a valid volume'
+2023-03-11 22:02:16,577 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=602.007858 client_order_id=5272 message='0 is not a valid volume'
+2023-03-11 22:02:24,082 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=677.059866 client_order_id=5924 message='0 is not a valid volume'
+2023-03-11 22:02:24,310 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=679.335540 client_order_id=5946 message='0 is not a valid volume'
+2023-03-11 22:02:25,116 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=687.400691 client_order_id=6013 message='0 is not a valid volume'
+2023-03-11 22:02:25,255 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=688.785242 client_order_id=6027 message='0 is not a valid volume'
+2023-03-11 22:02:26,536 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=701.597615 client_order_id=6150 message='0 is not a valid volume'
+2023-03-11 22:02:27,256 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=708.798812 client_order_id=6220 message='0 is not a valid volume'
+2023-03-11 22:02:28,662 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=722.854720 client_order_id=6351 message='0 is not a valid volume'
+2023-03-11 22:02:28,842 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=724.660249 client_order_id=6366 message='0 is not a valid volume'
+2023-03-11 22:02:28,958 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=725.820549 client_order_id=6378 message='0 is not a valid volume'
+2023-03-11 22:02:29,062 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=726.856010 client_order_id=6388 message='0 is not a valid volume'
+2023-03-11 22:02:29,633 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=732.573164 client_order_id=6439 message='0 is not a valid volume'
+2023-03-11 22:02:31,557 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=751.810165 client_order_id=6613 message='0 is not a valid volume'
+2023-03-11 22:02:31,749 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=753.727781 client_order_id=6628 message='0 is not a valid volume'
+2023-03-11 22:02:34,853 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=784.760725 client_order_id=6923 message='0 is not a valid volume'
+2023-03-11 22:02:35,207 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=788.307678 client_order_id=6962 message='0 is not a valid volume'
+2023-03-11 22:02:36,428 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=800.521536 client_order_id=7069 message='0 is not a valid volume'
+2023-03-11 22:02:36,633 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=802.570466 client_order_id=7096 message='0 is not a valid volume'
+2023-03-11 22:02:40,029 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=836.528742 client_order_id=7399 message='0 is not a valid volume'
+2023-03-11 22:02:40,108 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=837.325731 client_order_id=7407 message='0 is not a valid volume'
+2023-03-11 22:02:41,854 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=854.782076 client_order_id=7573 message='0 is not a valid volume'
+2023-03-11 22:02:44,102 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=877.257550 client_order_id=7776 message='0 is not a valid volume'
+2023-03-11 22:02:46,221 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 614706 market events
+2023-03-11 22:02:46,379 [INFO   ] [TIMER] shutting down the match: time=899.993936 reason='match complete'
+2023-03-11 22:02:46,379 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.993936
+2023-03-11 22:02:46,379 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-11 22:02:46,379 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3601 score records
+2023-03-11 22:02:46,379 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 630117 match events
+2023-03-11 22:02:46,379 [INFO   ] [APP] closing event loop
+2023-03-11 22:04:30,788 [INFO   ] [APP] exchange started with arguments={rtg.py, run, autotrader.py}
+2023-03-11 22:04:30,788 [INFO   ] [APP] configuration={"Engine":{"MarketDataFile":"data/market_data2.csv","MarketEventInterval":0.05,"MarketOpenDelay":5.0,"MatchEventsFile":"match_events.csv","ScoreBoardFile":"score_board.csv","Speed":10.0,"TickInterval":0.25},"Execution":{"Host":"127.0.0.1","Port":12345},"Fees":{"Maker":-0.0001,"Taker":0.0002},"Hud":{"Host":"127.0.0.1","Port":12347},"Information":{"Type":"mmap","Name":"info.dat"},"Instrument":{"EtfClamp":0.002,"TickSize":1.0},"Limits":{"ActiveOrderCountLimit":10,"ActiveVolumeLimit":200,"MessageFrequencyInterval":1.0,"MessageFrequencyLimit":50,"PositionLimit":100},"Traders":{"TraderOne":"secret","TraderTwo":"secret"}}
+2023-03-11 22:04:30,788 [INFO   ] [CONTROLLER] starting the match
+2023-03-11 22:04:30,788 [INFO   ] [EXECUTION] starting execution server: host=127.0.0.1 port=12345
+2023-03-11 22:04:30,789 [INFO   ] [INFORMATION] starting information publisher: type=mmap name=info.dat
+2023-03-11 22:04:30,790 [INFO   ] [HEADS_UP] starting heads-up display server: host=127.0.0.1 port=12347
+2023-03-11 22:04:30,790 [INFO   ] [INFORMATION] information channel established
+2023-03-11 22:04:30,990 [INFO   ] [CONNECTION] fd=24 connection established: peer=127.0.0.1:50601
+2023-03-11 22:04:30,991 [INFO   ] [EXECUTION] fd=24 'TraderOne' is ready!
+2023-03-11 22:04:32,224 [INFO   ] [CONNECTION] fd=25 connection established: peer=127.0.0.1:50602
+2023-03-11 22:04:35,800 [INFO   ] [CONTROLLER] market open
+2023-03-11 22:04:35,875 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=0.746673 client_order_id=5 message='0 is not a valid volume'
+2023-03-11 22:04:41,090 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=52.902636 client_order_id=469 message='0 is not a valid volume'
+2023-03-11 22:04:42,856 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=70.560010 client_order_id=629 message='0 is not a valid volume'
+2023-03-11 22:04:45,927 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=101.269220 client_order_id=897 message='0 is not a valid volume'
+2023-03-11 22:05:07,225 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=314.256045 client_order_id=2757 message='0 is not a valid volume'
+2023-03-11 22:05:07,250 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=314.506658 client_order_id=2763 message='0 is not a valid volume'
+2023-03-11 22:05:16,756 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=409.561355 client_order_id=3573 message='0 is not a valid volume'
+2023-03-11 22:05:17,956 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=421.568761 client_order_id=3682 message='0 is not a valid volume'
+2023-03-11 22:05:24,426 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=486.267687 client_order_id=4251 message='0 is not a valid volume'
+2023-03-11 22:05:34,261 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=584.617932 client_order_id=5123 message='0 is not a valid volume'
+2023-03-11 22:05:34,262 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=584.625614 client_order_id=5125 message='0 is not a valid volume'
+2023-03-11 22:05:51,629 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=758.300183 client_order_id=6683 message='0 is not a valid volume'
+2023-03-11 22:05:53,106 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=773.068045 client_order_id=6827 message='0 is not a valid volume'
+2023-03-11 22:05:54,441 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=786.420762 client_order_id=6948 message='0 is not a valid volume'
+2023-03-11 22:05:54,631 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=788.313460 client_order_id=6967 message='0 is not a valid volume'
+2023-03-11 22:06:03,520 [INFO   ] [COMPETITOR] 'TraderOne' sent error message: time=877.210436 client_order_id=7766 message='0 is not a valid volume'
+2023-03-11 22:06:05,647 [INFO   ] [MARKET_EVENTS] reader thread complete after processing 614706 market events
+2023-03-11 22:06:05,803 [INFO   ] [TIMER] shutting down the match: time=899.998447 reason='match complete'
+2023-03-11 22:06:05,803 [INFO   ] [COMPETITOR] 'TraderOne' closing execution channel at time=899.998447
+2023-03-11 22:06:05,803 [INFO   ] [CONNECTION] fd=24 connection lost
+2023-03-11 22:06:05,803 [INFO   ] [MATCH_EVENTS] writer thread complete after processing 630266 match events
+2023-03-11 22:06:05,803 [INFO   ] [SCORE_BOARD] writer thread complete after processing 3601 score records
+2023-03-11 22:06:05,804 [INFO   ] [APP] closing event loop

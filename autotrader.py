@@ -30,7 +30,7 @@ POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
-LIQUIDITY_THRESHOLD = 1000000
+LIQUIDITY_THRESHOLDS = [t * 10**7 for t in (0.4, 0.8, 1.2)]
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -118,14 +118,10 @@ class AutoTrader(BaseAutoTrader):
         prices are reported along with the volume available at each of those
         price levels.
         """
+        self.logger.info("received order book for instrument %d with sequence number %d", instrument,
+                         sequence_number)        
 
         if instrument == Instrument.ETF:
-            pass
-        
-        self.logger.info("received order book for instrument %d with sequence number %d", instrument,
-                         sequence_number)
-
-        if instrument == Instrument.FUTURE:
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
             new_bid_lot, new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
             new_ask_price = self.calc_price(avg_price, ask_prices, ask_liquidity, True)
@@ -159,7 +155,11 @@ class AutoTrader(BaseAutoTrader):
                 if new_ask_price:
                     self.ask_base = Order(next(self.order_ids), new_ask_price, new_ask_lot, 0)
                     self.send_insert_order(self.ask_base.id, Side.SELL, new_ask_price, new_ask_lot, Lifespan.GOOD_FOR_DAY)
-                    self.asks[self.ask_base.id] = self.ask_base
+                    self.asks[self.ask_base.id] = self.ask_base            
+    
+
+        if instrument == Instrument.FUTURE:
+            pass
 
     
     def send_enlargen_order(self, order, side, order_set):
@@ -285,10 +285,10 @@ class AutoTrader(BaseAutoTrader):
         and the prices traded at for bids and asks.
         """
         price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
-        spread = int(4 - min(2, liquidity // (0.2*10**8)))
-        print(liquidity // (0.2*10**8), spread)
+        spread = int(4 - min(2, liquidity // (0.2*10**7)))
+        print(liquidity // (0.2*10**7), spread)
 
-        return prices[spread] + price_adjustment if prices[spread] != 0 else 0
+        return prices[2] + price_adjustment if prices[2] != 0 else 0
         
 
     def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],

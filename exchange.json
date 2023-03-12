@@ -36,6 +36,9 @@
     "PositionLimit": 100
   },
   "Traders": {
-    "Emineminem": "secret"
+    "Emineminem": "secret",
+    "SimpleL": "secret",
+    "AdvancedL": "secret",
+    "Benchmark": "secret"
   }
 }

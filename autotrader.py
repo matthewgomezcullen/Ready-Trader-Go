@@ -131,15 +131,20 @@ class AutoTrader(BaseAutoTrader):
             new_ask_price = self.calc_price(avg_price, ask_prices, ask_liquidity, True)
             new_bid_price = self.calc_price(avg_price, bid_prices, bid_liquidity)
 
-            for bid in [self.bid_base, self.bid_shifted]:
-                if bid:
-                    self.send_cancel_order(bid.id)
-                    bid = None
+            for bid_id in self.bids:
+                self.log("Bids: " + str(self.bids))
+                self.log("Cancelling bid order " + str(bid_id))
+                self.send_cancel_order(bid_id)            
+            self.bid_base = None
+            self.bid_shifted = None
             
-            for ask in [self.ask_base, self.ask_shifted]:
-                if ask:
-                    self.send_cancel_order(ask.id)
-                    ask = None
+            for ask_id in self.asks:
+                self.log("Asks: " + str(self.asks))
+                self.log("Cancelling ask order " + str(ask_id))
+                self.send_cancel_order(ask_id)
+            self.bid_base = None
+            self.bid_shifted = None
+
             
             if new_bid_lot and self.position+new_bid_lot < POSITION_LIMIT:
 
@@ -169,48 +174,25 @@ class AutoTrader(BaseAutoTrader):
         order_set[order.id] = order
         self.log("Enlarged order")
 
-    def shift_order_lots(self, base, shifted, order_set, side, volume):
-        """Shifts orders when partially or fully filled
+    def insert_shifted_order(self, base, shifted, order_set, side, volume):
+        """Inserts a shifted order at a more competitive price to combat position drift.
         
-        Volume is moved from the base order to a shifted order. If 
-        the base order is fully filled, it is cancelled and removed 
-        from the order set. If the shifted order is fully filled, the
-        excess volume is moved to a new shifted order, and the base order
-        becomes the previous shifted order."""
-        if base.lot:
-            volume = min(volume, base.lot)
-
-            if volume < base.lot:
-                base.lot -= volume
-                self.send_amend_order(base.id, base.lot)
-                if shifted:
-                    shifted.lot += volume
-                    self.send_enlargen_order(shifted, side, order_set)
-                else:
-                    price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
-                    shifted = Order(next(self.order_ids), price, volume, 0)
-                    self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
-                    order_set[shifted.id]=shifted
-            elif shifted:
-                self.send_cancel_order(base.id)
-                shifted.lot += volume
-                self.send_enlargen_order(shifted, side, order_set)
-                base = shifted.copy()
-                shifted = None
-            else:
-                self.send_cancel_order(base.id)
-                base.price = base.price - TICK_SIZE_IN_CENTS if side==Side.BUY else base.price + TICK_SIZE_IN_CENTS
-                base.id = next(self.order_ids)
-                self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
-                order_set[base.id] = base
+        If there is already a shifted order, we insert a new shifted order
+        below it and reassign shifted to the new order. If there is no shifted
+        order, we insert a new shifted order below the base order."""
+        if shifted:
+            shifted.id = next(self.order_ids)
+            shifted.price += TICK_SIZE_IN_CENTS if side==Side.BUY else -(TICK_SIZE_IN_CENTS)
+            shifted.lot = volume
+            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
         else:
-            if shifted:
-                base = shifted.copy()
-                shifted = None
-            else:
-                base = None
-        
-        return base, shifted
+            price = base.price + TICK_SIZE_IN_CENTS if side==Side.BUY else base.price - TICK_SIZE_IN_CENTS
+            shifted = Order(next(self.order_ids), price, volume, 0)
+            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
+
+        order_set[shifted.id] = shifted
+
+        return shifted
             
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
@@ -230,37 +212,19 @@ class AutoTrader(BaseAutoTrader):
 
         # they are hitting our bids
         if client_order_id in self.bids:
-            if self.bid_base and client_order_id != self.bid_base.id:
-                self.send_cancel_order(self.bid_base.id)
-                self.bid_base = self.bids[client_order_id].copy()
-            elif not self.bid_base:
-                self.bid_base = self.bids[client_order_id].copy()
-            if client_order_id == self.bid_base.id and volume > self.bid_base.lot:
-                self.send_cancel_order(self.bid_shifted.id)
-                self.bid_shifted = None
-                self.bid_base.lot = 0
-            else:
-                self.bid_base.lot -= volume
-                self.bid_base, self.bid_shifted = self.shift_order_lots(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume)
             self.position += volume
+
             self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
-            
+            if self.position > 10:
+                self.shifted_ask = self.insert_shifted_order(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume//2)
+        
         # they are lifting our asks
         elif client_order_id in self.asks:
-            if self.ask_base and client_order_id != self.ask_base.id:
-                self.send_cancel_order(self.ask_base.id)
-                self.ask_base = self.asks[client_order_id].copy()
-            if not self.ask_base:
-                self.ask_base = self.asks[client_order_id].copy()
-            if client_order_id == self.ask_base.id and volume > self.ask_base.lot:
-                self.send_cancel_order(self.ask_shifted.id)
-                self.ask_shifted = None
-                self.ask_base.lot = 0
-            else:
-                self.ask_base.lot -= volume
-                self.ask_base, self.ask_shifted = self.shift_order_lots(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume)
             self.position -= volume
+
             self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
+            if self.position < -10:
+                self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
         
         self.print_status()
         self.log("")

@@ -67,7 +67,6 @@ class AutoTrader(BaseAutoTrader):
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.next_bid_lot = self.next_ask_lot = 0
         self.bids = dict()
         self.asks = dict()
         self.position = 0
@@ -80,11 +79,13 @@ class AutoTrader(BaseAutoTrader):
             f.write("")
     
     def print_status(self):
+        """Log the current status of the autotrader."""
         with open('output/logs.txt', 'a') as f:
             f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
             f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
     
     def log(self, text):
+        """Log text to a file."""
         with open('output/logs.txt', 'a') as f:
             f.write(text + "\n")
         
@@ -119,12 +120,17 @@ class AutoTrader(BaseAutoTrader):
         """
 
         if instrument == Instrument.ETF:
-            self.calc_lot_sizes(ask_prices, ask_volumes, bid_prices, bid_volumes)
+            pass
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)
 
         if instrument == Instrument.FUTURE:
+            avg_price = (ask_prices[0] + bid_prices[0]) / 2
+            new_bid_lot, new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            new_ask_price = self.calc_price(avg_price, ask_prices, ask_liquidity, True)
+            new_bid_price = self.calc_price(avg_price, bid_prices, bid_liquidity)
+
             for bid in [self.bid_base, self.bid_shifted]:
                 if bid:
                     self.send_cancel_order(bid.id)
@@ -135,23 +141,19 @@ class AutoTrader(BaseAutoTrader):
                     self.send_cancel_order(ask.id)
                     ask = None
             
-            price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
-            
-            if self.next_bid_lot and self.position < POSITION_LIMIT:
-                new_bid_price = bid_prices[0] + price_adjustment if bid_prices[0] != 0 else 0
+            if new_bid_lot and self.position < POSITION_LIMIT:
 
                 if new_bid_price :
-                    self.bid_base = Order(next(self.order_ids), new_bid_price, self.next_bid_lot, 0)
-                    self.send_insert_order(self.bid_base.id, Side.BUY, new_bid_price, self.next_bid_lot, Lifespan.GOOD_FOR_DAY)
+                    self.bid_base = Order(next(self.order_ids), new_bid_price, new_bid_lot, 0)
+                    self.send_insert_order(self.bid_base.id, Side.BUY, new_bid_price, new_bid_lot, Lifespan.GOOD_FOR_DAY)
                     self.bids[self.bid_base.id] = self.bid_base
             
 
-            if self.next_ask_lot and self.position > -POSITION_LIMIT:
-                new_ask_price = ask_prices[0] + price_adjustment if ask_prices[0] != 0 else 0
+            if new_ask_lot and self.position > -POSITION_LIMIT:
 
                 if new_ask_price:
-                    self.ask_base = Order(next(self.order_ids), new_ask_price, self.next_ask_lot, 0)
-                    self.send_insert_order(self.ask_base.id, Side.SELL, new_ask_price, self.next_ask_lot, Lifespan.GOOD_FOR_DAY)
+                    self.ask_base = Order(next(self.order_ids), new_ask_price, new_ask_lot, 0)
+                    self.send_insert_order(self.ask_base.id, Side.SELL, new_ask_price, new_ask_lot, Lifespan.GOOD_FOR_DAY)
                     self.asks[self.ask_base.id] = self.ask_base
 
     
@@ -310,7 +312,20 @@ class AutoTrader(BaseAutoTrader):
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
 
-    def calc_lot_sizes(self, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
+
+    def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
+        """Calculates price based on liquidity and position.
+
+        We consider the liquidity of the bid and ask prices separately based
+        on the average price between the best bid and ask, the volume traded,
+        and the prices traded at for bids and asks.
+        """
+        price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
+
+        return prices[2] + price_adjustment if prices[2] != 0 else 0
+        
+
+    def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
                                    bid_volumes: List[int]) -> None:
         """Calculates lot sizes based on liquidity and position.
 
@@ -320,15 +335,11 @@ class AutoTrader(BaseAutoTrader):
         """
         if ask_prices[0] != 0 and bid_prices[0] != 0:
 
-            best_ask_price = ask_prices[0]
-            best_bid_price = bid_prices[0]
-            avg_price = (best_ask_price + best_bid_price) / 2
-
             bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
-            self.next_bid_lot = self.calc_lot_size(bid_liquidity)
+            next_bid_lot = self.calc_lot_size(bid_liquidity)
 
             ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
-            self.next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
+            next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
 
             try:
                 with open('output/liquidity.csv', 'a', newline='') as f:
@@ -336,6 +347,10 @@ class AutoTrader(BaseAutoTrader):
                     writer.writerow([bid_liquidity, ask_liquidity, avg_price])
             except:
                 self.log(f"Error writing to csv file: {bid_liquidity} {ask_liquidity} {avg_price}")
+            
+            return next_bid_lot, next_ask_lot, bid_liquidity, ask_liquidity
+        
+        return 0, 0, 0, 0
 
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):

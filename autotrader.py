@@ -30,7 +30,7 @@ POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
-LIQUIDITY_THRESHOLDS = [t * 10**7 for t in (0.4, 0.8, 1.2)]
+LIQUIDITY_THRESHOLDS = [t * 10**7 for t in (0.25, 0.5, 0.75)]
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -67,13 +67,16 @@ class AutoTrader(BaseAutoTrader):
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
+        self.new_bid_lot = self.new_ask_lot = self.new_bid_price = self.new_ask_price = 0
         self.bids = dict()
         self.asks = dict()
         self.position = 0
 
-        with open('output/liquidity.csv', 'w', newline='') as f:
+        # Logging inputs to orders for analysis
+        with open('output/inputs.csv', 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["bid_liquidity", "ask_liquidity", "avg_price"])
+            writer.writerow(["bid_liquidity(e+07)", "bid_spread", "bid_lots", 
+                             "ask_liquidity(e+07)", "ask_spread", "ask_lots"])
 
         with open('output/logs.txt' , 'w') as f:
             f.write("")
@@ -109,6 +112,7 @@ class AutoTrader(BaseAutoTrader):
         self.logger.info("received hedge filled for order %d with average price %d and volume %d", client_order_id,
                          price, volume)
 
+
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
                                      ask_volumes: List[int], bid_prices: List[int], bid_volumes: List[int]) -> None:
         """Called periodically to report the status of an order book.
@@ -122,44 +126,117 @@ class AutoTrader(BaseAutoTrader):
                          sequence_number)        
 
         if instrument == Instrument.ETF:
+            # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            new_bid_lot, new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
-            new_ask_price = self.calc_price(avg_price, ask_prices, ask_liquidity, True)
-            new_bid_price = self.calc_price(avg_price, bid_prices, bid_liquidity)
-
-            for bid_id in self.bids:
-                self.log("Bids: " + str(self.bids))
-                self.log("Cancelling bid order " + str(bid_id))
-                self.send_cancel_order(bid_id)            
-            self.bid_base = None
-            self.bid_shifted = None
-            
-            for ask_id in self.asks:
-                self.log("Asks: " + str(self.asks))
-                self.log("Cancelling ask order " + str(ask_id))
-                self.send_cancel_order(ask_id)
-            self.bid_base = None
-            self.bid_shifted = None
-
-            
-            if new_bid_lot and self.position+new_bid_lot < POSITION_LIMIT:
-
-                if new_bid_price :
-                    self.bid_base = Order(next(self.order_ids), new_bid_price, new_bid_lot, 0)
-                    self.send_insert_order(self.bid_base.id, Side.BUY, new_bid_price, new_bid_lot, Lifespan.GOOD_FOR_DAY)
-                    self.bids[self.bid_base.id] = self.bid_base
-            
-
-            if new_ask_lot and self.position-new_ask_lot > -POSITION_LIMIT:
-
-                if new_ask_price:
-                    self.ask_base = Order(next(self.order_ids), new_ask_price, new_ask_lot, 0)
-                    self.send_insert_order(self.ask_base.id, Side.SELL, new_ask_price, new_ask_lot, Lifespan.GOOD_FOR_DAY)
-                    self.asks[self.ask_base.id] = self.ask_base            
-    
-
+            self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            self.new_ask_price, new_ask_spread = self.calc_price(avg_price, ask_prices, ask_liquidity)
+            self.new_bid_price, new_bid_spread = self.calc_price(avg_price, bid_prices, bid_liquidity)
+            # Log inputs
+            with open('output/inputs.csv', 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([bid_liquidity / (10**7), new_bid_spread, self.new_bid_lot, 
+                                 ask_liquidity / (10**7), new_ask_spread, self.new_ask_lot])    
+        
         if instrument == Instrument.FUTURE:
-            pass
+            
+            # Reset orders
+            self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
+            self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
+            self.bid_shifted = self.ask_shifted = None
+
+    def reset_orders(self, order_set, side, lot, price):
+        """Replace all orders in the order set with new orders.
+        
+        Order parameters should be calculated beforehand."""
+        base = None
+
+        for order_id in order_set:
+            self.log("Cancelling order " + str(order_id))
+            self.send_cancel_order(order_id)
+        
+        if lot and price and abs(self.position + lot if side == Side.BUY else -lot) < POSITION_LIMIT:
+            base = Order(next(self.order_ids), price, lot, 0)
+            self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
+            order_set[base.id] = base
+        
+        return base
+
+
+    def calc_price(self, avg_price, prices: List[int], liquidity) -> None:
+        """Calculates price based on liquidity and position.
+
+        We consider the liquidity of the bid and ask prices separately based
+        on the average price between the best bid and ask, the volume traded,
+        and the prices traded at for bids and asks.
+        """
+        price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
+        spread = 3
+        for threshold in LIQUIDITY_THRESHOLDS:
+            if liquidity > threshold:
+                spread -= 1
+
+        return prices[spread] + price_adjustment if prices[spread] != 0 else 0, spread
+        
+
+    def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
+                                   bid_volumes: List[int]) -> None:
+        """Calculates lot sizes based on liquidity and position.
+
+        We consider the liquidity of the bid and ask prices separately based
+        on the average price between the best bid and ask, the volume traded,
+        and the prices traded at for bids and asks.
+        """
+        if ask_prices[0] != 0 and bid_prices[0] != 0:
+
+            bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
+            next_bid_lot = self.calc_lot_size(bid_liquidity)
+
+            ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
+            next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
+            
+            return next_bid_lot, next_ask_lot, bid_liquidity, ask_liquidity
+        
+        return 0, 0, 0, 0
+
+
+    def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
+        """Calculates liquidity of the market for bids and asks.
+
+        TODO: Calculate the average price based on the entire distribution of
+        bids and asks rather than just the best bid and ask.
+        """
+        distances = [0,0,0,0,0]
+        for i in range(len(prices)):
+            if prices[i] != 0:
+                distances[i] = 1 / abs(math.log(prices[i]) - math.log(avg_price))
+            else:
+                distances[i] = 0
+            weights = [distances[i] * volumes[i] for i in range(len(volumes))] 
+            liquidity = sum(weights)
+        return liquidity
+        
+
+    def calc_lot_size(self, liquidity: int, is_ask=False):
+        """Calculates the lot size for bids and asks.
+
+        Calculates the lot size based on the liquidity of the market and the
+        position of the trader. The lot size is proportional to the
+        liquidity of the market and inversely proportional to the position 
+        of the trader.
+        """
+        max_l = 2 * 10 ** 7
+        liquidity = min(liquidity, max_l)
+        
+        position = -1*self.position if is_ask else self.position
+        p = math.sqrt(1 - (position+100)/200)
+        l = math.sqrt(1 - (max_l-liquidity)/max_l)
+
+        # if liquidity > LIQUIDITY_THRESHOLD:
+        #     return 15
+        # else:
+        #     return 5
+
+        return math.floor(30 * p * l)
 
     
     def send_enlargen_order(self, order, side, order_set):
@@ -275,85 +352,3 @@ class AutoTrader(BaseAutoTrader):
         """
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
-
-
-    def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
-        """Calculates price based on liquidity and position.
-
-        We consider the liquidity of the bid and ask prices separately based
-        on the average price between the best bid and ask, the volume traded,
-        and the prices traded at for bids and asks.
-        """
-        price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
-        spread = int(4 - min(2, liquidity // (0.2*10**7)))
-        print(liquidity // (0.2*10**7), spread)
-
-        return prices[2] + price_adjustment if prices[2] != 0 else 0
-        
-
-    def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
-                                   bid_volumes: List[int]) -> None:
-        """Calculates lot sizes based on liquidity and position.
-
-        We consider the liquidity of the bid and ask prices separately based
-        on the average price between the best bid and ask, the volume traded,
-        and the prices traded at for bids and asks.
-        """
-        if ask_prices[0] != 0 and bid_prices[0] != 0:
-
-            bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
-            next_bid_lot = self.calc_lot_size(bid_liquidity)
-
-            ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
-            next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
-
-            try:
-                with open('output/liquidity.csv', 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([bid_liquidity, ask_liquidity, avg_price])
-            except:
-                self.log(f"Error writing to csv file: {bid_liquidity} {ask_liquidity} {avg_price}")
-            
-            return next_bid_lot, next_ask_lot, bid_liquidity, ask_liquidity
-        
-        return 0, 0, 0, 0
-
-
-    def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
-        """Calculates liquidity of the market for bids and asks.
-
-        TODO: Calculate the average price based on the entire distribution of
-        bids and asks rather than just the best bid and ask.
-        """
-        distances = [0,0,0,0,0]
-        for i in range(len(prices)):
-            if prices[i] != 0:
-                distances[i] = 1 / abs(math.log(prices[i]) - math.log(avg_price))
-            else:
-                distances[i] = 0
-            weights = [distances[i] * volumes[i] for i in range(len(volumes))] 
-            liquidity = sum(weights)
-        return liquidity
-        
-
-    def calc_lot_size(self, liquidity: int, is_ask=False):
-        """Calculates the lot size for bids and asks.
-
-        TODO: 
-            x Calculate the lot size based on the liquidity and position.
-            x Calculate lot size linearly to position.
-            x Calculate lot size linearly to liquidity.
-        """
-        max_l = 2 * 10 ** 7
-        liquidity = min(liquidity, max_l)
-        
-        position = -1*self.position if is_ask else self.position
-        p = math.sqrt(1 - (position+100)/200)
-        l = math.sqrt(1 - (max_l-liquidity)/max_l)
-
-        # if liquidity > LIQUIDITY_THRESHOLD:
-        #     return 15
-        # else:
-        #     return 5
-
-        return math.floor(30 * p * l)

@@ -30,7 +30,9 @@ POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
-LIQUIDITY_THRESHOLDS = [t * 10**7 for t in (0.25, 0.5, 0.75)]
+LIQUIDITY_MAGNITUDE = 8
+LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
+POSITION_THRESHOLDS = [-75, -50, 25, 25, 50, 75]
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -75,8 +77,8 @@ class AutoTrader(BaseAutoTrader):
         # Logging inputs to orders for analysis
         with open('output/inputs.csv', 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["bid_liquidity(e+07)", "bid_spread", "bid_lots", 
-                             "ask_liquidity(e+07)", "ask_spread", "ask_lots"])
+            writer.writerow(["position", f"bid_liquidity(e+0{LIQUIDITY_MAGNITUDE})", "bid_spread", "bid_lots", 
+                                            f"ask_liquidity(e+0{LIQUIDITY_MAGNITUDE})", "ask_spread", "ask_lots"])
 
         with open('output/logs.txt' , 'w') as f:
             f.write("")
@@ -126,19 +128,25 @@ class AutoTrader(BaseAutoTrader):
                          sequence_number)        
 
         if instrument == Instrument.ETF:
+            pass
+        
+        if instrument == Instrument.FUTURE:
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
-            self.new_ask_price, new_ask_spread = self.calc_price(avg_price, ask_prices, ask_liquidity)
-            self.new_bid_price, new_bid_spread = self.calc_price(avg_price, bid_prices, bid_liquidity)
+            self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(
+                avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            
+            self.new_bid_price, new_bid_spread = self.calc_price(
+                avg_price, bid_prices, bid_liquidity)
+            self.new_ask_price, new_ask_spread = self.calc_price(
+                avg_price, ask_prices, ask_liquidity, True)
+            
             # Log inputs
             with open('output/inputs.csv', 'a', newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([bid_liquidity / (10**7), new_bid_spread, self.new_bid_lot, 
-                                 ask_liquidity / (10**7), new_ask_spread, self.new_ask_lot])    
+                writer.writerow([self.position/10, bid_liquidity / (10**LIQUIDITY_MAGNITUDE), new_bid_spread, self.new_bid_lot,
+                                                ask_liquidity / (10**LIQUIDITY_MAGNITUDE), new_ask_spread, self.new_ask_lot])
         
-        if instrument == Instrument.FUTURE:
-            
             # Reset orders
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
@@ -151,7 +159,6 @@ class AutoTrader(BaseAutoTrader):
         base = None
 
         for order_id in order_set:
-            self.log("Cancelling order " + str(order_id))
             self.send_cancel_order(order_id)
         
         if lot and price and abs(self.position + lot if side == Side.BUY else -lot) < POSITION_LIMIT:
@@ -162,20 +169,39 @@ class AutoTrader(BaseAutoTrader):
         return base
 
 
-    def calc_price(self, avg_price, prices: List[int], liquidity) -> None:
+    def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
         """Calculates price based on liquidity and position.
 
         We consider the liquidity of the bid and ask prices separately based
         on the average price between the best bid and ask, the volume traded,
         and the prices traded at for bids and asks.
         """
-        price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
         spread = 3
+        
         for threshold in LIQUIDITY_THRESHOLDS:
             if liquidity > threshold:
                 spread -= 1
 
-        return prices[spread] + price_adjustment if prices[spread] != 0 else 0, spread
+        adj = -3
+
+        for threshold in POSITION_THRESHOLDS:
+            if self.position > threshold:
+                adj += 1
+        
+        adj = -adj if is_ask else adj
+        emergency_adj = 0
+
+        if adj == -3:
+            emergency_adj = 3
+        elif adj == 3:
+            emergency_adj = -3
+        
+        if is_ask: emergency_adj = -emergency_adj
+        
+        spread += adj
+        spread = min(4, max(0, spread))
+
+        return prices[spread] + emergency_adj*TICK_SIZE_IN_CENTS if prices[spread] != 0 else 0, spread
         
 
     def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],
@@ -236,20 +262,8 @@ class AutoTrader(BaseAutoTrader):
         # else:
         #     return 5
 
-        return math.floor(30 * p * l)
+        return math.floor(20 * p * l)
 
-    
-    def send_enlargen_order(self, order, side, order_set):
-        """Sends an enlargen order to the exchange 
-        
-        Required to amend orders to be larger than the original
-        order size as amend order only allows for smaller orders"""
-        self.log("Enlarging order...")
-        self.send_cancel_order(order.id)
-        order.id = next(self.order_ids)
-        self.send_insert_order(order.id, side, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-        order_set[order.id] = order
-        self.log("Enlarged order")
 
     def insert_shifted_order(self, base, shifted, order_set, side, volume):
         """Inserts a shifted order at a more competitive price to combat position drift.
@@ -266,6 +280,8 @@ class AutoTrader(BaseAutoTrader):
             price = base.price + TICK_SIZE_IN_CENTS if side==Side.BUY else base.price - TICK_SIZE_IN_CENTS
             shifted = Order(next(self.order_ids), price, volume, 0)
             self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
+
+        self.log(f"Inserted: {shifted}")
 
         order_set[shifted.id] = shifted
 
@@ -292,7 +308,8 @@ class AutoTrader(BaseAutoTrader):
             self.position += volume
 
             self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
-            if self.position > 10:
+            if self.position > 20:
+                self.log(f"Inserting shifted ask...")
                 self.shifted_ask = self.insert_shifted_order(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume//2)
         
         # they are lifting our asks
@@ -300,7 +317,8 @@ class AutoTrader(BaseAutoTrader):
             self.position -= volume
 
             self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
-            if self.position < -10:
+            if self.position < -20:
+                self.log("Inserting shifted bid...")
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
         
         self.print_status()

@@ -145,6 +145,7 @@ class Competitor(ICompetitor, IOrderListener):
             self.hard_breach(now, order.client_order_id, b"ETF position limit breached")
 
     def on_unhedged_lots_expiry(self):
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
         """Called when unhedged lots have been held for too long."""
         self.logger.info("Unhedged lots timer expired for %s at etf=%d fut=%d rel=%d", self.name,
                          self.account.etf_position, self.account.future_position,

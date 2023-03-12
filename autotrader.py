@@ -32,6 +32,45 @@ MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS 
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_THRESHOLD = 1000000
 
+class Book:
+    def __init__(self, instrument: Instrument, sequence_number: int, ask_prices: List[int],
+                 ask_volumes: List[int], bid_prices: List[int], bid_volumes: List[int]):
+        self.instrument = instrument
+        # list = [new, old]
+        self.bid_volumes = {'new': bid_volumes, 'old': []}
+        self.bid_prices = {'new': bid_prices, 'old': []}
+        self.ask_volumes = {'new': ask_volumes, 'old': []}
+        self.ask_prices = {'new': ask_prices, 'old': []}
+        self.sequence_number = sequence_number
+
+    def update(self, sequence_number: int, ask_prices: List[int], ask_volumes: List[int],
+               bid_prices: List[int], bid_volumes: List[int]):
+        self.sequence_number = sequence_number
+        self.bid_volumes['old'] = self.bid_volumes['new']
+        self.bid_prices['old'] = self.bid_prices['new']
+        self.ask_volumes['old'] = self.ask_volumes['new']
+        self.ask_prices['old'] = self.ask_prices['new']
+
+        self.bid_volumes['new'] = bid_volumes
+        self.bid_prices['new'] = bid_prices
+        self.ask_volumes['new'] = ask_volumes
+        self.ask_prices['new'] = ask_prices
+
+    def is_ready(self):
+        return self.bid_prices['new'] and self.bid_prices['old'] and self.ask_prices['new'][0] != 0 \
+            and self.ask_prices['old'][0] != 0 and self.bid_prices['new'][0] != 0 and self.bid_prices['old'][0] != 0
+    
+    def delta(self):
+        old_avg_price = self.ask_prices['old'][0] * self.bid_prices['old'][0] / 2
+        new_avg_price = self.ask_prices['new'][0] * self.bid_prices['new'][0] / 2
+        return new_avg_price - old_avg_price
+
+    def __repr__(self):
+        return f"Book(instrument={self.instrument}, bid_volumes={self.bid_volumes}, bid_prices={self.bid_prices}, ask_volumes={self.ask_volumes}, ask_prices={self.ask_prices}, sequence_number={self.sequence_number})"
+    
+    def __str__(self):
+        return self.__repr__()
+
 class Order:
     def __init__(self, id, price, lot, start):
         self.id = id
@@ -70,6 +109,9 @@ class AutoTrader(BaseAutoTrader):
         self.bids = dict()
         self.asks = dict()
         self.position = 0
+        self.futures_position = 0
+        self.etf_books = self.futures_books = None
+
 
         with open('output/liquidity.csv', 'w', newline='') as f:
             writer = csv.writer(f)
@@ -120,12 +162,20 @@ class AutoTrader(BaseAutoTrader):
         """
 
         if instrument == Instrument.ETF:
-            pass
+            if self.etf_books is None:
+                self.etf_books = Book(instrument, sequence_number, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            elif self.etf_books.sequence_number < sequence_number:
+                self.etf_books.update(sequence_number, ask_prices, ask_volumes, bid_prices, bid_volumes)
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)
 
         if instrument == Instrument.FUTURE:
+            if self.futures_books is None:
+                self.futures_books = Book(instrument, sequence_number, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            elif self.futures_books.sequence_number < sequence_number:
+                self.futures_books.update(sequence_number, ask_prices, ask_volumes, bid_prices, bid_volumes)
+
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
             new_bid_lot, new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
             new_ask_price = self.calc_price(avg_price, ask_prices, ask_liquidity, True)
@@ -213,8 +263,11 @@ class AutoTrader(BaseAutoTrader):
         # they are hitting our bids
         if client_order_id in self.bids:
             self.position += volume
-
-            self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, volume//2)
+            
+            hedge_volume = self.delta_hedge(price, volume)
+            if self.futures_position - hedge_volume > -100:
+                self.send_hedge_order(next(self.order_ids), Side.ASK, MIN_BID_NEAREST_TICK, hedge_volume)
+                self.futures_position -= hedge_volume
             if self.position > 10:
                 self.shifted_ask = self.insert_shifted_order(self.ask_base, self.ask_shifted, self.asks, Side.SELL, volume//2)
         
@@ -222,7 +275,10 @@ class AutoTrader(BaseAutoTrader):
         elif client_order_id in self.asks:
             self.position -= volume
 
-            self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, volume//2)
+            hedge_volume = self.delta_hedge(price, volume)
+            if self.futures_position + hedge_volume < 100:
+                self.send_hedge_order(next(self.order_ids), Side.BID, MAX_ASK_NEAREST_TICK, hedge_volume)
+                self.futures_position += hedge_volume
             if self.position < -10:
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
         
@@ -277,6 +333,25 @@ class AutoTrader(BaseAutoTrader):
                          sequence_number)
 
 
+    def delta_hedge(self, price: int, volume: int) -> None:
+        if self.etf_books is None or self.futures_books is None or \
+            self.etf_books.is_ready() is False or self.futures_books.is_ready() is False:
+            return volume // 2
+        
+        etf_delta = self.etf_books.delta()
+        futures_delta = self.futures_books.delta()
+
+        if etf_delta == 0 or futures_delta == 0:
+            return volume // 2
+        
+        delta = etf_delta / futures_delta
+        if delta > 0:
+            return min(volume // 2, int(delta*volume))
+        else:
+            return 0
+        
+
+
     def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
         """Calculates price based on liquidity and position.
 
@@ -286,7 +361,7 @@ class AutoTrader(BaseAutoTrader):
         """
         price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
         spread = int(4 - min(2, liquidity // (0.2*10**8)))
-        print(liquidity // (0.2*10**8), spread)
+        # print(liquidity // (0.2*10**8), spread)
 
         return prices[spread] + price_adjustment if prices[spread] != 0 else 0
         

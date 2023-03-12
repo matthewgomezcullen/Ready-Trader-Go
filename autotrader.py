@@ -141,7 +141,7 @@ class AutoTrader(BaseAutoTrader):
                     self.send_cancel_order(ask.id)
                     ask = None
             
-            if new_bid_lot and self.position < POSITION_LIMIT:
+            if new_bid_lot and self.position+new_bid_lot < POSITION_LIMIT:
 
                 if new_bid_price :
                     self.bid_base = Order(next(self.order_ids), new_bid_price, new_bid_lot, 0)
@@ -149,7 +149,7 @@ class AutoTrader(BaseAutoTrader):
                     self.bids[self.bid_base.id] = self.bid_base
             
 
-            if new_ask_lot and self.position > -POSITION_LIMIT:
+            if new_ask_lot and self.position-new_ask_lot > -POSITION_LIMIT:
 
                 if new_ask_price:
                     self.ask_base = Order(next(self.order_ids), new_ask_price, new_ask_lot, 0)
@@ -320,9 +320,11 @@ class AutoTrader(BaseAutoTrader):
         on the average price between the best bid and ask, the volume traded,
         and the prices traded at for bids and asks.
         """
-        price_adjustment = - (self.position // 10) * TICK_SIZE_IN_CENTS
+        price_adjustment = -(self.position // 10) * TICK_SIZE_IN_CENTS
+        spread = int(4 - min(2, liquidity // (0.2*10**8)))
+        print(liquidity // (0.2*10**8), spread)
 
-        return prices[2] + price_adjustment if prices[2] != 0 else 0
+        return prices[spread] + price_adjustment if prices[spread] != 0 else 0
         
 
     def calc_lot_sizes(self, avg_price, ask_prices: List[int], ask_volumes: List[int], bid_prices: List[int],

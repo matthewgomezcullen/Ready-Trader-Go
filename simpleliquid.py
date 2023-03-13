@@ -87,7 +87,6 @@ class AutoTrader(BaseAutoTrader):
         if instrument == Instrument.ETF:
             # print("Calculating lot sizes...")
             self.calc_lot_sizes(ask_prices, ask_volumes, bid_prices, bid_volumes)
-            print(f"Lots calculated: {self.bid_lot}, {self.ask_lot}")
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
                          sequence_number)

@@ -78,9 +78,9 @@ class AutoTrader(BaseAutoTrader):
         self.unhedged_start = 0
         self.unhedged_interval = 0
         
-        with open('output/liquidity.csv', 'w', newline='') as f: # DELETEME
+        with open('output/input.csv', 'w', newline='') as f: # DELETEME
             writer = csv.writer(f)
-            writer.writerow(["bid_liquidity", "ask_liquidity", "avg_price"])
+            writer.writerow(["position", "avg_price", "bid_liquidity(e+08)", "bid_prices", "bid_lots", "ask_liquidity(e+08)", "ask_lots", "ask_prices"])
 
         with open('output/logs.txt' , 'w') as f: # DELETEME
             f.write("")
@@ -142,12 +142,13 @@ class AutoTrader(BaseAutoTrader):
             pass
         
         if instrument == Instrument.FUTURE:
+            # Keeping track of unhedged lots
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
                 self.unhedged_interval = self.event_loop.time() - self.unhedged_start
             else:
                 self.unhedged_start = self.event_loop.time()
                 self.unhedged_interval = 0
-            
+                        
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
             self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(
@@ -157,6 +158,11 @@ class AutoTrader(BaseAutoTrader):
                 avg_price, bid_prices, bid_liquidity)
             self.new_ask_price, new_ask_spread = self.calc_price(
                 avg_price, ask_prices, ask_liquidity, True)
+            
+            # Logging inputs
+            with open('output/input.csv', 'a', newline='') as f: # DELETEME
+                writer = csv.writer(f)
+                writer.writerow([self.position, avg_price, bid_liquidity / 10**LIQUIDITY_MAGNITUDE, bid_prices, bid_volumes, ask_liquidity / 10**LIQUIDITY_MAGNITUDE, ask_volumes, ask_prices])
         
             # Reset orders
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)

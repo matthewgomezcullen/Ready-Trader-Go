@@ -31,9 +31,8 @@ MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS 
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_MAGNITUDE = 8
 LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
-POSITION_THRESHOLDS = [-75, -50, 25, 25, 50, 75]
-UNHEDGED_LIMIT = 30
-EMERGENCY_UNHEDGED_LIMIT = 48
+POSITION_THRESHOLDS = [-90, -75, -50, -25, 25, 50, 75, 90]
+UNHEDGED_LIMIT = 45 # set to 10 for testing
 UNHEDGED_THRESHOLDS = 10
 
 class Order:
@@ -130,47 +129,6 @@ class AutoTrader(BaseAutoTrader):
             else:
                 self.unhedged_start = self.event_loop.time()
                 self.unhedged_interval = 0
-
-            if UNHEDGED_LIMIT < self.unhedged_interval < EMERGENCY_UNHEDGED_LIMIT and abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
-                if self.position > 0:
-                    print("Unhedged position too long, closing position by selling")
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.position, 0)
-                    self.send_insert_order(order.id, Side.SELL, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-                    self.asks[order.id] = order
-                    print("Closing position with order: ", order)
-                elif self.position < 0:
-                    print("Unhedged position too long, closing position by buying")
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.position), 0)
-                    self.send_insert_order(order.id, Side.BUY, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-                    self.bids[order.id] = order
-                    print("Closing position with order: ", order)
-                if self.hedged > 0:
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.hedged, 0)
-                    self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-                    self.hedge_asks[order.id] = order
-                elif self.hedged < 0:
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.hedged), 0)
-                    self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-                    self.hedge_bids[order.id] = order
-                print(f'Unhedged lots: {abs(self.position + self.hedged)} for {self.unhedged_interval} seconds')
-                return
-            elif self.unhedged_interval > EMERGENCY_UNHEDGED_LIMIT and abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
-                # consider using this strategy (ie, hedging more and more rather than closing position) as the default when unhedged for too long
-                print('Entered emergency unhedged mode')
-                if self.position > 0:
-                    print("Hedging position by selling")
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.position + self.hedged, 0)
-                    self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-                    self.hedge_bids[order.id] = order
-                    print("Hedging position with order: ", order)
-                elif self.position < 0:
-                    print("Hedging position by buying")
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.position + self.hedged), 0)
-                    self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-                    self.hedge_asks[order.id] = order
-                    print("Hedging position with order: ", order)
-                self.unhedged_start = self.event_loop.time()
-                return
             
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
@@ -207,9 +165,9 @@ class AutoTrader(BaseAutoTrader):
     def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
         """Calculates price based on liquidity and position.
 
-        We consider the liquidity of the bid and ask prices separately based
-        on the average price between the best bid and ask, the volume traded,
-        and the prices traded at for bids and asks.
+        We calculate the prices of the bid and ask orders separately based
+        on the liquidity of each side of the market and the position of the
+        trader.
         """
         spread = 3
         
@@ -217,18 +175,18 @@ class AutoTrader(BaseAutoTrader):
             if liquidity > threshold:
                 spread -= 1
 
-        adj = -3
+        adj = -4
 
         for threshold in POSITION_THRESHOLDS:
             if self.position > threshold:
                 adj += 1
         
-        adj = -adj if is_ask else adj
+        if is_ask: adj = -adj
         emergency_adj = 0
 
-        if adj == -3:
+        if adj == -4:
             emergency_adj = 3
-        elif adj == 3:
+        elif adj == 4:
             emergency_adj = -3
         
         if is_ask: emergency_adj = -emergency_adj

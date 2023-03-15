@@ -18,6 +18,7 @@
 import asyncio
 import itertools
 import math
+import csv # DELETEME
 
 from typing import List
 
@@ -77,6 +78,24 @@ class AutoTrader(BaseAutoTrader):
         self.unhedged_start = 0
         self.unhedged_interval = 0
         
+        with open('output/liquidity.csv', 'w', newline='') as f: # DELETEME
+            writer = csv.writer(f)
+            writer.writerow(["bid_liquidity", "ask_liquidity", "avg_price"])
+
+        with open('output/logs.txt' , 'w') as f: # DELETEME
+            f.write("")
+    
+    def print_status(self): # DELETEME
+        """Log the current status of the autotrader."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
+            f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
+    
+    def log(self, text): # DELETEME
+        """Log text to a file."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(text + "\n")
+            
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
 
@@ -104,7 +123,7 @@ class AutoTrader(BaseAutoTrader):
             self.hedged -= volume
             del self.hedge_asks[client_order_id]
         else:
-            raise Exception("Order not found")
+            raise Exception("Order not found") # DELETEME
 
 
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -121,7 +140,6 @@ class AutoTrader(BaseAutoTrader):
 
         if instrument == Instrument.ETF:
             pass
-
         
         if instrument == Instrument.FUTURE:
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
@@ -340,7 +358,7 @@ class AutoTrader(BaseAutoTrader):
             elif client_order_id in self.asks:
                 del self.asks[client_order_id]
             else:
-                raise Exception("Order not found")
+                raise Exception("Order not found") # DELETEME
                         
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],

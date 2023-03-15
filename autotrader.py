@@ -64,10 +64,11 @@ class AutoTrader(BaseAutoTrader):
 
     def __init__(self, loop: asyncio.AbstractEventLoop, team_name: str, secret: str):
         """Initialise a new instance of the AutoTrader class."""
+        print("Initialising AutoTrader")
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.new_bid_lot = self.new_ask_lot = self.new_bid_price = self.new_ask_price = 0
+        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
         self.bids = dict()
         self.asks = dict()
         self.hedge_asks = dict()
@@ -104,7 +105,7 @@ class AutoTrader(BaseAutoTrader):
             self.hedged -= volume
             del self.hedge_asks[client_order_id]
         else:
-            raise Exception("Order not found")
+            raise Exception("Order not found") # DELETEME
 
 
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -121,7 +122,6 @@ class AutoTrader(BaseAutoTrader):
 
         if instrument == Instrument.ETF:
             pass
-
         
         if instrument == Instrument.FUTURE:
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
@@ -132,18 +132,19 @@ class AutoTrader(BaseAutoTrader):
             
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(
-                avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
-            
-            self.new_bid_price, new_bid_spread = self.calc_price(
-                avg_price, bid_prices, bid_liquidity)
-            self.new_ask_price, new_ask_spread = self.calc_price(
-                avg_price, ask_prices, ask_liquidity, True)
+            self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+
+            self.new_bid_price, bid_spread = self.calc_price(
+                avg_price, bid_prices, self.bid_liquidity)
+            self.new_ask_price, bid_spread = self.calc_price(
+                avg_price, ask_prices, self.ask_liquidity, True)
         
             # Reset orders
+            print(f"{self.new_bid_lot} {self.new_bid_price} {self.new_ask_lot} {self.new_ask_price}")
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
             self.bid_shifted = self.ask_shifted = None
+            
 
     def reset_orders(self, order_set, side, lot, price):
         """Replace all orders in the order set with new orders.
@@ -154,7 +155,7 @@ class AutoTrader(BaseAutoTrader):
         for order_id in order_set:
             self.send_cancel_order(order_id)
         
-        if lot and price and abs(self.position + lot if side == Side.BUY else -lot) < POSITION_LIMIT:
+        if lot and price and abs(self.position + (lot if side == Side.BUY else -lot)) < POSITION_LIMIT:
             base = Order(next(self.order_ids), price, lot, 0)
             self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
             order_set[base.id] = base
@@ -207,15 +208,11 @@ class AutoTrader(BaseAutoTrader):
         """
         if ask_prices[0] != 0 and bid_prices[0] != 0:
 
-            bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
-            next_bid_lot = self.calc_lot_size(bid_liquidity)
+            self.bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
+            self.new_bid_lot = self.calc_lot_size(self.bid_liquidity)
 
-            ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
-            next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
-            
-            return next_bid_lot, next_ask_lot, bid_liquidity, ask_liquidity
-        
-        return 0, 0, 0, 0
+            self.ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
+            self.new_ask_lot = self.calc_lot_size(self.ask_liquidity, is_ask=True)
 
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
@@ -340,7 +337,7 @@ class AutoTrader(BaseAutoTrader):
             elif client_order_id in self.asks:
                 del self.asks[client_order_id]
             else:
-                raise Exception("Order not found")
+                raise Exception("Order not found") # DELETEME
                         
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],

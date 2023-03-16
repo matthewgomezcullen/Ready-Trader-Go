@@ -155,7 +155,7 @@ class AutoTrader(BaseAutoTrader):
 
             self.new_bid_price, bid_spread = self.calc_price(
                 avg_price, bid_prices, self.bid_liquidity)
-            self.new_ask_price, bid_spread = self.calc_price(
+            self.new_ask_price, ask_spread = self.calc_price(
                 avg_price, ask_prices, self.ask_liquidity, True)
         
             # Reset orders

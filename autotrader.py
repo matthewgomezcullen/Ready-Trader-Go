@@ -79,14 +79,10 @@ class AutoTrader(BaseAutoTrader):
         self.unhedged_start = 0
         self.unhedged_interval = 0
 
-        with open("output/inputs.csv", "w") as f:
+        with open("output/inputs.csv", "w") as f: # DELETEME
             writer = csv.writer(f)
             writer.writerow(['position', 'avg_price', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
-        with open('output/input.csv', 'w', newline='') as f: # DELETEME
-            writer = csv.writer(f)
-            writer.writerow(["position", "avg_price", "bid_liquidity(e+08)", "bid_prices", "bid_lots", "ask_liquidity(e+08)", "ask_lots", "ask_prices"])
-
         with open('output/logs.txt' , 'w') as f: # DELETEME
             f.write("")
     

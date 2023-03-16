@@ -80,18 +80,21 @@ class AutoTrader(BaseAutoTrader):
         
         with open('output/logs.txt' , 'w') as f: # DELETEME
             f.write("")
-    
+
+
     def print_status(self): # DELETEME
         """Log the current status of the autotrader."""
         with open('output/logs.txt', 'a') as f:
             f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
             f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
-    
+
+
     def log(self, text): # DELETEME
         """Log text to a file."""
         with open('output/logs.txt', 'a') as f:
             f.write(text + "\n")
-            
+
+
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
 
@@ -101,25 +104,6 @@ class AutoTrader(BaseAutoTrader):
         self.logger.warning("error with order %d: %s", client_order_id, error_message.decode())
         if client_order_id != 0 and (client_order_id in self.bids or client_order_id in self.asks):
             self.on_order_status_message(client_order_id, 0, 0, 0)
-
-    def on_hedge_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
-        """Called when one of your hedge orders is filled.
-
-        The price is the average price at which the order was (partially) filled,
-        which may be better than the order's limit price. The volume is
-        the number of lots filled at that price.
-        """
-        self.logger.info("received hedge filled for order %d with average price %d and volume %d", client_order_id,
-                         price, volume)
-        
-        if client_order_id in self.hedge_bids:
-            self.hedged += volume
-            del self.hedge_bids[client_order_id]
-        elif client_order_id in self.hedge_asks:
-            self.hedged -= volume
-            del self.hedge_asks[client_order_id]
-        else:
-            raise Exception("Order not found") # DELETEME
 
 
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -274,27 +258,6 @@ class AutoTrader(BaseAutoTrader):
         #     return 5
 
         return math.floor(20 * p * l)
-
-
-    def insert_shifted_order(self, base, shifted, order_set, side, volume):
-        """Inserts a shifted order at a more competitive price to combat position drift.
-        
-        If there is already a shifted order, we insert a new shifted order
-        below it and reassign shifted to the new order. If there is no shifted
-        order, we insert a new shifted order below the base order."""
-        if shifted:
-            shifted.id = next(self.order_ids)
-            shifted.price += TICK_SIZE_IN_CENTS if side==Side.BUY else -(TICK_SIZE_IN_CENTS)
-            shifted.lot = volume
-            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
-        else:
-            price = base.price + TICK_SIZE_IN_CENTS if side==Side.BUY else base.price - TICK_SIZE_IN_CENTS
-            shifted = Order(next(self.order_ids), price, volume, 0)
-            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
-
-        order_set[shifted.id] = shifted
-
-        return shifted
             
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
@@ -334,7 +297,48 @@ class AutoTrader(BaseAutoTrader):
             
             if self.position < -20:
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
+
+
+    def insert_shifted_order(self, base, shifted, order_set, side, volume):
+        """Inserts a shifted order at a more competitive price to combat position drift.
         
+        If there is already a shifted order, we insert a new shifted order
+        below it and reassign shifted to the new order. If there is no shifted
+        order, we insert a new shifted order below the base order."""
+        if shifted:
+            shifted.id = next(self.order_ids)
+            shifted.price += TICK_SIZE_IN_CENTS if side==Side.BUY else -(TICK_SIZE_IN_CENTS)
+            shifted.lot = volume
+            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
+        else:
+            price = base.price + TICK_SIZE_IN_CENTS if side==Side.BUY else base.price - TICK_SIZE_IN_CENTS
+            shifted = Order(next(self.order_ids), price, volume, 0)
+            self.send_insert_order(shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
+
+        order_set[shifted.id] = shifted
+
+        return shifted
+
+
+    def on_hedge_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
+        """Called when one of your hedge orders is filled.
+
+        The price is the average price at which the order was (partially) filled,
+        which may be better than the order's limit price. The volume is
+        the number of lots filled at that price.
+        """
+        self.logger.info("received hedge filled for order %d with average price %d and volume %d", client_order_id,
+                         price, volume)
+        
+        if client_order_id in self.hedge_bids:
+            self.hedged += volume
+            del self.hedge_bids[client_order_id]
+        elif client_order_id in self.hedge_asks:
+            self.hedged -= volume
+            del self.hedge_asks[client_order_id]
+        else:
+            raise Exception("Order not found") # DELETEME
+
 
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
                                 fees: int) -> None:

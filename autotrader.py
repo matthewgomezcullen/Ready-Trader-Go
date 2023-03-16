@@ -18,7 +18,6 @@
 import asyncio
 import itertools
 import math
-import csv # DELETEME
 
 from typing import List
 
@@ -79,23 +78,6 @@ class AutoTrader(BaseAutoTrader):
         self.unhedged_start = 0
         self.unhedged_interval = 0
 
-        with open("output/inputs.csv", "w") as f: # DELETEME
-            writer = csv.writer(f)
-            writer.writerow(['position', 'avg_price', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
-        
-        with open('output/logs.txt' , 'w') as f: # DELETEME
-            f.write("")
-    
-    def print_status(self): # DELETEME
-        """Log the current status of the autotrader."""
-        with open('output/logs.txt', 'a') as f:
-            f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
-            f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
-    
-    def log(self, text): # DELETEME
-        """Log text to a file."""
-        with open('output/logs.txt', 'a') as f:
-            f.write(text + "\n")
             
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -123,8 +105,6 @@ class AutoTrader(BaseAutoTrader):
         elif client_order_id in self.hedge_asks:
             self.hedged -= volume
             del self.hedge_asks[client_order_id]
-        else:
-            raise Exception("Order not found") # DELETEME
 
 
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -164,11 +144,6 @@ class AutoTrader(BaseAutoTrader):
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
             self.bid_shifted = self.ask_shifted = None
-
-            # Log inputs
-            with open("output/inputs.csv", "a") as f:
-                writer = csv.writer(f)
-                writer.writerow([self.position, avg_price, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
             
 
     def reset_orders(self, order_set, side, lot, price):
@@ -273,11 +248,6 @@ class AutoTrader(BaseAutoTrader):
         p = math.sqrt(1 - (position+100)/200)
         l = math.sqrt(1 - (max_l-liquidity)/max_l)
 
-        # if liquidity > LIQUIDITY_THRESHOLD:
-        #     return 15
-        # else:
-        #     return 5
-
         return math.floor(20 * p * l)
 
 
@@ -363,8 +333,6 @@ class AutoTrader(BaseAutoTrader):
                 del self.bids[client_order_id]
             elif client_order_id in self.asks:
                 del self.asks[client_order_id]
-            else:
-                raise Exception("Order not found") # DELETEME
                         
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],

@@ -69,12 +69,10 @@ class AutoTrader(BaseAutoTrader):
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
+        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = \
+            self.new_ask_lot = self.new_ask_price = self.ask_liquidity = \
+                self.position = self.hedged = self.unhedged_start = self.unhedged_interval = 0
         self.bids, self.asks, self.hedge_asks, self.hedge_bids = (dict() for _ in range(4))
-        self.position = 0
-        self.hedged = 0
-        self.unhedged_start = 0
-        self.unhedged_interval = 0
 
         with open("output/inputs.csv", "w") as f: # DELETEME
             writer = csv.writer(f)

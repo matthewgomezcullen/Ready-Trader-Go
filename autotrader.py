@@ -18,6 +18,7 @@
 import asyncio
 import itertools
 import math
+import csv
 
 from typing import List
 
@@ -31,7 +32,7 @@ MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS 
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_MAGNITUDE = 8
 LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
-POSITION_THRESHOLDS = [-75, -50, -25, 25, 50, 75]
+POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
 UNHEDGED_THRESHOLDS = 10
 
@@ -68,7 +69,7 @@ class AutoTrader(BaseAutoTrader):
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
+        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = self.ETF_avg = 0
         self.bids = dict()
         self.asks = dict()
         self.hedge_asks = dict()
@@ -77,6 +78,10 @@ class AutoTrader(BaseAutoTrader):
         self.hedged = 0
         self.unhedged_start = 0
         self.unhedged_interval = 0
+
+        with open("output/inputs.csv", "w") as f:
+            writer = csv.writer(f)
+            writer.writerow(['position', 'avg_price', 'ETF_avg', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
@@ -121,7 +126,7 @@ class AutoTrader(BaseAutoTrader):
                          sequence_number)        
 
         if instrument == Instrument.ETF:
-            pass
+            self.ETF_avg = (ask_prices[0] + bid_prices[0]) / 2
         
         if instrument == Instrument.FUTURE:
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
@@ -140,10 +145,14 @@ class AutoTrader(BaseAutoTrader):
                 avg_price, ask_prices, self.ask_liquidity, True)
         
             # Reset orders
-            print(f"{self.new_bid_lot} {self.new_bid_price} {self.new_ask_lot} {self.new_ask_price}")
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
             self.bid_shifted = self.ask_shifted = None
+
+            # Log inputs
+            with open("output/inputs.csv", "a") as f:
+                writer = csv.writer(f)
+                writer.writerow([self.position, avg_price, self.ETF_avg, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, bid_spread, self.new_ask_lot])
             
 
     def reset_orders(self, order_set, side, lot, price):
@@ -170,6 +179,7 @@ class AutoTrader(BaseAutoTrader):
         on the average price between the best bid and ask, the volume traded,
         and the prices traded at for bids and asks.
         """
+        
         spread = 3
         
         for threshold in LIQUIDITY_THRESHOLDS:
@@ -310,6 +320,7 @@ class AutoTrader(BaseAutoTrader):
                 order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, hedge_lot, 0)
                 self.send_hedge_order(order.id, Side.BUY, order.price, order.lot)
                 self.hedge_bids[order.id] = order
+            
             if self.position < -20:
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
         

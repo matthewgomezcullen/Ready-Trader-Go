@@ -18,6 +18,7 @@
 import asyncio
 import itertools
 import math
+import csv
 
 from typing import List
 
@@ -31,9 +32,8 @@ MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS 
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_MAGNITUDE = 8
 LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
-POSITION_THRESHOLDS = [-75, -50, 25, 25, 50, 75]
-UNHEDGED_LIMIT = 30
-EMERGENCY_UNHEDGED_LIMIT = 48
+POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
+UNHEDGED_LIMIT = 50
 UNHEDGED_THRESHOLDS = 10
 
 class Order:
@@ -65,10 +65,11 @@ class AutoTrader(BaseAutoTrader):
 
     def __init__(self, loop: asyncio.AbstractEventLoop, team_name: str, secret: str):
         """Initialise a new instance of the AutoTrader class."""
+        print("Initialising AutoTrader")
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.new_bid_lot = self.new_ask_lot = self.new_bid_price = self.new_ask_price = 0
+        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
         self.bids = dict()
         self.asks = dict()
         self.hedge_asks = dict()
@@ -77,7 +78,25 @@ class AutoTrader(BaseAutoTrader):
         self.hedged = 0
         self.unhedged_start = 0
         self.unhedged_interval = 0
+
+        with open("output/inputs.csv", "w") as f: # DELETEME
+            writer = csv.writer(f)
+            writer.writerow(['position', 'avg_price', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
+        with open('output/logs.txt' , 'w') as f: # DELETEME
+            f.write("")
+    
+    def print_status(self): # DELETEME
+        """Log the current status of the autotrader."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
+            f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
+    
+    def log(self, text): # DELETEME
+        """Log text to a file."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(text + "\n")
+            
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
 
@@ -105,7 +124,7 @@ class AutoTrader(BaseAutoTrader):
             self.hedged -= volume
             del self.hedge_asks[client_order_id]
         else:
-            raise Exception("Order not found")
+            raise Exception("Order not found") # DELETEME
 
 
     def on_order_book_update_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
@@ -122,70 +141,35 @@ class AutoTrader(BaseAutoTrader):
 
         if instrument == Instrument.ETF:
             pass
-
         
         if instrument == Instrument.FUTURE:
+            # Keeping track of unhedged lots
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
                 self.unhedged_interval = self.event_loop.time() - self.unhedged_start
             else:
                 self.unhedged_start = self.event_loop.time()
                 self.unhedged_interval = 0
-
-            if UNHEDGED_LIMIT < self.unhedged_interval < EMERGENCY_UNHEDGED_LIMIT and abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
-                if self.position > 0:
-                    print("Unhedged position too long, closing position by selling")
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.position, 0)
-                    self.send_insert_order(order.id, Side.SELL, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-                    self.asks[order.id] = order
-                    print("Closing position with order: ", order)
-                elif self.position < 0:
-                    print("Unhedged position too long, closing position by buying")
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.position), 0)
-                    self.send_insert_order(order.id, Side.BUY, order.price, order.lot, Lifespan.GOOD_FOR_DAY)
-                    self.bids[order.id] = order
-                    print("Closing position with order: ", order)
-                if self.hedged > 0:
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.hedged, 0)
-                    self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-                    self.hedge_asks[order.id] = order
-                elif self.hedged < 0:
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.hedged), 0)
-                    self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-                    self.hedge_bids[order.id] = order
-                print(f'Unhedged lots: {abs(self.position + self.hedged)} for {self.unhedged_interval} seconds')
-                return
-            elif self.unhedged_interval > EMERGENCY_UNHEDGED_LIMIT and abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
-                # consider using this strategy (ie, hedging more and more rather than closing position) as the default when unhedged for too long
-                print('Entered emergency unhedged mode')
-                if self.position > 0:
-                    print("Hedging position by selling")
-                    order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, self.position + self.hedged, 0)
-                    self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-                    self.hedge_bids[order.id] = order
-                    print("Hedging position with order: ", order)
-                elif self.position < 0:
-                    print("Hedging position by buying")
-                    order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, abs(self.position + self.hedged), 0)
-                    self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-                    self.hedge_asks[order.id] = order
-                    print("Hedging position with order: ", order)
-                self.unhedged_start = self.event_loop.time()
-                return
-            
+                        
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            self.new_bid_lot, self.new_ask_lot, bid_liquidity, ask_liquidity = self.calc_lot_sizes(
+            self.calc_lot_sizes(
                 avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
             
-            self.new_bid_price, new_bid_spread = self.calc_price(
-                avg_price, bid_prices, bid_liquidity)
-            self.new_ask_price, new_ask_spread = self.calc_price(
-                avg_price, ask_prices, ask_liquidity, True)
-        
+            self.new_bid_price, bid_spread = self.calc_price(
+                avg_price, bid_prices, self.bid_liquidity)
+            self.new_ask_price, ask_spread = self.calc_price(
+                avg_price, ask_prices, self.ask_liquidity, True)
+                    
             # Reset orders
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
             self.bid_shifted = self.ask_shifted = None
+
+            # Log inputs
+            with open("output/inputs.csv", "a") as f:
+                writer = csv.writer(f)
+                writer.writerow([self.position, avg_price, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
+            
 
     def reset_orders(self, order_set, side, lot, price):
         """Replace all orders in the order set with new orders.
@@ -196,7 +180,7 @@ class AutoTrader(BaseAutoTrader):
         for order_id in order_set:
             self.send_cancel_order(order_id)
         
-        if lot and price and abs(self.position + lot if side == Side.BUY else -lot) < POSITION_LIMIT:
+        if lot and price and abs(self.position + (lot if side == Side.BUY else -lot)) < POSITION_LIMIT:
             base = Order(next(self.order_ids), price, lot, 0)
             self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
             order_set[base.id] = base
@@ -207,28 +191,29 @@ class AutoTrader(BaseAutoTrader):
     def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
         """Calculates price based on liquidity and position.
 
-        We consider the liquidity of the bid and ask prices separately based
-        on the average price between the best bid and ask, the volume traded,
-        and the prices traded at for bids and asks.
+        We calculate the prices of the bid and ask orders separately based
+        on the liquidity of each side of the market and the position of the
+        trader.
         """
+        
         spread = 3
         
         for threshold in LIQUIDITY_THRESHOLDS:
             if liquidity > threshold:
                 spread -= 1
 
-        adj = -3
+        adj = -4
 
         for threshold in POSITION_THRESHOLDS:
             if self.position > threshold:
                 adj += 1
         
-        adj = -adj if is_ask else adj
+        if is_ask: adj = -adj
         emergency_adj = 0
 
-        if adj == -3:
+        if adj == -4:
             emergency_adj = 3
-        elif adj == 3:
+        elif adj == 4:
             emergency_adj = -3
         
         if is_ask: emergency_adj = -emergency_adj
@@ -249,15 +234,11 @@ class AutoTrader(BaseAutoTrader):
         """
         if ask_prices[0] != 0 and bid_prices[0] != 0:
 
-            bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
-            next_bid_lot = self.calc_lot_size(bid_liquidity)
+            self.bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
+            self.new_bid_lot = self.calc_lot_size(self.bid_liquidity)
 
-            ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
-            next_ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
-            
-            return next_bid_lot, next_ask_lot, bid_liquidity, ask_liquidity
-        
-        return 0, 0, 0, 0
+            self.ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
+            self.new_ask_lot = self.calc_lot_size(self.ask_liquidity, is_ask=True)
 
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
@@ -355,6 +336,7 @@ class AutoTrader(BaseAutoTrader):
                 order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, hedge_lot, 0)
                 self.send_hedge_order(order.id, Side.BUY, order.price, order.lot)
                 self.hedge_bids[order.id] = order
+            
             if self.position < -20:
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.bids, Side.BUY, volume//2)
         
@@ -382,7 +364,7 @@ class AutoTrader(BaseAutoTrader):
             elif client_order_id in self.asks:
                 del self.asks[client_order_id]
             else:
-                raise Exception("Order not found")
+                raise Exception("Order not found") # DELETEME
                         
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],

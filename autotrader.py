@@ -70,10 +70,7 @@ class AutoTrader(BaseAutoTrader):
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
         self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
-        self.bids = dict()
-        self.asks = dict()
-        self.hedge_asks = dict()
-        self.hedge_bids = dict()
+        self.bids, self.asks, self.hedge_asks, self.hedge_bids = (dict() for _ in range(4))
         self.position = 0
         self.hedged = 0
         self.unhedged_start = 0

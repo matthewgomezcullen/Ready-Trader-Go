@@ -176,7 +176,6 @@ class AutoTrader(BaseAutoTrader):
         
         Order parameters should be calculated beforehand."""
         base = None
-
         for order_id in order_set:
             self.send_cancel_order(order_id)
         

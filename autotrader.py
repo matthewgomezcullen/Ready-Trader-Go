@@ -166,7 +166,7 @@ class AutoTrader(BaseAutoTrader):
             self.bid_shifted = self.ask_shifted = None
 
             # Log inputs
-            with open("output/inputs.csv", "a") as f:
+            with open("output/inputs.csv", "a") as f: # DELETEME
                 writer = csv.writer(f)
                 writer.writerow([self.position, avg_price, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
             

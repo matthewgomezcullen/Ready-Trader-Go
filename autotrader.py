@@ -83,6 +83,20 @@ class AutoTrader(BaseAutoTrader):
             writer = csv.writer(f)
             writer.writerow(['position', 'avg_price', 'ETF_avg', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
+
+    def print_status(self):
+        """Log the current status of the autotrader."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
+            f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
+
+
+    def log(self, text):
+        """Log text to a file."""
+        with open('output/logs.txt', 'a') as f:
+            f.write(text + "\n")
+
+
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
 
@@ -152,7 +166,7 @@ class AutoTrader(BaseAutoTrader):
             # Log inputs
             with open("output/inputs.csv", "a") as f:
                 writer = csv.writer(f)
-                writer.writerow([self.position, avg_price, self.ETF_avg, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, bid_spread, self.new_ask_lot])
+                writer.writerow([self.position, avg_price, self.ETF_avg, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
             
 
     def reset_orders(self, order_set, side, lot, price):

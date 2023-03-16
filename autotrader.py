@@ -69,7 +69,7 @@ class AutoTrader(BaseAutoTrader):
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
-        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = self.ETF_avg = 0
+        self.new_bid_lot = self.new_bid_price = self.bid_liquidity = self.new_ask_lot = self.new_ask_price = self.ask_liquidity = 0
         self.bids = dict()
         self.asks = dict()
         self.hedge_asks = dict()
@@ -81,22 +81,26 @@ class AutoTrader(BaseAutoTrader):
 
         with open("output/inputs.csv", "w") as f:
             writer = csv.writer(f)
-            writer.writerow(['position', 'avg_price', 'ETF_avg', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
+            writer.writerow(['position', 'avg_price', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
+        with open('output/input.csv', 'w', newline='') as f: # DELETEME
+            writer = csv.writer(f)
+            writer.writerow(["position", "avg_price", "bid_liquidity(e+08)", "bid_prices", "bid_lots", "ask_liquidity(e+08)", "ask_lots", "ask_prices"])
 
-    def print_status(self):
+        with open('output/logs.txt' , 'w') as f: # DELETEME
+            f.write("")
+    
+    def print_status(self): # DELETEME
         """Log the current status of the autotrader."""
         with open('output/logs.txt', 'a') as f:
             f.write(f"Asks: {self.asks}, Ask base: {self.ask_base}, Ask shifted: {self.ask_shifted}\n")
             f.write(f"Bids: {self.bids}, Bid base: {self.bid_base}, Bid shifted: {self.bid_shifted}\n")
-
-
-    def log(self, text):
+    
+    def log(self, text): # DELETEME
         """Log text to a file."""
         with open('output/logs.txt', 'a') as f:
             f.write(text + "\n")
-
-
+            
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
         """Called when the exchange detects an error.
 
@@ -140,24 +144,26 @@ class AutoTrader(BaseAutoTrader):
                          sequence_number)        
 
         if instrument == Instrument.ETF:
-            self.ETF_avg = (ask_prices[0] + bid_prices[0]) / 2
+            pass
         
         if instrument == Instrument.FUTURE:
+            # Keeping track of unhedged lots
             if abs(self.position + self.hedged) > UNHEDGED_THRESHOLDS:
                 self.unhedged_interval = self.event_loop.time() - self.unhedged_start
             else:
                 self.unhedged_start = self.event_loop.time()
                 self.unhedged_interval = 0
-            
+                        
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
-
+            self.calc_lot_sizes(
+                avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            
             self.new_bid_price, bid_spread = self.calc_price(
                 avg_price, bid_prices, self.bid_liquidity)
             self.new_ask_price, ask_spread = self.calc_price(
                 avg_price, ask_prices, self.ask_liquidity, True)
-        
+                    
             # Reset orders
             self.bid_base = self.reset_orders(self.bids, Side.BUY, self.new_bid_lot, self.new_bid_price)
             self.ask_base = self.reset_orders(self.asks, Side.SELL, self.new_ask_lot, self.new_ask_price)
@@ -166,7 +172,7 @@ class AutoTrader(BaseAutoTrader):
             # Log inputs
             with open("output/inputs.csv", "a") as f:
                 writer = csv.writer(f)
-                writer.writerow([self.position, avg_price, self.ETF_avg, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
+                writer.writerow([self.position, avg_price, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
             
 
     def reset_orders(self, order_set, side, lot, price):
@@ -189,9 +195,9 @@ class AutoTrader(BaseAutoTrader):
     def calc_price(self, avg_price, prices: List[int], liquidity, is_ask=False) -> None:
         """Calculates price based on liquidity and position.
 
-        We consider the liquidity of the bid and ask prices separately based
-        on the average price between the best bid and ask, the volume traded,
-        and the prices traded at for bids and asks.
+        We calculate the prices of the bid and ask orders separately based
+        on the liquidity of each side of the market and the position of the
+        trader.
         """
         
         spread = 3
@@ -200,18 +206,18 @@ class AutoTrader(BaseAutoTrader):
             if liquidity > threshold:
                 spread -= 1
 
-        adj = -3
+        adj = -4
 
         for threshold in POSITION_THRESHOLDS:
             if self.position > threshold:
                 adj += 1
         
-        adj = -adj if is_ask else adj
+        if is_ask: adj = -adj
         emergency_adj = 0
 
-        if adj == -3:
+        if adj == -4:
             emergency_adj = 3
-        elif adj == 3:
+        elif adj == 4:
             emergency_adj = -3
         
         if is_ask: emergency_adj = -emergency_adj

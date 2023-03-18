@@ -49,7 +49,7 @@ class FrequencyLimiter(object):
             self.value -= 1
             first = self.events[0]
 
-        return self.value > self.limit
+        return False
 
 
 class FrequencyLimiterFactory:

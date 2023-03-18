@@ -51,6 +51,12 @@ class Order:
     def __str__(self):
         return self.__repr__()
 
+class State:
+
+    LONG = 1
+    NEUTRAL = 0
+    SHORT = -1
+
 
 class AutoTrader(BaseAutoTrader):
     """Example Auto-trader.
@@ -70,14 +76,15 @@ class AutoTrader(BaseAutoTrader):
         self.bid_base = self.bid_shifted = self.ask_base = self.ask_shifted = None
         self.new_bid_lot = self.new_bid_price = self.bid_liquidity = \
             self.new_ask_lot = self.new_ask_price = self.ask_liquidity = \
-                self.etf_position = self.futures_position = self.position \
-                      = self.unhedged_start = self.unhedged_interval = 0
+                self.etf_position = self.futures_position = self.position = \
+                      self.unhedged_start = self.unhedged_interval = 0
+        self.market_state = State.NEUTRAL # -2 = very short, -1 = short, 0 = neutral, 1 = long, 2 = very long
         self.etf_bids, self.etf_asks, self.futures_asks, self.futures_bids = (dict() for _ in range(4))
         self.is_hedging = False
 
         with open("output/inputs.csv", "w", newline='') as f: # DELETEME
             writer = csv.writer(f)
-            writer.writerow(['position', 'hedged', 'avg_price', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
+            writer.writerow(['position', 'hedged', 'avg_price', 'market_state', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
         with open('output/logs.txt' , 'w') as f: # DELETEME
             f.write("")
@@ -94,6 +101,38 @@ class AutoTrader(BaseAutoTrader):
         """Log text to a file."""
         with open('output/logs.txt', 'a') as f:
             f.write(text + "\n")
+
+
+    def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
+        """Calculates liquidity of the market for bids and asks.
+
+        TODO: Calculate the average price based on the entire distribution of
+        bids and asks rather than just the best bid and ask.
+        """
+        distances = [0,0,0,0,0]
+        for i in range(len(prices)):
+            if prices[i] != 0:
+                distances[i] = 1 / abs(math.log(prices[i]) - math.log(avg_price))
+            else:
+                distances[i] = 0
+            weights = [distances[i] * volumes[i] for i in range(len(volumes))] 
+            liquidity = sum(weights)
+        return liquidity
+
+
+    def define_market_state(self):
+        """Defines the current state of the market.
+        
+        Uses the relative liquidities of the bid and ask orders to determine
+        whether the market is long, short, or neutral on a scale of -2 to 2.
+        """
+        if self.bid_liquidity == 0 or self.ask_liquidity == 0:
+            return 0
+
+        if self.bid_liquidity > self.ask_liquidity:
+            return self.bid_liquidity/self.ask_liquidity - 1
+        else:
+            return -(self.ask_liquidity/self.bid_liquidity) + 1
 
 
     def on_error_message(self, client_order_id: int, error_message: bytes) -> None:
@@ -141,9 +180,10 @@ class AutoTrader(BaseAutoTrader):
                         
             # Calculating inputs
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
-            self.calc_lot_sizes(
+            self.calc_lot_sizes( # Calculates liquidity too
                 avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
-            
+            self.market_state = self.define_market_state()
+           
             self.new_bid_price, bid_spread = self.calc_price(
                 avg_price, bid_prices, self.bid_liquidity)
             self.new_ask_price, ask_spread = self.calc_price(
@@ -157,7 +197,7 @@ class AutoTrader(BaseAutoTrader):
             # Log inputs
             with open("output/inputs.csv", "a", newline='') as f: # DELETEME
                 writer = csv.writer(f)
-                writer.writerow([self.etf_position, self.futures_position, avg_price, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
+                writer.writerow([self.etf_position, self.futures_position, avg_price, self.market_state, self.bid_liquidity, bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
             
 
     def reset_orders(self, order_set, side, lot, price):
@@ -229,23 +269,6 @@ class AutoTrader(BaseAutoTrader):
             self.ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
             self.new_ask_lot = self.calc_lot_size(self.ask_liquidity, is_ask=True)
 
-
-    def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
-        """Calculates liquidity of the market for bids and asks.
-
-        TODO: Calculate the average price based on the entire distribution of
-        bids and asks rather than just the best bid and ask.
-        """
-        distances = [0,0,0,0,0]
-        for i in range(len(prices)):
-            if prices[i] != 0:
-                distances[i] = 1 / abs(math.log(prices[i]) - math.log(avg_price))
-            else:
-                distances[i] = 0
-            weights = [distances[i] * volumes[i] for i in range(len(volumes))] 
-            liquidity = sum(weights)
-        return liquidity
-        
 
     def calc_lot_size(self, liquidity: int, is_ask=False):
         """Calculates the lot size for bids and asks.
@@ -393,8 +416,6 @@ class AutoTrader(BaseAutoTrader):
                 self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
                 self.futures_bids[order.id] = order
                 self.is_hedging = False
-        
-
 
 
     def on_order_status_message(self, client_order_id: int, fill_volume: int, remaining_volume: int,
@@ -420,7 +441,6 @@ class AutoTrader(BaseAutoTrader):
             elif client_order_id in self.etf_asks:
                 del self.etf_asks[client_order_id]
 
-                        
 
     def on_trade_ticks_message(self, instrument: int, sequence_number: int, ask_prices: List[int],
                                ask_volumes: List[int], bid_prices: List[int], bid_volumes: List[int]) -> None:

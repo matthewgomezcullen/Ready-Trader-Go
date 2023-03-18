@@ -5,7 +5,7 @@
     "MarketOpenDelay": 5.0,
     "MatchEventsFile": "match_events.csv",
     "ScoreBoardFile": "score_board.csv",
-    "Speed": 1.0,
+    "Speed": 3.0,
     "TickInterval": 0.25
   },
   "Execution": {
@@ -36,13 +36,14 @@
     "PositionLimit": 100
   },
   "Traders": {
-    "Emineminem": "secret",
-    "SimpleL": "secret",
-    "Benchmark": "secret",
-    ".2-.4-.6": "secret",
-    ".22-.4-.65": "secret",
-    ".15-.365-.5": "secret",
-    ".1-.45-.8": "secret",
-    ".0-.0-.0": "secret"
+      "Emineminem": "secret",
+      "SimpleL": "secret",
+      "Benchmark": "secret",
+      "Submission": "secret",
+      ".2-.4-.6": "secret",
+      ".22-.4-.65": "secret",
+      ".15-.365-.5": "secret",
+      ".1-.45-.8": "secret",
+      ".0-.0-.0": "secret"
   }
 }

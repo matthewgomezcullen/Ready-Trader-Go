@@ -1,0 +1,88 @@
+
+Emergency hedging...
+Emergency hedging 6 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 6 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 168 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 168 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 160 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 160 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 160 lots at 2147483600 on side 1
+
+
+Emergency unhedging...
+Emergency unhedging 160 lots at 100 on side 0
+
+
+Emergency hedging...
+Emergency hedging 138 lots at 2147483600 on side 1
+
+
+Emergency unhedging...
+Emergency unhedging 138 lots at 100 on side 0
+
+
+Emergency hedging...
+Emergency hedging 186 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 186 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 188 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 188 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 48 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 48 lots at 2147483600 on side 1
+
+
+Emergency hedging...
+Emergency hedging 56 lots at 2147483600 on side 1
+
+
+Emergency unhedging...
+Emergency unhedging 56 lots at 100 on side 0
+
+
+Emergency hedging...
+Emergency hedging 44 lots at 2147483600 on side 1
+
+
+Emergency unhedging...
+Emergency unhedging 44 lots at 100 on side 0
+
+
+Emergency hedging...
+Emergency hedging 136 lots at 100 on side 0
+
+
+Emergency unhedging...
+Emergency unhedging 136 lots at 2147483600 on side 1
+

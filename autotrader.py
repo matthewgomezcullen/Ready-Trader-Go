@@ -287,11 +287,21 @@ class AutoTrader(BaseAutoTrader):
             self.etf_position += volume
             self.position += volume
 
-            # hedge_lot = volume // 10
-            # if self.hedged - hedge_lot > -POSITION_LIMIT:
-            #     order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, hedge_lot, 0)
-            #     self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-            #     self.futures_asks[order.id] = order
+            # if abs(self.etf_position) > 30:
+            order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, volume, 0)
+            self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+            self.futures_bids[order.id] = order
+            # else:
+            #     side = Side.ASK if self.position > 0 else Side.BID
+            #     price = MIN_BID_NEAREST_TICK if self.position > 0 else MAX_ASK_NEAREST_TICK
+            #     order_set = self.futures_asks if self.position > 0 else self.futures_bids
+
+            #     lot_size = abs(self.position)
+
+            #     order = Order(next(self.order_ids), price, lot_size, 0)
+            #     self.send_hedge_order(order.id, side, order.price, order.lot)
+            #     order_set[order.id] = order
+                
 
             if self.etf_position > 20:
                 self.shifted_ask = self.insert_shifted_order(self.ask_base, self.ask_shifted, self.etf_asks, Side.SELL, volume//2)
@@ -301,15 +311,32 @@ class AutoTrader(BaseAutoTrader):
             self.etf_position -= volume
             self.position -= volume
 
-            # hedge_lot = volume // 10
-            # if self.hedged + hedge_lot < POSITION_LIMIT:
-            #     order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, hedge_lot, 0)
-            #     self.send_hedge_order(order.id, Side.BUY, order.price, order.lot)
-            #     self.futures_bids[order.id] = order
+            # if abs(self.position) > 30:
+            order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, volume, 0)
+            self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+            self.futures_asks[order.id] = order
+            # else:
+            #     side = Side.ASK if self.position > 0 else Side.BID
+            #     price = MIN_BID_NEAREST_TICK if self.position > 0 else MAX_ASK_NEAREST_TICK
+            #     order_set = self.futures_asks if self.position > 0 else self.futures_bids
+
+            #     lot_size = abs(self.position)
+
+            #     order = Order(next(self.order_ids), price, lot_size, 0)
+            #     self.send_hedge_order(order.id, side, order.price, order.lot)
+            #     order_set[order.id] = order
             
             if self.etf_position < -20:
                 self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.etf_bids, Side.BUY, volume//2)
 
+        # if abs(self.etf_position) > 30:
+        #     side = Side.BID if self.etf_position > 0 else Side.ASK
+        #     price = MAX_ASK_NEAREST_TICK if self.etf_position > 0 else MIN_BID_NEAREST_TICK
+        #     oder_set = self.futures_bids if self.etf_position > 0 else self.futures_asks
+        #     lot_size = self.etf_position - self.futures_position if self.etf_position > 0 else None
+        #     order = Order(next(self.order_ids), price, lot_size, 0)
+        #     self.send_hedge_order(order.id, side, order.price, order.lot)
+        #     order_set[order.id] = order
 
     def insert_shifted_order(self, base, shifted, order_set, side, volume):
         """Inserts a shifted order at a more competitive price to combat position drift.
@@ -338,7 +365,7 @@ class AutoTrader(BaseAutoTrader):
         self.log("Emergency hedging...")
 
         self.is_hedging = True
-        side = Side.ASK if self.position > 0 else Side.BUY
+        side = Side.ASK if self.position > 0 else Side.BID
         price = MIN_BID_NEAREST_TICK if self.position > 0 else MAX_ASK_NEAREST_TICK
         order_set = self.futures_asks if self.position > 0 else self.futures_bids
 

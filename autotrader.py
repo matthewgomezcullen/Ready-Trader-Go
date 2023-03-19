@@ -35,7 +35,7 @@ LIQUIDITY_MAGNITUDE = 8
 POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
 HEDGE_PERCENTAGE = 0.5
-SPREAD = 3
+SPREAD = 2
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -54,14 +54,14 @@ class Order:
         return self.__repr__()
 
 class State:
-
-    DD_SHORT = -3
-    SHORT = -2
-    N_SHORT = -1
+    
+    VV_SHORT = -3
+    DD_SHORT = -2
+    SHORT = -1
     NEUTRAL = 0
-    N_LONG = 1
-    LONG = 2
-    DD_LONG = 3
+    LONG = 1
+    DD_LONG = 2
+    VV_LONG = 3
 
 class AutoTrader(BaseAutoTrader):
     """Example Auto-trader.
@@ -85,6 +85,7 @@ class AutoTrader(BaseAutoTrader):
                       self.unhedged_start = self.unhedged_interval = self.to_hedge = 0
         self.hedge_behaviour = self.market_state = State.NEUTRAL
         self.etf_bids, self.etf_asks, self.futures_asks, self.futures_bids = (dict() for _ in range(4))
+        self.prev_market_state = State.NEUTRAL
         self.is_hedging = False
 
         with open("output/inputs.csv", "w", newline='') as f: # DELETEME
@@ -112,18 +113,16 @@ class AutoTrader(BaseAutoTrader):
         
         ratio = self.bid_liquidity/self.ask_liquidity
 
-        if ratio > 2:
-            return State.DD_LONG
+        if ratio > 3:
+            return State.VV_LONG
         elif ratio > 1.5:
-            return State.LONG
+            return State.DD_LONG
         elif ratio > 1:
-            return State.N_LONG
-        elif 1/ratio > 2:
-            return State.DD_SHORT
+            return State.LONG
+        elif 1/ratio > 3:
+            return State.VV_SHORT
         elif 1/ratio > 1.5:
-            return State.SHORT
-        elif 1/ratio > 1:
-            return State.N_SHORT
+            return State.DD_SHORT
         else:
             return State.SHORT
 
@@ -247,8 +246,11 @@ class AutoTrader(BaseAutoTrader):
             extra_adj = -spread
             spread = 0
         elif spread > 4:
-            extra_adj = spread - 4
+            extra_adj = -(spread - 4)
             spread = 4
+        
+        if is_ask:
+            extra_adj = -extra_adj
 
         return prices[spread] + extra_adj*TICK_SIZE_IN_CENTS if prices[spread] != 0 else 0, spread
         
@@ -360,7 +362,7 @@ class AutoTrader(BaseAutoTrader):
         self.log("")
         if self.hedge_behaviour == State.NEUTRAL:
             self.log(f"Neutral hedging: {self.etf_position}, {self.futures_position}, {self.position}")
-            if self.etf_position > 40:
+            if self.etf_position > 50:
                 diff = self.hedge_difference(self.futures_position, int(self.etf_position * HEDGE_PERCENTAGE), self.futures_bids, Side.BID, MAX_ASK_NEAREST_TICK, \
                                       self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK)
                 if diff: self.to_hedge += diff
@@ -368,7 +370,7 @@ class AutoTrader(BaseAutoTrader):
                 diff = self.hedge_difference(-self.futures_position, int(self.etf_position * HEDGE_PERCENTAGE), self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK,
                                       self.futures_bids, Side.BID, MAX_ASK_NEAREST_TICK)
                 if diff: self.to_hedge -= diff
-            elif self.etf_position < -40:
+            elif self.etf_position < -50:
                 diff = self.hedge_difference(-self.futures_position, int(-self.etf_position * HEDGE_PERCENTAGE), self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK, \
                                       self.futures_bids, Side.BID, MAX_ASK_NEAREST_TICK)
                 if diff: self.to_hedge -= diff
@@ -376,13 +378,13 @@ class AutoTrader(BaseAutoTrader):
                 diff = self.hedge_difference(self.futures_position, int(-self.etf_position * HEDGE_PERCENTAGE), self.futures_bids, Side.BID, MAX_ASK_NEAREST_TICK, \
                                       self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK)
                 if diff: self.to_hedge += diff
-        elif self.hedge_behaviour == State.DD_LONG:
+        elif self.hedge_behaviour > 1:
             self.log(f"DD long hedging: {self.etf_position}, {self.futures_position}, {self.position}")
             target = self.etf_position if self.etf_position > 0 else -int(self.etf_position * HEDGE_PERCENTAGE)
             diff = self.hedge_difference(self.futures_position, target, self.futures_bids, Side.BID, MAX_ASK_NEAREST_TICK, \
                                     self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK)
             if diff: self.to_hedge += diff
-        elif self.hedge_behaviour == State.DD_SHORT:
+        elif self.hedge_behaviour < -1:
             self.log(f"DD short hedging: {self.etf_position}, {self.futures_position}, {self.position}")
             target = -self.etf_position if self.etf_position < 0 else int(self.etf_position * HEDGE_PERCENTAGE)
             diff = self.hedge_difference(-self.futures_position, target, self.futures_asks, Side.ASK, MIN_BID_NEAREST_TICK, \
@@ -390,9 +392,12 @@ class AutoTrader(BaseAutoTrader):
             if diff: self.to_hedge -= diff
         self.log("")
 
+    
+
     def hedge_difference(self, current, target, order_set, side, price, alt_order_set, alt_side, alt_price):
         if target + self.to_hedge > POSITION_LIMIT:
-            self.log("Will exceed the limit")
+            self.log(
+                f"Will exceed the limit, target: {target}, current: {current}, to hedge: {self.to_hedge}")
             return False
 
         if target - current < 0:
@@ -427,6 +432,7 @@ class AutoTrader(BaseAutoTrader):
             self.send_insert_order(
                 shifted.id, side, shifted.price, shifted.lot, Lifespan.GOOD_FOR_DAY)
         else:
+            self.send_cancel_order(base.id)
             price = base.price + TICK_SIZE_IN_CENTS if side == Side.BUY else base.price - \
                 TICK_SIZE_IN_CENTS
             shifted = Order(next(self.order_ids), price, volume, 0)

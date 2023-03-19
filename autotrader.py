@@ -34,6 +34,7 @@ LIQUIDITY_MAGNITUDE = 8
 LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.15, 0.4, 0.65)]
 POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
+
 HEDGED_THRESHOLD = 100
 HEDGE_PERCENTAGE = .001
 SPREAD = 3
@@ -75,7 +76,7 @@ class AutoTrader(BaseAutoTrader):
         self.new_bid_lot = self.new_bid_price = self.bid_liquidity = \
             self.new_ask_lot = self.new_ask_price = self.ask_liquidity = \
                 self.etf_position = self.futures_position = self.position = \
-                      self.unhedged_start = self.unhedged_interval = 0
+                      self.unhedged_start = self.unhedged_interval = self.to_buy = 0
         self.market_state = 0 # -1 = short, 0 = neutral, 1 = long
         self.etf_bids, self.etf_asks, self.futures_asks, self.futures_bids = (dict() for _ in range(4))
         self.is_hedging = False
@@ -188,13 +189,21 @@ class AutoTrader(BaseAutoTrader):
         Order parameters should be calculated beforehand."""
         base = None
 
-        for order_id in order_set:
-            self.send_cancel_order(order_id)
+        to_trade = self.etf_position
+        for id in order_set:
+            order = order_set[id]
+            to_trade += order.lot if side == Side.BUY else -order.lot
+            self.send_cancel_order(id)
 
-        if lot and price and abs(self.etf_position + (lot if side == Side.BUY else -lot)) < POSITION_LIMIT:
+
+        size = lot if side == Side.BUY else -lot
+        if lot and price and abs(to_trade + (lot if side == Side.BUY else -lot)) < POSITION_LIMIT:
             base = Order(next(self.order_ids), price, lot, 0)
-            self.send_insert_order(
-                base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
+            self.log(f"Sending order at etf_position {self.etf_position} for size: {size}. Order id: {base.id}")
+            for order_id in order_set:
+                self.log(f"Current state of the order set: {order_set}")
+            self.log("")
+            self.send_insert_order(base.id, side, base.price, base.lot, Lifespan.GOOD_FOR_DAY)
             order_set[base.id] = base
 
         return base
@@ -478,4 +487,3 @@ class AutoTrader(BaseAutoTrader):
         """
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
-

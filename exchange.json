@@ -1,11 +1,11 @@
 {
   "Engine": {
-    "MarketDataFile": "data/market_data1.csv",
+    "MarketDataFile": "data/market_data2.csv",
     "MarketEventInterval": 0.05,
-    "MarketOpenDelay": 5.0,
+    "MarketOpenDelay": 3.0,
     "MatchEventsFile": "match_events.csv",
     "ScoreBoardFile": "score_board.csv",
-    "Speed": 1.0,
+    "Speed": 10.0,
     "TickInterval": 0.25
   },
   "Execution": {
@@ -37,10 +37,12 @@
   },
   "Traders": {
     "Emineminem": "secret",
-    "p:1 - f: 0": "secret",
-    "p:1 - f: 15": "secret",
+    "SPREAD=1": "secret",
+    "SPREAD=2": "secret",
     "p:1 - f: 30": "secret",
     "p:1 - f: 45": "secret",
-    "p:1 - f: 60": "secret"
+    "p:1 - f: 60": "secret",
+    "Benchmark": "secret",
+    "SimpleL": "secret"
   }
 }

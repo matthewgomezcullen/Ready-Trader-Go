@@ -31,11 +31,14 @@ TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_MAGNITUDE = 8
-LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
+LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.15, 0.4, 0.65)]
 POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
-HEDGED_THRESHOLD = 30
-HEDGE_PERCENTAGE = 0.5
+HEDGED_THRESHOLD = 100
+HEDGE_PERCENTAGE = .001
+SPREAD = 3
+HEDGED_UPPER_THRESHOLD = 60
+LOT_SIZE_ARBITARY_NUMBER = 40
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -163,6 +166,8 @@ class AutoTrader(BaseAutoTrader):
                 avg_price, bid_prices, self.bid_liquidity)
             self.new_ask_price, ask_spread = self.calc_price(
                 avg_price, ask_prices, self.ask_liquidity, True)
+            
+        
 
             # Reset orders
             self.bid_base = self.reset_orders(
@@ -201,13 +206,13 @@ class AutoTrader(BaseAutoTrader):
         trader.
         """
 
-        spread = 3
+        spread = SPREAD
 
         for threshold in LIQUIDITY_THRESHOLDS:
             if liquidity > threshold:
                 spread -= 1
 
-        adj = -4
+        adj = -3
 
         for threshold in POSITION_THRESHOLDS:
             if self.etf_position > threshold:
@@ -217,9 +222,9 @@ class AutoTrader(BaseAutoTrader):
             adj = -adj
         emergency_adj = 0
 
-        if adj == -4:
+        if adj == -3:
             emergency_adj = 3
-        elif adj == 4:
+        elif adj == 3:
             emergency_adj = -3
 
         if is_ask:
@@ -283,7 +288,7 @@ class AutoTrader(BaseAutoTrader):
         # else:
         #     return 5
 
-        return math.floor(20 * p * l)
+        return math.floor(LOT_SIZE_ARBITARY_NUMBER * p * l)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
         """Called when one of your orders is filled, partially or fully.
@@ -304,9 +309,9 @@ class AutoTrader(BaseAutoTrader):
             # self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
             # self.futures_bids[order.id] = order                
 
-            if self.etf_position > 20:
-                self.shifted_ask = self.insert_shifted_order(
-                    self.ask_base, self.ask_shifted, self.etf_asks, Side.SELL, volume//2)
+            # if self.etf_position > 20:
+            #     self.shifted_ask = self.insert_shifted_order(
+            #         self.ask_base, self.ask_shifted, self.etf_asks, Side.SELL, volume//2)
 
         # they are lifting our asks
         elif client_order_id in self.etf_asks:
@@ -317,11 +322,11 @@ class AutoTrader(BaseAutoTrader):
             # self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
             # self.futures_asks[order.id] = order
 
-            if self.etf_position < -20:
-                self.shifted_bid = self.insert_shifted_order(
-                    self.bid_base, self.bid_shifted, self.etf_bids, Side.BUY, volume//2)
+            # if self.etf_position < -20:
+            #     self.shifted_bid = self.insert_shifted_order(
+            #         self.bid_base, self.bid_shifted, self.etf_bids, Side.BUY, volume//2)
 
-        if abs(self.etf_position) > HEDGED_THRESHOLD:
+        if  abs(self.etf_position) > HEDGED_THRESHOLD:
             lot_size = self.etf_position - self.futures_position
             if lot_size > 0:
                 order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, lot_size, 0)
@@ -332,14 +337,23 @@ class AutoTrader(BaseAutoTrader):
                 self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
                 self.futures_asks[order.id] = order
         else:
-            if self.position > 0:
-                order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
+            if self.futures_position > 0:
+                order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.futures_position), 0)
                 self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
                 self.futures_asks[order.id] = order
-            elif self.position < 0:
-                order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
+            elif self.futures_position < 0:
+                order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, int(-self.futures_position), 0)
                 self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-                self.futures_bids[order.id] = order
+                self.futures_bids[order.id] = order    
+
+            # if self.position > 0:
+            #     order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
+            #     self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+            #     self.futures_asks[order.id] = order
+            # elif self.position < 0:
+            #     order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
+            #     self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+            #     self.futures_bids[order.id] = order
 
     def insert_shifted_order(self, base, shifted, order_set, side, volume):
         """Inserts a shifted order at a more competitive price to combat position drift.
@@ -464,3 +478,4 @@ class AutoTrader(BaseAutoTrader):
         """
         self.logger.info("received trade ticks for instrument %d with sequence number %d", instrument,
                          sequence_number)
+

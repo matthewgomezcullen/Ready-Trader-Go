@@ -45,7 +45,6 @@ class AutoTrader(BaseAutoTrader):
 
     def __init__(self, loop: asyncio.AbstractEventLoop, team_name: str, secret: str):
         """Initialise a new instance of the AutoTrader class."""
-        # print("Initialising autotrader...")
         super().__init__(loop, team_name, secret)
         self.order_ids = itertools.count(1)
         self.bid_lot = self.ask_lot = 10
@@ -83,9 +82,7 @@ class AutoTrader(BaseAutoTrader):
         prices are reported along with the volume available at each of those
         price levels.
         """
-        # print("Received order book update message.")
         if instrument == Instrument.ETF:
-            # print("Calculating lot sizes...")
             self.calc_lot_sizes(ask_prices, ask_volumes, bid_prices, bid_volumes)
         
         self.logger.info("received order book for instrument %d with sequence number %d", instrument,
@@ -106,14 +103,12 @@ class AutoTrader(BaseAutoTrader):
             if self.bid_id == 0 and new_bid_price != 0 and self.position < POSITION_LIMIT:
                 self.bid_id = next(self.order_ids)
                 self.bid_price = new_bid_price
-                # print(f"Sending insert order for bid: {self.bid_id}, {Side.BUY}, {new_bid_price}, {self.bid_lot}, {Lifespan.GOOD_FOR_DAY}")
                 self.send_insert_order(self.bid_id, Side.BUY, new_bid_price, self.bid_lot, Lifespan.GOOD_FOR_DAY)
                 self.bids.add(self.bid_id)
 
             if self.ask_id == 0 and new_ask_price != 0 and self.position > -POSITION_LIMIT:
                 self.ask_id = next(self.order_ids)
                 self.ask_price = new_ask_price
-                # print(f"Sending insert order for ask: {self.ask_id}, {Side.SELL}, {new_ask_price}, {self.ask_lot}, {Lifespan.GOOD_FOR_DAY}")
                 self.send_insert_order(self.ask_id, Side.SELL, new_ask_price, self.ask_lot, Lifespan.GOOD_FOR_DAY)
                 self.asks.add(self.ask_id)
 
@@ -181,19 +176,14 @@ class AutoTrader(BaseAutoTrader):
         and the prices traded at for bids and asks.
         """
         if ask_prices[0] != 0 and bid_prices[0] != 0:
-            # best_ask_volume = ask_volumes[0]
-            # best_bid_volume = bid_volumes[0]
 
             best_ask_price = ask_prices[0]
             best_bid_price = bid_prices[0]
-            # print("Calculating average price...")
             avg_price = (best_ask_price + best_bid_price) / 2
 
-            # print("Calculating bid liquidity...")
             bid_liquidity = self.calc_liquidity(avg_price, bid_prices, bid_volumes)
             self.bid_lot = self.calc_lot_size(bid_liquidity)
 
-            # print("Calculating ask liquidity...")
             ask_liquidity = self.calc_liquidity(avg_price, ask_prices, ask_volumes)
             self.ask_lot = self.calc_lot_size(ask_liquidity, is_ask=True)
 

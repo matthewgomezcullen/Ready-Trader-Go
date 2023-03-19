@@ -24,7 +24,6 @@ from typing import List
 from ready_trader_go import BaseAutoTrader, Instrument, Lifespan, MAXIMUM_ASK, MINIMUM_BID, Side
 
 
-# LOT_SIZE = 10
 POSITION_LIMIT = 100
 TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
@@ -231,8 +230,6 @@ class AutoTrader(BaseAutoTrader):
 
     def calc_liquidity(self, avg_price: int, prices: List[int], volumes: List[int]):
         """Calculates liquidity of the market for bids and asks.
-        TODO: Calculate the average price based on the entire distribution of
-        bids and asks rather than just the best bid and ask.
         """
         distances = [0, 0, 0, 0, 0]
         for i in range(len(prices)):
@@ -259,11 +256,6 @@ class AutoTrader(BaseAutoTrader):
         p = math.sqrt(1 - (position+100)/200)
         l = math.sqrt(1 - (max_l-liquidity)/max_l)
 
-        # if liquidity > LIQUIDITY_THRESHOLD:
-        #     return 15
-        # else:
-        #     return 5
-
         return math.floor(LOT_SIZE_ARBITARY_NUMBER * p * l)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
@@ -271,7 +263,6 @@ class AutoTrader(BaseAutoTrader):
         The price is the price at which the order was (partially) filled,
         which may be better than the order's limit price. The volume is
         the number of lots filled at that price.
-        TODO: Shift our orders depending on our position.
         """
         self.logger.info("received order filled for order %d with price %d and volume %d", client_order_id,
                          price, volume)
@@ -281,75 +272,10 @@ class AutoTrader(BaseAutoTrader):
             self.etf_position += volume
             self.position += volume
 
-            # order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, volume, 0)
-            # self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-            # self.futures_bids[order.id] = order                
-
-            # if self.etf_position > 20:
-            #     self.shifted_ask = self.insert_shifted_order(
-            #         self.ask_base, self.ask_shifted, self.etf_asks, Side.SELL, volume//2)
-
         # they are lifting our asks
         elif client_order_id in self.etf_asks:
             self.etf_position -= volume
             self.position -= volume
-
-            # order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, volume, 0)
-            # self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-            # self.futures_asks[order.id] = order
-
-            # if self.etf_position < -20:
-            #     self.shifted_bid = self.insert_shifted_order(
-            #         self.bid_base, self.bid_shifted, self.etf_bids, Side.BUY, volume//2)
-
-        # if  abs(self.etf_position) > HEDGED_THRESHOLD:
-        #     lot_size = self.etf_position - self.futures_position
-        #     if lot_size > 0:
-        #         to_trade = self.futures_position
-        #         for order_id in self.futures_bids:
-        #             to_trade += self.futures_bids[order_id].lot
-
-        #         if to_trade + lot_size < POSITION_LIMIT:
-        #             order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, lot_size, 0)
-        #             self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-        #             self.futures_bids[order.id] = order
-        #     else:
-        #         to_trade = self.futures_position
-        #         for order_id in self.futures_asks:
-        #             to_trade -= self.futures_asks[order_id].lot
-
-        #         if to_trade + lot_size > -POSITION_LIMIT:
-        #             order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, -lot_size, 0)
-        #             self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-        #             self.futures_asks[order.id] = order
-        # else:
-        #     if self.futures_position > 0:
-        #         to_trade = self.futures_position
-        #         for order_id in self.futures_asks:
-        #             to_trade - self.futures_asks[order_id].lot
-
-        #         if to_trade - self.futures_position > -POSITION_LIMIT:
-        #             order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.futures_position), 0)
-        #             self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-        #             self.futures_asks[order.id] = order
-        #     elif self.futures_position < 0:
-        #         to_trade = self.futures_position
-        #         for order_id in self.futures_bids:
-        #             to_trade + self.futures_bids[order_id].lot
-
-        #         if to_trade + self.futures_position < POSITION_LIMIT:
-        #             order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, int(-self.futures_position), 0)
-        #             self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-        #             self.futures_bids[order.id] = order    
-
-            # if self.position > 0:
-            #     order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
-            #     self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-            #     self.futures_asks[order.id] = order
-            # elif self.position < 0:
-            #     order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
-            #     self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-            #     self.futures_bids[order.id] = order
 
     def insert_shifted_order(self, base, shifted, order_set, side, volume):
         """Inserts a shifted order at a more competitive price to combat position drift.

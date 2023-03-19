@@ -1,88 +1,1445 @@
 
-Emergency hedging...
-Emergency hedging 6 lots at 100 on side 0
+DD long hedging: -14, 0, -14
+Sending hedge order: id: 7, side: 1, price: 2147483600, lot: 7, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 6 lots at 2147483600 on side 1
+DD long hedging: -13, 7, -6
+Sending alternative hedge order: id: 10, side: 0, price: 100, lot: 1, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 168 lots at 100 on side 0
+DD short hedging: 0, 6, 6
+Sending hedge order: id: 21, side: 0, price: 100, lot: 6, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 168 lots at 2147483600 on side 1
+Neutral hedging: -14, 0, -14
+Sending hedge order: id: 32, side: 1, price: 2147483600, lot: 7, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 160 lots at 100 on side 0
+Neutral hedging: 0, 7, 7
 
 
-Emergency unhedging...
-Emergency unhedging 160 lots at 2147483600 on side 1
+DD short hedging: 14, 7, 21
+Sending hedge order: id: 39, side: 0, price: 100, lot: 14, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 160 lots at 2147483600 on side 1
+Neutral hedging: -1, -7, -8
+Sending hedge order: id: 58, side: 1, price: 2147483600, lot: 7, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 160 lots at 100 on side 0
+DD short hedging: 13, 0, 13
+Sending hedge order: id: 77, side: 0, price: 100, lot: 6, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 138 lots at 2147483600 on side 1
+DD short hedging: 26, -6, 20
+Sending hedge order: id: 81, side: 0, price: 100, lot: 7, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 138 lots at 100 on side 0
+DD short hedging: 38, -13, 25
+Sending hedge order: id: 85, side: 0, price: 100, lot: 6, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 186 lots at 100 on side 0
+DD short hedging: 49, -19, 30
+Sending hedge order: id: 89, side: 0, price: 100, lot: 5, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 186 lots at 2147483600 on side 1
+Neutral hedging: 59, -24, 35
+Sending hedge order: id: 95, side: 1, price: 2147483600, lot: 53, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 188 lots at 100 on side 0
+DD long hedging: 68, 29, 97
+Sending hedge order: id: 99, side: 1, price: 2147483600, lot: 39, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 188 lots at 2147483600 on side 1
+DD long hedging: 76, 68, 144
+Sending hedge order: id: 103, side: 1, price: 2147483600, lot: 8, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 48 lots at 100 on side 0
+DD long hedging: 82, 76, 158
+Sending hedge order: id: 163, side: 1, price: 2147483600, lot: 6, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 48 lots at 2147483600 on side 1
+DD long hedging: 87, 82, 169
+Sending hedge order: id: 171, side: 1, price: 2147483600, lot: 5, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 56 lots at 2147483600 on side 1
+DD long hedging: 92, 87, 179
+Sending hedge order: id: 183, side: 1, price: 2147483600, lot: 5, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 56 lots at 100 on side 0
+DD long hedging: 96, 92, 188
+Sending hedge order: id: 189, side: 1, price: 2147483600, lot: 4, to hedge: 0
 
 
-Emergency hedging...
-Emergency hedging 44 lots at 2147483600 on side 1
+DD long hedging: 94, 96, 190
+Sending alternative hedge order: id: 194, side: 0, price: 100, lot: 2, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 44 lots at 100 on side 0
+DD long hedging: 75, 96, 171
+Sending alternative hedge order: id: 195, side: 0, price: 100, lot: 21, to hedge: -2
 
 
-Emergency hedging...
-Emergency hedging 136 lots at 100 on side 0
+DD long hedging: 82, 73, 155
+Sending hedge order: id: 201, side: 1, price: 2147483600, lot: 9, to hedge: 0
 
 
-Emergency unhedging...
-Emergency unhedging 136 lots at 2147483600 on side 1
+DD long hedging: 87, 82, 169
+Sending hedge order: id: 209, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 92, 87, 179
+Sending hedge order: id: 213, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 96, 92, 188
+Sending hedge order: id: 217, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+Neutral hedging: 98, 96, 194
+Sending alternative hedge order: id: 237, side: 0, price: 100, lot: 47, to hedge: 0
+
+
+DD short hedging: 99, 49, 148
+Sending hedge order: id: 252, side: 0, price: 100, lot: 98, to hedge: 0
+
+
+Neutral hedging: 80, -49, 31
+Sending hedge order: id: 261, side: 1, price: 2147483600, lot: 89, to hedge: 0
+
+
+Neutral hedging: 86, 40, 126
+Sending hedge order: id: 271, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+Neutral hedging: 91, 43, 134
+Sending hedge order: id: 275, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 95, 45, 140
+Sending hedge order: id: 283, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 98, 47, 145
+Sending hedge order: id: 341, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 79, 49, 128
+Sending alternative hedge order: id: 343, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+Neutral hedging: 61, 39, 100
+Sending alternative hedge order: id: 352, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+Neutral hedging: 53, 30, 83
+Sending alternative hedge order: id: 367, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+DD long hedging: 36, 26, 62
+Sending hedge order: id: 398, side: 1, price: 2147483600, lot: 10, to hedge: 0
+
+
+DD long hedging: 35, 36, 71
+Sending alternative hedge order: id: 407, side: 0, price: 100, lot: 1, to hedge: 0
+
+
+DD long hedging: 19, 35, 54
+Sending alternative hedge order: id: 414, side: 0, price: 100, lot: 16, to hedge: 0
+
+
+Neutral hedging: 13, 19, 32
+Sending hedge order: id: 495, side: 0, price: 100, lot: 25, to hedge: 0
+
+
+Neutral hedging: 4, 19, 23
+Sending hedge order: id: 496, side: 0, price: 100, lot: 21, to hedge: -25
+
+
+Neutral hedging: -4, -27, -31
+Sending hedge order: id: 499, side: 1, price: 2147483600, lot: 29, to hedge: 0
+
+
+Neutral hedging: -17, 2, -15
+Sending hedge order: id: 512, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+Neutral hedging: -29, 8, -21
+Sending hedge order: id: 516, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD short hedging: -40, 14, -26
+Sending hedge order: id: 540, side: 0, price: 100, lot: 54, to hedge: 0
+
+
+DD short hedging: -50, -40, -90
+Sending hedge order: id: 544, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+DD long hedging: -39, -50, -89
+Sending hedge order: id: 571, side: 1, price: 2147483600, lot: 69, to hedge: 0
+
+
+DD short hedging: -23, 19, -4
+Sending hedge order: id: 580, side: 0, price: 100, lot: 42, to hedge: 0
+
+
+Neutral hedging: -35, -23, -58
+Sending hedge order: id: 592, side: 1, price: 2147483600, lot: 40, to hedge: 0
+
+
+Neutral hedging: -19, 17, -2
+Sending alternative hedge order: id: 595, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: -31, 9, -22
+Sending hedge order: id: 603, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+Neutral hedging: -15, 15, 0
+Sending alternative hedge order: id: 616, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD short hedging: -14, 7, -7
+Sending hedge order: id: 685, side: 0, price: 100, lot: 21, to hedge: 0
+
+
+DD short hedging: 1, -14, -13
+Sending alternative hedge order: id: 690, side: 1, price: 2147483600, lot: 14, to hedge: 0
+
+
+Neutral hedging: 15, 0, 15
+Sending hedge order: id: 693, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+DD short hedging: 28, -7, 21
+Sending hedge order: id: 699, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+DD short hedging: 41, -7, 34
+Sending hedge order: id: 701, side: 0, price: 100, lot: 13, to hedge: -7
+
+
+DD short hedging: 51, -27, 24
+Sending alternative hedge order: id: 705, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+DD short hedging: 59, -25, 34
+Sending hedge order: id: 709, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+Neutral hedging: 68, -29, 39
+Sending hedge order: id: 715, side: 1, price: 2147483600, lot: 63, to hedge: 0
+
+
+Neutral hedging: 76, 34, 110
+Sending hedge order: id: 719, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+Neutral hedging: 82, 38, 120
+Sending hedge order: id: 723, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+Neutral hedging: 87, 41, 128
+Sending hedge order: id: 727, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 92, 43, 135
+Sending hedge order: id: 731, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+DD long hedging: 96, 46, 142
+Sending hedge order: id: 739, side: 1, price: 2147483600, lot: 50, to hedge: 0
+
+
+DD long hedging: 98, 96, 194
+Sending hedge order: id: 743, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 79, 98, 177
+Sending alternative hedge order: id: 773, side: 0, price: 100, lot: 59, to hedge: 0
+
+
+Neutral hedging: 73, 39, 112
+Sending alternative hedge order: id: 776, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: 64, 36, 100
+Sending hedge order: id: 781, side: 0, price: 100, lot: 68, to hedge: 0
+
+
+DD short hedging: 55, 36, 91
+Sending hedge order: id: 782, side: 0, price: 100, lot: 63, to hedge: -68
+
+
+DD short hedging: 64, -95, -31
+Sending alternative hedge order: id: 788, side: 1, price: 2147483600, lot: 63, to hedge: 0
+
+
+DD long hedging: 72, -32, 40
+Sending hedge order: id: 832, side: 1, price: 2147483600, lot: 104, to hedge: 0
+
+
+DD long hedging: 79, 72, 151
+Sending hedge order: id: 842, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD long hedging: 85, 79, 164
+Sending hedge order: id: 852, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD long hedging: 90, 85, 175
+Sending hedge order: id: 870, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 94, 90, 184
+Sending hedge order: id: 882, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+DD long hedging: 97, 94, 191
+Sending hedge order: id: 886, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+DD long hedging: 99, 97, 196
+Sending hedge order: id: 892, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 80, 99, 179
+Sending alternative hedge order: id: 919, side: 0, price: 100, lot: 59, to hedge: 0
+
+
+Neutral hedging: 86, 40, 126
+Sending hedge order: id: 927, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+DD short hedging: 91, 43, 134
+Sending hedge order: id: 931, side: 0, price: 100, lot: 88, to hedge: 0
+
+
+DD short hedging: 95, -45, 50
+Sending hedge order: id: 935, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD short hedging: 98, -47, 51
+Sending hedge order: id: 939, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+Neutral hedging: 79, -49, 30
+Sending hedge order: id: 959, side: 1, price: 2147483600, lot: 88, to hedge: 0
+
+
+DD short hedging: 85, 39, 124
+Sending hedge order: id: 967, side: 0, price: 100, lot: 81, to hedge: 0
+
+
+DD short hedging: 68, -42, 26
+Sending alternative hedge order: id: 978, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+Neutral hedging: 74, -34, 40
+Sending hedge order: id: 1000, side: 1, price: 2147483600, lot: 71, to hedge: 0
+
+
+DD long hedging: 81, 37, 118
+Sending hedge order: id: 1006, side: 1, price: 2147483600, lot: 44, to hedge: 0
+
+
+DD short hedging: 87, 81, 168
+Sending hedge order: id: 1016, side: 0, price: 100, lot: 124, to hedge: 0
+
+
+DD short hedging: 68, -43, 25
+Sending alternative hedge order: id: 1033, side: 1, price: 2147483600, lot: 9, to hedge: 0
+
+
+DD long hedging: 76, -34, 42
+Sending hedge order: id: 1053, side: 1, price: 2147483600, lot: 110, to hedge: 0
+
+
+Neutral hedging: 82, 76, 158
+Sending alternative hedge order: id: 1057, side: 0, price: 100, lot: 35, to hedge: 0
+
+
+DD short hedging: 63, 41, 104
+Sending hedge order: id: 1068, side: 0, price: 100, lot: 72, to hedge: 0
+
+
+DD short hedging: 45, -31, 14
+Sending alternative hedge order: id: 1071, side: 1, price: 2147483600, lot: 9, to hedge: 0
+
+
+DD short hedging: 32, -22, 10
+Sending alternative hedge order: id: 1076, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD long hedging: 16, -16, 0
+Sending hedge order: id: 1083, side: 1, price: 2147483600, lot: 32, to hedge: 0
+
+
+DD short hedging: 28, 16, 44
+Sending hedge order: id: 1099, side: 0, price: 100, lot: 30, to hedge: 0
+
+
+DD short hedging: 12, -14, -2
+Sending alternative hedge order: id: 1106, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+Neutral hedging: -2, -6, -8
+Sending hedge order: id: 1117, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: -16, 1, -15
+Sending hedge order: id: 1120, side: 0, price: 100, lot: 17, to hedge: 0
+
+
+DD short hedging: -28, -16, -44
+Sending hedge order: id: 1124, side: 0, price: 100, lot: 12, to hedge: 0
+
+
+DD short hedging: -22, -28, -50
+Sending alternative hedge order: id: 1125, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+Neutral hedging: -7, -22, -29
+Sending hedge order: id: 1140, side: 1, price: 2147483600, lot: 25, to hedge: 0
+
+
+Neutral hedging: -9, 3, -6
+Sending hedge order: id: 1141, side: 1, price: 2147483600, lot: 1, to hedge: 0
+
+
+Neutral hedging: 6, 4, 10
+Sending hedge order: id: 1142, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+Neutral hedging: -1, -3, -4
+Sending hedge order: id: 1189, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+Neutral hedging: -15, 0, -15
+Sending hedge order: id: 1194, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+Neutral hedging: -28, 7, -21
+Sending hedge order: id: 1204, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD long hedging: -40, 14, -26
+Sending hedge order: id: 1214, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+Neutral hedging: -24, 20, -4
+Sending alternative hedge order: id: 1217, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+Neutral hedging: -9, 12, 3
+Sending alternative hedge order: id: 1222, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+Neutral hedging: -22, 4, -18
+Sending hedge order: id: 1266, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: -34, 11, -23
+Sending hedge order: id: 1294, side: 0, price: 100, lot: 45, to hedge: 0
+
+
+Neutral hedging: -18, -34, -52
+Sending hedge order: id: 1377, side: 1, price: 2147483600, lot: 43, to hedge: 0
+
+
+DD long hedging: -3, 9, 6
+Sending alternative hedge order: id: 1384, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+Neutral hedging: -16, 1, -15
+Sending hedge order: id: 1425, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: -28, 8, -20
+Sending hedge order: id: 1449, side: 0, price: 100, lot: 36, to hedge: 0
+
+
+DD short hedging: -40, -28, -68
+Sending hedge order: id: 1457, side: 0, price: 100, lot: 12, to hedge: 0
+
+
+DD short hedging: -50, -40, -90
+Sending hedge order: id: 1497, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+DD short hedging: -60, -50, -110
+Sending hedge order: id: 1521, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+Neutral hedging: -43, -60, -103
+Sending alternative hedge order: id: 1532, side: 1, price: 2147483600, lot: 39, to hedge: 0
+
+
+DD short hedging: -39, -21, -60
+Sending hedge order: id: 1551, side: 0, price: 100, lot: 18, to hedge: 0
+
+
+DD long hedging: -30, -39, -69
+Sending hedge order: id: 1554, side: 1, price: 2147483600, lot: 54, to hedge: 0
+
+
+DD short hedging: -14, 15, 1
+Sending hedge order: id: 1563, side: 0, price: 100, lot: 29, to hedge: 0
+
+
+Neutral hedging: 1, -14, -13
+Sending alternative hedge order: id: 1568, side: 1, price: 2147483600, lot: 14, to hedge: 0
+
+
+Neutral hedging: 16, -14, 2
+Sending alternative hedge order: id: 1569, side: 1, price: 2147483600, lot: 6, to hedge: 14
+
+
+Neutral hedging: 28, 6, 34
+Sending hedge order: id: 1583, side: 0, price: 100, lot: 20, to hedge: 0
+
+
+DD short hedging: 40, -14, 26
+Sending hedge order: id: 1591, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+DD short hedging: 50, -20, 30
+Sending hedge order: id: 1595, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+DD short hedging: 60, -25, 35
+Sending hedge order: id: 1599, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+DD short hedging: 55, -30, 25
+Sending alternative hedge order: id: 1600, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+DD short hedging: 38, -30, 8
+Sending alternative hedge order: id: 1603, side: 1, price: 2147483600, lot: 11, to hedge: 3
+
+
+DD short hedging: 49, -16, 33
+Sending hedge order: id: 1613, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD short hedging: 59, -24, 35
+Sending hedge order: id: 1617, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+DD short hedging: 63, -29, 34
+Sending hedge order: id: 1621, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD short hedging: 70, -31, 39
+Sending hedge order: id: 1631, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+DD short hedging: 67, -35, 32
+Sending alternative hedge order: id: 1634, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+DD short hedging: 75, -33, 42
+Sending hedge order: id: 1640, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+Neutral hedging: 82, -37, 45
+Sending hedge order: id: 1646, side: 1, price: 2147483600, lot: 78, to hedge: 0
+
+
+DD short hedging: 87, 41, 128
+Sending hedge order: id: 1650, side: 0, price: 100, lot: 84, to hedge: 0
+
+
+DD short hedging: 92, -43, 49
+Sending hedge order: id: 1654, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: 96, -46, 50
+Sending hedge order: id: 1658, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+Neutral hedging: 77, -48, 29
+Sending hedge order: id: 1711, side: 1, price: 2147483600, lot: 86, to hedge: 0
+
+
+Neutral hedging: 72, 38, 110
+Sending alternative hedge order: id: 1726, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD long hedging: 79, 36, 115
+Sending hedge order: id: 1734, side: 1, price: 2147483600, lot: 43, to hedge: 0
+
+
+DD short hedging: 85, 79, 164
+Sending hedge order: id: 1760, side: 0, price: 100, lot: 121, to hedge: 0
+
+
+DD short hedging: 66, -42, 24
+Sending alternative hedge order: id: 1765, side: 1, price: 2147483600, lot: 9, to hedge: 0
+
+
+DD long hedging: 48, -33, 15
+Sending hedge order: id: 1770, side: 1, price: 2147483600, lot: 81, to hedge: 0
+
+
+Neutral hedging: 58, 48, 106
+Sending alternative hedge order: id: 1790, side: 0, price: 100, lot: 19, to hedge: 0
+
+
+Neutral hedging: 41, 29, 70
+Sending alternative hedge order: id: 1803, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+Neutral hedging: 25, 20, 45
+Sending hedge order: id: 1814, side: 0, price: 100, lot: 32, to hedge: 0
+
+
+Neutral hedging: 16, -12, 4
+Sending alternative hedge order: id: 1817, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+Neutral hedging: 28, -8, 20
+Sending hedge order: id: 1825, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+DD short hedging: 12, -14, -2
+Sending alternative hedge order: id: 1832, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD long hedging: 25, -6, 19
+Sending hedge order: id: 1866, side: 1, price: 2147483600, lot: 31, to hedge: 0
+
+
+Neutral hedging: 37, 25, 62
+Sending hedge order: id: 1870, side: 0, price: 100, lot: 43, to hedge: 0
+
+
+Neutral hedging: 48, -18, 30
+Sending hedge order: id: 1874, side: 1, price: 2147483600, lot: 42, to hedge: 0
+
+
+Neutral hedging: 58, 24, 82
+Sending hedge order: id: 1878, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 61, 29, 90
+Sending hedge order: id: 1882, side: 1, price: 2147483600, lot: 32, to hedge: 0
+
+
+DD short hedging: 44, 61, 105
+Sending hedge order: id: 1893, side: 0, price: 100, lot: 83, to hedge: 0
+
+
+DD short hedging: 28, -22, 6
+Sending alternative hedge order: id: 1896, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD short hedging: 12, -14, -2
+Sending alternative hedge order: id: 1901, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD long hedging: -2, -6, -8
+Sending hedge order: id: 1910, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: 12, 1, 13
+Sending hedge order: id: 1925, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+DD short hedging: -2, -6, -8
+Sending alternative hedge order: id: 1934, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+DD short hedging: -14, -2, -16
+Sending hedge order: id: 1939, side: 0, price: 100, lot: 12, to hedge: 0
+
+
+DD short hedging: -27, -14, -41
+Sending hedge order: id: 1947, side: 0, price: 100, lot: 13, to hedge: 0
+
+
+DD short hedging: -12, -27, -39
+Sending alternative hedge order: id: 1958, side: 1, price: 2147483600, lot: 15, to hedge: 0
+
+
+DD long hedging: -25, -12, -37
+Sending hedge order: id: 1964, side: 1, price: 2147483600, lot: 24, to hedge: 0
+
+
+Neutral hedging: -20, 12, -8
+Sending alternative hedge order: id: 1977, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+Neutral hedging: -10, 12, 2
+Sending alternative hedge order: id: 1978, side: 0, price: 100, lot: 7, to hedge: -2
+
+
+Neutral hedging: -6, 3, -3
+Sending hedge order: id: 1985, side: 1, price: 2147483600, lot: 0, to hedge: 0
+
+
+Neutral hedging: 8, 3, 11
+Sending hedge order: id: 1988, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+Neutral hedging: 21, -4, 17
+Sending hedge order: id: 1992, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+Neutral hedging: 33, -10, 23
+Sending hedge order: id: 1996, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+DD long hedging: 39, -16, 23
+Sending hedge order: id: 2022, side: 1, price: 2147483600, lot: 55, to hedge: 0
+
+
+DD long hedging: 50, 39, 89
+Sending hedge order: id: 2028, side: 1, price: 2147483600, lot: 11, to hedge: 0
+
+
+DD short hedging: 60, 50, 110
+Sending hedge order: id: 2032, side: 0, price: 100, lot: 80, to hedge: 0
+
+
+Neutral hedging: 68, -30, 38
+Sending hedge order: id: 2038, side: 1, price: 2147483600, lot: 64, to hedge: 0
+
+
+DD long hedging: 76, 34, 110
+Sending hedge order: id: 2042, side: 1, price: 2147483600, lot: 42, to hedge: 0
+
+
+DD long hedging: 82, 76, 158
+Sending hedge order: id: 2046, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD long hedging: 87, 82, 169
+Sending hedge order: id: 2050, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 92, 87, 179
+Sending hedge order: id: 2054, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD long hedging: 96, 92, 188
+Sending hedge order: id: 2058, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+DD long hedging: 97, 96, 193
+Sending hedge order: id: 2062, side: 1, price: 2147483600, lot: 1, to hedge: 0
+
+
+DD long hedging: 99, 97, 196
+Sending hedge order: id: 2068, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+DD short hedging: 88, 99, 187
+Sending hedge order: id: 2134, side: 0, price: 100, lot: 143, to hedge: 0
+
+
+DD short hedging: 92, -44, 48
+Sending hedge order: id: 2174, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+Neutral hedging: 73, -46, 27
+Sending hedge order: id: 2209, side: 1, price: 2147483600, lot: 82, to hedge: 0
+
+
+Neutral hedging: 80, 36, 116
+Sending hedge order: id: 2215, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+Neutral hedging: 86, 40, 126
+Sending hedge order: id: 2225, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+DD long hedging: 91, 43, 134
+Sending hedge order: id: 2229, side: 1, price: 2147483600, lot: 48, to hedge: 0
+
+
+Neutral hedging: 95, 91, 186
+Sending alternative hedge order: id: 2281, side: 0, price: 100, lot: 44, to hedge: 0
+
+
+Neutral hedging: 98, 47, 145
+Sending hedge order: id: 2285, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: 79, 49, 128
+Sending alternative hedge order: id: 2301, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+DD short hedging: 70, 39, 109
+Sending hedge order: id: 2314, side: 0, price: 100, lot: 74, to hedge: 0
+
+
+DD long hedging: 77, -35, 42
+Sending hedge order: id: 2326, side: 1, price: 2147483600, lot: 112, to hedge: 0
+
+
+DD short hedging: 59, 77, 136
+Sending hedge order: id: 2359, side: 0, price: 100, lot: 106, to hedge: 0
+
+
+DD short hedging: 42, -29, 13
+Sending alternative hedge order: id: 2364, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD short hedging: 52, -21, 31
+Sending hedge order: id: 2374, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+DD short hedging: 61, -26, 35
+Sending hedge order: id: 2390, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+Neutral hedging: 44, -30, 14
+Sending hedge order: id: 2393, side: 1, price: 2147483600, lot: 52, to hedge: 0
+
+
+DD long hedging: 54, 22, 76
+Sending hedge order: id: 2399, side: 1, price: 2147483600, lot: 32, to hedge: 0
+
+
+DD long hedging: 63, 54, 117
+Sending hedge order: id: 2405, side: 1, price: 2147483600, lot: 9, to hedge: 0
+
+
+DD long hedging: 46, 54, 100
+Sending alternative hedge order: id: 2406, side: 0, price: 100, lot: 8, to hedge: 9
+
+
+Neutral hedging: 29, 55, 84
+Sending hedge order: id: 2421, side: 0, price: 100, lot: 69, to hedge: 0
+
+
+Neutral hedging: 34, -14, 20
+Sending hedge order: id: 2427, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: 18, -17, 1
+Sending alternative hedge order: id: 2454, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD long hedging: 26, -9, 17
+Sending hedge order: id: 2458, side: 1, price: 2147483600, lot: 35, to hedge: 0
+
+
+DD long hedging: 11, 26, 37
+Sending alternative hedge order: id: 2463, side: 0, price: 100, lot: 15, to hedge: 0
+
+
+DD long hedging: -3, 11, 8
+Sending alternative hedge order: id: 2472, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+DD long hedging: -16, 1, -15
+Sending hedge order: id: 2475, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: -21, 8, -13
+Sending hedge order: id: 2479, side: 0, price: 100, lot: 29, to hedge: 0
+
+
+Neutral hedging: -8, -21, -29
+Sending hedge order: id: 2488, side: 1, price: 2147483600, lot: 25, to hedge: 0
+
+
+DD short hedging: -21, 4, -17
+Sending hedge order: id: 2494, side: 0, price: 100, lot: 25, to hedge: 0
+
+
+DD short hedging: -31, -21, -52
+Sending hedge order: id: 2498, side: 0, price: 100, lot: 10, to hedge: 0
+
+
+DD short hedging: -33, -31, -64
+Sending hedge order: id: 2500, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD short hedging: -44, -33, -77
+Sending hedge order: id: 2516, side: 0, price: 100, lot: 11, to hedge: 0
+
+
+DD short hedging: -49, -44, -93
+Sending hedge order: id: 2520, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+DD short hedging: -32, -49, -81
+Sending alternative hedge order: id: 2531, side: 1, price: 2147483600, lot: 17, to hedge: 0
+
+
+DD long hedging: -16, -32, -48
+Sending hedge order: id: 2534, side: 1, price: 2147483600, lot: 40, to hedge: 0
+
+
+DD long hedging: -1, 8, 7
+Sending alternative hedge order: id: 2537, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+Neutral hedging: 7, 0, 7
+Sending hedge order: id: 2540, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+Neutral hedging: 20, -3, 17
+Sending hedge order: id: 2571, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+DD short hedging: 5, -10, -5
+Sending alternative hedge order: id: 2576, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+DD short hedging: 17, -2, 15
+Sending hedge order: id: 2577, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+DD short hedging: 2, -8, -6
+Sending alternative hedge order: id: 2582, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+Neutral hedging: 16, -1, 15
+Sending hedge order: id: 2589, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+Neutral hedging: 2, -1, 1
+Sending hedge order: id: 2590, side: 0, price: 100, lot: 0, to hedge: -7
+
+
+Neutral hedging: 16, -1, 15
+Sending hedge order: id: 2591, side: 0, price: 100, lot: 7, to hedge: -7
+
+
+DD long hedging: 1, -15, -14
+Sending hedge order: id: 2628, side: 1, price: 2147483600, lot: 16, to hedge: 0
+
+
+DD long hedging: 13, -15, -2
+Sending hedge order: id: 2629, side: 1, price: 2147483600, lot: 28, to hedge: 16
+
+
+DD long hedging: -2, 29, 27
+Sending alternative hedge order: id: 2640, side: 0, price: 100, lot: 28, to hedge: 0
+
+
+DD long hedging: 12, 1, 13
+Sending hedge order: id: 2659, side: 1, price: 2147483600, lot: 11, to hedge: 0
+
+
+DD long hedging: 19, 1, 20
+Sending hedge order: id: 2660, side: 1, price: 2147483600, lot: 18, to hedge: 11
+
+
+DD long hedging: 31, 30, 61
+Sending hedge order: id: 2666, side: 1, price: 2147483600, lot: 1, to hedge: 0
+
+
+Neutral hedging: 15, 31, 46
+Sending hedge order: id: 2689, side: 0, price: 100, lot: 38, to hedge: 0
+
+
+Neutral hedging: 0, -7, -7
+
+
+DD long hedging: -15, -7, -22
+Sending hedge order: id: 2700, side: 1, price: 2147483600, lot: 14, to hedge: 0
+
+
+DD long hedging: -28, -7, -35
+Sending hedge order: id: 2702, side: 1, price: 2147483600, lot: 21, to hedge: 14
+
+
+DD long hedging: -40, 28, -12
+Sending alternative hedge order: id: 2706, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: -50, 20, -30
+Sending hedge order: id: 2710, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD short hedging: -60, 25, -35
+Sending hedge order: id: 2714, side: 0, price: 100, lot: 85, to hedge: 0
+
+
+DD short hedging: -61, -60, -121
+Sending hedge order: id: 2718, side: 0, price: 100, lot: 1, to hedge: 0
+
+
+DD short hedging: -68, -60, -128
+Sending hedge order: id: 2720, side: 0, price: 100, lot: 8, to hedge: -1
+
+
+Neutral hedging: -76, -69, -145
+Sending alternative hedge order: id: 2724, side: 1, price: 2147483600, lot: 31, to hedge: 0
+
+
+DD long hedging: -82, -38, -120
+Sending hedge order: id: 2728, side: 1, price: 2147483600, lot: 79, to hedge: 0
+
+
+DD long hedging: -87, 41, -46
+Sending hedge order: id: 2732, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: -90, 43, -47
+Sending hedge order: id: 2740, side: 0, price: 100, lot: 88, to hedge: 0
+
+
+Neutral hedging: -71, -45, -116
+Sending alternative hedge order: id: 2765, side: 1, price: 2147483600, lot: 10, to hedge: 0
+
+
+DD short hedging: -53, -35, -88
+Sending hedge order: id: 2780, side: 0, price: 100, lot: 18, to hedge: 0
+
+
+DD short hedging: -62, -53, -115
+Sending hedge order: id: 2792, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+DD short hedging: -70, -62, -132
+Sending hedge order: id: 2796, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: -77, -70, -147
+Sending hedge order: id: 2802, side: 1, price: 2147483600, lot: 108, to hedge: 0
+
+
+DD long hedging: -59, -70, -129
+Will exceed the limit
+
+
+DD short hedging: -68, 38, -30
+Sending hedge order: id: 2822, side: 0, price: 100, lot: 106, to hedge: 0
+
+
+Neutral hedging: -52, -68, -120
+Sending alternative hedge order: id: 2833, side: 1, price: 2147483600, lot: 42, to hedge: 0
+
+
+Neutral hedging: -61, -26, -87
+Sending hedge order: id: 2841, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+DD short hedging: -69, -30, -99
+Sending hedge order: id: 2867, side: 0, price: 100, lot: 39, to hedge: 0
+
+
+DD short hedging: -51, -69, -120
+Sending alternative hedge order: id: 2870, side: 1, price: 2147483600, lot: 18, to hedge: 0
+
+
+DD short hedging: -60, -51, -111
+Sending hedge order: id: 2878, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+Neutral hedging: -68, -60, -128
+Sending alternative hedge order: id: 2902, side: 1, price: 2147483600, lot: 26, to hedge: 0
+
+
+Neutral hedging: -76, -34, -110
+Sending hedge order: id: 2924, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+Neutral hedging: -82, -38, -120
+Sending hedge order: id: 2940, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+Neutral hedging: -87, -41, -128
+Sending hedge order: id: 2944, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD short hedging: -75, -43, -118
+Sending hedge order: id: 2947, side: 0, price: 100, lot: 32, to hedge: 0
+
+
+DD short hedging: -57, -75, -132
+Sending alternative hedge order: id: 2954, side: 1, price: 2147483600, lot: 18, to hedge: 0
+
+
+DD short hedging: -60, -57, -117
+Sending hedge order: id: 2964, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: -43, -60, -103
+Sending alternative hedge order: id: 2987, side: 1, price: 2147483600, lot: 17, to hedge: 0
+
+
+DD short hedging: -26, -60, -86
+Sending alternative hedge order: id: 2988, side: 1, price: 2147483600, lot: 34, to hedge: 17
+
+
+DD short hedging: -9, -9, -18
+Sending hedge order: id: 2989, side: 0, price: 100, lot: 0, to hedge: 0
+
+
+DD short hedging: -22, -9, -31
+Sending hedge order: id: 3021, side: 0, price: 100, lot: 13, to hedge: 0
+
+
+Neutral hedging: -34, -22, -56
+Sending hedge order: id: 3029, side: 1, price: 2147483600, lot: 39, to hedge: 0
+
+
+Neutral hedging: -45, 17, -28
+Sending hedge order: id: 3033, side: 0, price: 100, lot: 39, to hedge: 0
+
+
+DD short hedging: -55, -22, -77
+Sending hedge order: id: 3037, side: 0, price: 100, lot: 33, to hedge: 0
+
+
+DD short hedging: -64, -55, -119
+Sending hedge order: id: 3041, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+DD long hedging: -71, -64, -135
+Sending hedge order: id: 3045, side: 1, price: 2147483600, lot: 99, to hedge: 0
+
+
+DD long hedging: -78, 35, -43
+Sending hedge order: id: 3075, side: 1, price: 2147483600, lot: 4, to hedge: 0
+
+
+DD short hedging: -60, 39, -21
+Sending hedge order: id: 3096, side: 0, price: 100, lot: 99, to hedge: 0
+
+
+DD long hedging: -68, -60, -128
+Sending hedge order: id: 3100, side: 1, price: 2147483600, lot: 94, to hedge: 0
+
+
+Neutral hedging: -76, 34, -42
+Sending hedge order: id: 3114, side: 0, price: 100, lot: 72, to hedge: 0
+
+
+Neutral hedging: -84, -38, -122
+Sending hedge order: id: 3116, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+DD long hedging: -89, -42, -131
+Sending hedge order: id: 3122, side: 1, price: 2147483600, lot: 86, to hedge: 0
+
+
+DD long hedging: -93, 44, -49
+Sending hedge order: id: 3136, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+Neutral hedging: -74, 46, -28
+Sending hedge order: id: 3161, side: 0, price: 100, lot: 83, to hedge: 0
+
+
+Neutral hedging: -81, -37, -118
+Sending hedge order: id: 3173, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: -87, -40, -127
+Sending hedge order: id: 3181, side: 0, price: 100, lot: 47, to hedge: 0
+
+
+Neutral hedging: -68, -87, -155
+Sending alternative hedge order: id: 3206, side: 1, price: 2147483600, lot: 53, to hedge: 0
+
+
+Neutral hedging: -50, -34, -84
+Sending alternative hedge order: id: 3209, side: 1, price: 2147483600, lot: 9, to hedge: 0
+
+
+DD long hedging: -33, -25, -58
+Sending hedge order: id: 3212, side: 1, price: 2147483600, lot: 41, to hedge: 0
+
+
+DD long hedging: -17, 16, -1
+Sending alternative hedge order: id: 3215, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD short hedging: -29, 8, -21
+Sending hedge order: id: 3221, side: 0, price: 100, lot: 37, to hedge: 0
+
+
+DD long hedging: -32, -29, -61
+Sending hedge order: id: 3261, side: 1, price: 2147483600, lot: 45, to hedge: 0
+
+
+Neutral hedging: -16, 16, 0
+Sending alternative hedge order: id: 3264, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: -28, 8, -20
+Sending hedge order: id: 3268, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD long hedging: -40, 14, -26
+Sending hedge order: id: 3272, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+DD long hedging: -44, 20, -24
+Sending hedge order: id: 3276, side: 1, price: 2147483600, lot: 2, to hedge: 0
+
+
+DD long hedging: -42, 22, -20
+Sending alternative hedge order: id: 3277, side: 0, price: 100, lot: 1, to hedge: 0
+
+
+DD long hedging: -26, 22, -4
+Sending alternative hedge order: id: 3278, side: 0, price: 100, lot: 9, to hedge: -1
+
+
+Neutral hedging: -18, 12, -6
+Sending alternative hedge order: id: 3287, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+Neutral hedging: -3, 9, 6
+Sending alternative hedge order: id: 3292, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: 4, 1, 5
+Sending hedge order: id: 3303, side: 1, price: 2147483600, lot: 3, to hedge: 0
+
+
+Neutral hedging: -10, 4, -6
+Sending hedge order: id: 3316, side: 1, price: 2147483600, lot: 1, to hedge: 0
+
+
+Neutral hedging: -23, 5, -18
+Sending hedge order: id: 3320, side: 1, price: 2147483600, lot: 6, to hedge: 0
+
+
+Neutral hedging: -33, 11, -22
+Sending hedge order: id: 3332, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+Neutral hedging: -17, 16, -1
+Sending alternative hedge order: id: 3337, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+Neutral hedging: -2, 8, 6
+Sending alternative hedge order: id: 3348, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+DD short hedging: -16, 1, -15
+Sending hedge order: id: 3357, side: 0, price: 100, lot: 17, to hedge: 0
+
+
+Neutral hedging: -1, -16, -17
+Sending hedge order: id: 3364, side: 1, price: 2147483600, lot: 16, to hedge: 0
+
+
+Neutral hedging: -15, 0, -15
+Sending hedge order: id: 3371, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+Neutral hedging: -28, 7, -21
+Sending hedge order: id: 3403, side: 1, price: 2147483600, lot: 7, to hedge: 0
+
+
+DD short hedging: -40, 14, -26
+Sending hedge order: id: 3407, side: 0, price: 100, lot: 54, to hedge: 0
+
+
+Neutral hedging: -50, -40, -90
+Sending alternative hedge order: id: 3425, side: 1, price: 2147483600, lot: 15, to hedge: 0
+
+
+Neutral hedging: -33, -25, -58
+Sending hedge order: id: 3430, side: 1, price: 2147483600, lot: 41, to hedge: 0
+
+
+Neutral hedging: -24, 16, -8
+Sending alternative hedge order: id: 3433, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+DD short hedging: -36, 12, -24
+Sending hedge order: id: 3449, side: 0, price: 100, lot: 48, to hedge: 0
+
+
+DD short hedging: -44, 12, -32
+Sending hedge order: id: 3451, side: 0, price: 100, lot: 56, to hedge: -48
+
+
+DD short hedging: -54, -92, -146
+Sending alternative hedge order: id: 3457, side: 1, price: 2147483600, lot: 38, to hedge: 0
+
+
+DD long hedging: -63, -54, -117
+Sending hedge order: id: 3493, side: 1, price: 2147483600, lot: 85, to hedge: 0
+
+
+Neutral hedging: -71, 31, -40
+Sending hedge order: id: 3497, side: 0, price: 100, lot: 66, to hedge: 0
+
+
+Neutral hedging: -78, -35, -113
+Sending hedge order: id: 3505, side: 0, price: 100, lot: 4, to hedge: 0
+
+
+Neutral hedging: -84, -39, -123
+Sending hedge order: id: 3533, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+Neutral hedging: -89, -42, -131
+Sending hedge order: id: 3537, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+DD long hedging: -93, -44, -137
+Sending hedge order: id: 3541, side: 1, price: 2147483600, lot: 90, to hedge: 0
+
+
+Neutral hedging: -79, 46, -33
+Sending hedge order: id: 3580, side: 0, price: 100, lot: 85, to hedge: 0
+
+
+Neutral hedging: -85, -39, -124
+Sending hedge order: id: 3584, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+Neutral hedging: -90, -42, -132
+Sending hedge order: id: 3594, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD long hedging: -71, -45, -116
+Sending hedge order: id: 3607, side: 1, price: 2147483600, lot: 80, to hedge: 0
+
+
+DD long hedging: -72, 35, -37
+Sending hedge order: id: 3625, side: 1, price: 2147483600, lot: 1, to hedge: 0
+
+
+Neutral hedging: -79, 36, -43
+Sending hedge order: id: 3683, side: 0, price: 100, lot: 75, to hedge: 0
+
+
+Neutral hedging: -80, -39, -119
+Sending hedge order: id: 3695, side: 0, price: 100, lot: 1, to hedge: 0
+
+
+Neutral hedging: -85, -40, -125
+Sending hedge order: id: 3697, side: 0, price: 100, lot: 2, to hedge: 0
+
+
+Neutral hedging: -90, -42, -132
+Sending hedge order: id: 3723, side: 0, price: 100, lot: 3, to hedge: 0
+
+
+DD short hedging: -71, -45, -116
+Sending hedge order: id: 3726, side: 0, price: 100, lot: 26, to hedge: 0
+
+
+DD long hedging: -78, -71, -149
+Sending hedge order: id: 3764, side: 1, price: 2147483600, lot: 110, to hedge: 0
+
+
+DD short hedging: -84, 39, -45
+Sending hedge order: id: 3776, side: 0, price: 100, lot: 123, to hedge: 0
+
+
+DD short hedging: -89, -84, -173
+Sending hedge order: id: 3876, side: 0, price: 100, lot: 5, to hedge: 0
+
+
+Neutral hedging: -93, -89, -182
+Sending alternative hedge order: id: 3880, side: 1, price: 2147483600, lot: 43, to hedge: 0
+
+
+DD short hedging: -89, -46, -135
+Sending hedge order: id: 3909, side: 0, price: 100, lot: 43, to hedge: 0
+
+
+Neutral hedging: -93, -89, -182
+Sending alternative hedge order: id: 3915, side: 1, price: 2147483600, lot: 43, to hedge: 0
+
+
+Neutral hedging: -97, -89, -186
+Sending alternative hedge order: id: 3917, side: 1, price: 2147483600, lot: 41, to hedge: 43
+
+
+DD short hedging: -78, -5, -83
+Sending hedge order: id: 3924, side: 0, price: 100, lot: 73, to hedge: 0
+
+
+DD long hedging: -60, -78, -138
+Sending hedge order: id: 3947, side: 1, price: 2147483600, lot: 108, to hedge: 0
+
+
+DD long hedging: -43, 30, -13
+Sending alternative hedge order: id: 4010, side: 0, price: 100, lot: 9, to hedge: 0
+
+
+DD long hedging: -27, 21, -6
+Sending alternative hedge order: id: 4019, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: -12, 13, 1
+Sending alternative hedge order: id: 4042, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+Neutral hedging: 2, 6, 8
+Sending hedge order: id: 4059, side: 0, price: 100, lot: 7, to hedge: 0
+
+
+Neutral hedging: 14, -1, 13
+Sending hedge order: id: 4092, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+Neutral hedging: 0, -7, -7
+
+
+DD long hedging: -14, -7, -21
+Sending hedge order: id: 4109, side: 1, price: 2147483600, lot: 14, to hedge: 0
+
+
+DD long hedging: 1, 7, 8
+Sending alternative hedge order: id: 4116, side: 0, price: 100, lot: 6, to hedge: 0
+
+
+Neutral hedging: 15, 1, 16
+Sending hedge order: id: 4129, side: 0, price: 100, lot: 8, to hedge: 0
+
+
+DD long hedging: 26, -7, 19
+Sending hedge order: id: 4139, side: 1, price: 2147483600, lot: 33, to hedge: 0
+
+
+DD long hedging: 38, 26, 64
+Sending hedge order: id: 4143, side: 1, price: 2147483600, lot: 12, to hedge: 0
+
+
+DD long hedging: 49, 38, 87
+Sending hedge order: id: 4187, side: 1, price: 2147483600, lot: 11, to hedge: 0
+
+
+Neutral hedging: 59, 49, 108
+Sending alternative hedge order: id: 4195, side: 0, price: 100, lot: 20, to hedge: 0
+
+
+DD long hedging: 68, 29, 97
+Sending hedge order: id: 4203, side: 1, price: 2147483600, lot: 39, to hedge: 0
+
+
+DD long hedging: 76, 68, 144
+Sending hedge order: id: 4209, side: 1, price: 2147483600, lot: 8, to hedge: 0
+
+
+Neutral hedging: 82, 76, 158
+Sending alternative hedge order: id: 4213, side: 0, price: 100, lot: 35, to hedge: 0
+
+
+DD long hedging: 86, 41, 127
+Sending hedge order: id: 4217, side: 1, price: 2147483600, lot: 45, to hedge: 0
+
+
+DD long hedging: 91, 86, 177
+Sending hedge order: id: 4223, side: 1, price: 2147483600, lot: 5, to hedge: 0
+
+
+DD short hedging: 96, 86, 182
+Sending hedge order: id: 4229, side: 0, price: 100, lot: 134, to hedge: 5
+
+
+DD short hedging: 100, 91, 191
+Sending hedge order: id: 4231, side: 0, price: 100, lot: 141, to hedge: -134
+
+
+DD short hedging: 104, 91, 195
+Sending hedge order: id: 4233, side: 0, price: 100, lot: 143, to hedge: -275
 

@@ -1,0 +1,58 @@
+HEDGED_THRESHOLD = 30
+HEDGE_PERCENTAGE = 0.5
+
+def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
+        """Called when one of your orders is filled, partially or fully.
+
+        The price is the price at which the order was (partially) filled,
+        which may be better than the order's limit price. The volume is
+        the number of lots filled at that price.
+
+        TODO: Shift our orders depending on our position.
+        """
+        self.logger.info("received order filled for order %d with price %d and volume %d", client_order_id,
+                         price, volume)
+
+        # they are hitting our bids
+        if client_order_id in self.etf_bids:
+            self.etf_position += volume
+            self.position += volume
+
+            # order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, volume, 0)
+            # self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+            # self.futures_bids[order.id] = order                
+
+            if self.etf_position > 20:
+                self.shifted_ask = self.insert_shifted_order(self.ask_base, self.ask_shifted, self.etf_asks, Side.SELL, volume//2)
+        
+        # they are lifting our asks
+        elif client_order_id in self.etf_asks:
+            self.etf_position -= volume
+            self.position -= volume
+
+            # order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, volume, 0)
+            # self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+            # self.futures_asks[order.id] = order
+
+            if self.etf_position < -20:
+                self.shifted_bid = self.insert_shifted_order(self.bid_base, self.bid_shifted, self.etf_bids, Side.BUY, volume//2)
+
+        if abs(self.etf_position) > HEDGED_THRESHOLD:
+            lot_size = self.etf_position - self.futures_position
+            if lot_size > 0:
+                order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, lot_size, 0)
+                self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+                self.futures_bids[order.id] = order
+            else:
+                order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, -lot_size, 0)
+                self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+                self.futures_asks[order.id] = order
+        else:
+            if self.position > 0:
+                order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
+                self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+                self.futures_asks[order.id] = order
+            elif self.position < 0:
+                order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
+                self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+                self.futures_bids[order.id] = order

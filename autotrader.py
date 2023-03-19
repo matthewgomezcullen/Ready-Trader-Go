@@ -36,10 +36,10 @@ LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.15, 0.4, 0.65)]
 POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
 HEDGED_THRESHOLD = 100
-HEDGE_PERCENTAGE = .001
+HEDGE_PERCENTAGE = 1
 SPREAD = 3
 HEDGED_UPPER_THRESHOLD = 60
-LOT_SIZE_ARBITARY_NUMBER = 40
+LOT_SIZE_ARBITARY_NUMBER = 20
 
 
 class Order:
@@ -83,6 +83,7 @@ class AutoTrader(BaseAutoTrader):
         self.etf_bids, self.etf_asks, self.futures_asks, self.futures_bids = (
             dict() for _ in range(4))
         self.is_hedging = False
+        self.do_nothing = False
 
         with open("output/inputs.csv", "w", newline='') as f:  # DELETEME
             writer = csv.writer(f)
@@ -144,6 +145,10 @@ class AutoTrader(BaseAutoTrader):
             pass
 
         if instrument == Instrument.FUTURE:
+            if self.do_nothing:
+                self.check_market_state(ask_prices, ask_volumes, bid_prices, bid_volumes)
+                return
+
             # Keeping track of unhedged lots
             if abs(self.position) > 10 and not self.is_hedging:
                 self.unhedged_interval = self.event_loop.time() - self.unhedged_start
@@ -165,6 +170,10 @@ class AutoTrader(BaseAutoTrader):
             self.calc_lot_sizes(
                 avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
             self.market_state = self.define_market_state()
+            print(self.market_state)
+
+            if self.check_market_state(ask_prices, ask_volumes, bid_prices, bid_volumes):
+                return
 
             self.new_bid_price, bid_spread = self.calc_price(
                 avg_price, bid_prices, self.bid_liquidity)
@@ -184,6 +193,31 @@ class AutoTrader(BaseAutoTrader):
                 writer.writerow([self.etf_position, self.futures_position, avg_price, self.market_state, self.bid_liquidity,
                                 bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
 
+    def check_market_state(self, ask_prices, ask_volumes, bid_prices, bid_volumes):
+        """Checks the market state to decide on taking action"""
+        if self.do_nothing:
+            avg_price = (ask_prices[0] + bid_prices[0]) / 2
+            self.calc_lot_sizes(avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
+            self.market_state = self.define_market_state()
+            if abs(self.market_state) > 0.5:
+                self.do_nothing = False
+            return False
+        elif abs(self.market_state) < 0.5:
+            self.log("")
+            self.log(f"Market state is too low: {self.market_state}, do nothing")
+            self.log("")
+            # if self.position > 0:
+            #     order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
+            #     self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
+            #     self.futures_asks[order.id] = order
+            # elif self.position < 0:
+            #     order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
+            #     self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
+            #     self.futures_bids[order.id] = order
+            self.do_nothing = True
+            return True
+        return False
+
     def reset_orders(self, order_set, side, lot, price):
         """Replace all orders in the order set with new orders.
         
@@ -192,6 +226,8 @@ class AutoTrader(BaseAutoTrader):
 
         for order_id in order_set:
             self.send_cancel_order(order_id)
+
+        total = abs(self.etf_position + (lot if side == Side.BUY else -lot))
 
         if lot and price and abs(self.etf_position + (lot if side == Side.BUY else -lot)) < POSITION_LIMIT:
             base = Order(next(self.order_ids), price, lot, 0)
@@ -356,14 +392,6 @@ class AutoTrader(BaseAutoTrader):
                                       order.price, order.lot)
                 self.futures_bids[order.id] = order
 
-            # if self.position > 0:
-            #     order = Order(next(self.order_ids), MIN_BID_NEAREST_TICK, int(self.position*HEDGE_PERCENTAGE), 0)
-            #     self.send_hedge_order(order.id, Side.ASK, order.price, order.lot)
-            #     self.futures_asks[order.id] = order
-            # elif self.position < 0:
-            #     order = Order(next(self.order_ids), MAX_ASK_NEAREST_TICK, -int(self.position*HEDGE_PERCENTAGE), 0)
-            #     self.send_hedge_order(order.id, Side.BID, order.price, order.lot)
-            #     self.futures_bids[order.id] = order
 
     def insert_shifted_order(self, base, shifted, order_set, side, volume):
         """Inserts a shifted order at a more competitive price to combat position drift.

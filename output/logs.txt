@@ -1,0 +1,240 @@
+
+Market state is too low: 0, do nothing
+
+
+Market state is too low: 0.0863785365193197, do nothing
+
+
+Market state is too low: 0.45030494954936695, do nothing
+
+
+Market state is too low: -0.17590788751169817, do nothing
+
+
+Market state is too low: 0.3923515118842089, do nothing
+
+
+Market state is too low: 0.3741244657908924, do nothing
+
+
+Market state is too low: -0.1131700387905692, do nothing
+
+
+Market state is too low: 0.02483334973109974, do nothing
+
+
+Market state is too low: -0.16877191849644424, do nothing
+
+
+Market state is too low: 0.46772765269633654, do nothing
+
+
+Market state is too low: 0.14391999746326012, do nothing
+
+
+Market state is too low: 0.019825336694586193, do nothing
+
+
+Market state is too low: 0.03172621308950219, do nothing
+
+
+Market state is too low: -0.15700397597337412, do nothing
+
+
+Market state is too low: 0.4541336112943828, do nothing
+
+
+Market state is too low: 0.1457750925762531, do nothing
+
+
+Market state is too low: 0.36931080365651625, do nothing
+
+
+Market state is too low: 0.1292705053392651, do nothing
+
+
+Market state is too low: 0.403763393878279, do nothing
+
+
+Market state is too low: 0.3101541982321707, do nothing
+
+
+Market state is too low: -0.10845052511778785, do nothing
+
+
+Market state is too low: 0.2679156891193175, do nothing
+
+
+Market state is too low: -0.18005674184639586, do nothing
+
+
+Market state is too low: 0.07165444790120978, do nothing
+
+
+Market state is too low: 0.4360597469113885, do nothing
+
+
+Market state is too low: -0.35750457596167573, do nothing
+
+
+Market state is too low: -0.35065669112655073, do nothing
+
+
+Market state is too low: -0.031466247669652114, do nothing
+
+
+Market state is too low: 0.23698615710262172, do nothing
+
+
+Market state is too low: 0.019258471733421656, do nothing
+
+
+Market state is too low: -0.2209963339408847, do nothing
+
+
+Market state is too low: 0.017438562953323355, do nothing
+
+
+Market state is too low: 0.3413068403985533, do nothing
+
+
+Market state is too low: -0.33364716927744276, do nothing
+
+
+Market state is too low: -0.0845079349477591, do nothing
+
+
+Market state is too low: 0.177764620700692, do nothing
+
+
+Market state is too low: 0.26236749103250934, do nothing
+
+
+Market state is too low: 0.25490053570297166, do nothing
+
+
+Market state is too low: 0.07329742146309615, do nothing
+
+
+Market state is too low: -0.27116720083919965, do nothing
+
+
+Market state is too low: -0.2856112225634424, do nothing
+
+
+Market state is too low: 0.2927605706590022, do nothing
+
+
+Market state is too low: 0.46887691200464743, do nothing
+
+
+Market state is too low: 0.20592569675221029, do nothing
+
+
+Market state is too low: 0.4173975824872811, do nothing
+
+
+Market state is too low: 0.2594217678466455, do nothing
+
+
+Market state is too low: 0.3552490452297694, do nothing
+
+
+Market state is too low: 0.3677875823815224, do nothing
+
+
+Market state is too low: -0.3554031601364034, do nothing
+
+
+Market state is too low: -0.2912787475001444, do nothing
+
+
+Market state is too low: -0.2131206440516562, do nothing
+
+
+Market state is too low: 0.4190311594261069, do nothing
+
+
+Market state is too low: -0.11812606078174803, do nothing
+
+
+Market state is too low: -0.09573671988283183, do nothing
+
+
+Market state is too low: -0.08321493428509164, do nothing
+
+
+Market state is too low: -0.09054144352339599, do nothing
+
+
+Market state is too low: 0.049758276297778625, do nothing
+
+
+Market state is too low: -0.3057623590686036, do nothing
+
+
+Market state is too low: 0.31307311338261323, do nothing
+
+
+Market state is too low: -0.2060877250205697, do nothing
+
+
+Market state is too low: -0.04351028615474761, do nothing
+
+
+Market state is too low: -0.14725068283145504, do nothing
+
+
+Market state is too low: -0.09492592807274258, do nothing
+
+
+Market state is too low: 0.0886598765798341, do nothing
+
+
+Market state is too low: 0.025749589337924927, do nothing
+
+
+Market state is too low: 0.24200094832454822, do nothing
+
+
+Market state is too low: -0.10486128921580606, do nothing
+
+
+Market state is too low: 0.2736753797333693, do nothing
+
+
+Market state is too low: -0.2012961249125893, do nothing
+
+
+Market state is too low: 0.3823710427880458, do nothing
+
+
+Market state is too low: 0.17243521482881685, do nothing
+
+
+Market state is too low: -0.46191327702829876, do nothing
+
+
+Market state is too low: -0.0014594327652872607, do nothing
+
+
+Market state is too low: -0.26360755663215407, do nothing
+
+
+Market state is too low: 0.47059786512465696, do nothing
+
+
+Market state is too low: 0.36172051097362035, do nothing
+
+
+Market state is too low: 0.4895292753731182, do nothing
+
+
+Market state is too low: -0.22010245682148377, do nothing
+
+
+Market state is too low: -0.18995865059250994, do nothing
+
+
+Market state is too low: 0.09620885503714427, do nothing
+

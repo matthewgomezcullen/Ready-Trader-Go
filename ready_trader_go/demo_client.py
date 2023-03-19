@@ -126,10 +126,12 @@ class DemoClient:
         Lifespan.FILL_AND_KILL.
         """
         if order_id <= self.__last_order_id:
-            raise ValueError("order_id must be greater than 0 and greater than the last order id")
+            raise ValueError(
+                "order_id must be greater than 0 and greater than the last order id")
         self.__sock.send(HEADER.pack(INSERT_MESSAGE_SIZE, MessageType.INSERT_ORDER)
                          + INSERT_MESSAGE.pack(order_id, side, price_in_cents, volume, lifespan))
-        self.__orders[order_id] = Order(order_id, side, price_in_cents, volume, lifespan)
+        self.__orders[order_id] = Order(
+            order_id, side, price_in_cents, volume, lifespan)
         return self.__orders[order_id]
 
     def update_orders(self) -> None:
@@ -155,7 +157,8 @@ class DemoClient:
                 length, typ = HEADER.unpack_from(self.__buffer, upto)
                 if upto + length > data_length:
                     break
-                self.__on_message(typ, self.__buffer, upto + HEADER_SIZE, length)
+                self.__on_message(typ, self.__buffer,
+                                  upto + HEADER_SIZE, length)
                 upto += length
 
             self.__buffer = self.__buffer[upto:]
@@ -169,12 +172,16 @@ class DemoClient:
 
     def __on_message(self, typ: int, data: bytearray, start: int, length: int) -> None:
         if typ == MessageType.ERROR and length == ERROR_MESSAGE_SIZE:
-            client_order_id, error_message = ERROR_MESSAGE.unpack_from(data, start)
-            self.__on_error_message(client_order_id, error_message.rstrip(b"\x00"))
+            client_order_id, error_message = ERROR_MESSAGE.unpack_from(
+                data, start)
+            self.__on_error_message(
+                client_order_id, error_message.rstrip(b"\x00"))
         elif typ == MessageType.ORDER_FILLED and length == ORDER_FILLED_MESSAGE_SIZE:
-            self.__on_order_filled_message(*ORDER_FILLED_MESSAGE.unpack_from(data, start))
+            self.__on_order_filled_message(
+                *ORDER_FILLED_MESSAGE.unpack_from(data, start))
         elif typ == MessageType.ORDER_STATUS and length == ORDER_STATUS_MESSAGE_SIZE:
-            self.__on_order_status_message(*ORDER_STATUS_MESSAGE.unpack_from(data, start))
+            self.__on_order_status_message(
+                *ORDER_STATUS_MESSAGE.unpack_from(data, start))
         else:
             print("received invalid message: length=%d type=%d", length, typ)
 

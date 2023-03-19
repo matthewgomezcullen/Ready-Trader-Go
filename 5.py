@@ -1,3 +1,4 @@
 from autotrader import *
 
-LIQUIDITY_THRESHOLDS = [0, 0, 0]
+HEDGE_PERCENTAGE = 1
+HEDGED_THRESHOLD = 60

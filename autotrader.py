@@ -31,10 +31,11 @@ TICK_SIZE_IN_CENTS = 100
 MIN_BID_NEAREST_TICK = (MINIMUM_BID + TICK_SIZE_IN_CENTS) // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 MAX_ASK_NEAREST_TICK = MAXIMUM_ASK // TICK_SIZE_IN_CENTS * TICK_SIZE_IN_CENTS
 LIQUIDITY_MAGNITUDE = 8
-LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
+# LIQUIDITY_THRESHOLDS = [t * 10**LIQUIDITY_MAGNITUDE for t in (0.25, 0.5, 0.75)]
 POSITION_THRESHOLDS = [-90, -50, -25, 25, 50, 90]
 UNHEDGED_LIMIT = 50
 HEDGE_PERCENTAGE = 0.5
+SPREAD = 3
 
 class Order:
     def __init__(self, id, price, lot, start):
@@ -54,11 +55,13 @@ class Order:
 
 class State:
 
-    DD_SHORT = -2
-    SHORT = -1
+    DD_SHORT = -3
+    SHORT = -2
+    N_SHORT = -1
     NEUTRAL = 0
-    LONG = 1
-    DD_LONG = 2
+    N_LONG = 1
+    LONG = 2
+    DD_LONG = 3
 
 class AutoTrader(BaseAutoTrader):
     """Example Auto-trader.
@@ -80,13 +83,13 @@ class AutoTrader(BaseAutoTrader):
             self.new_ask_lot = self.new_ask_price = self.ask_liquidity = \
                 self.etf_position = self.futures_position = self.position = \
                       self.unhedged_start = self.unhedged_interval = self.to_hedge = 0
-        self.hedge_behaviour = State.NEUTRAL
+        self.hedge_behaviour = self.market_state = State.NEUTRAL
         self.etf_bids, self.etf_asks, self.futures_asks, self.futures_bids = (dict() for _ in range(4))
         self.is_hedging = False
 
         with open("output/inputs.csv", "w", newline='') as f: # DELETEME
             writer = csv.writer(f)
-            writer.writerow(['position', 'hedged', 'avg_price', 'market_state', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
+            writer.writerow(['position', 'hedged', 'avg_price', 'liquidity_ratio', 'market_state', 'bid_liquidity', 'bid_spread', 'bid_lot', 'ask_liquidity', 'ask_spread', 'ask_lot'])
         
         with open('output/logs.txt' , 'w') as f: # DELETEME
             f.write("")
@@ -109,12 +112,18 @@ class AutoTrader(BaseAutoTrader):
         
         ratio = self.bid_liquidity/self.ask_liquidity
 
-        if ratio > 1.5:
+        if ratio > 2:
             return State.DD_LONG
-        if ratio > 1:
+        elif ratio > 1.5:
             return State.LONG
-        if 1/ratio > 1.5:
+        elif ratio > 1:
+            return State.N_LONG
+        elif 1/ratio > 2:
             return State.DD_SHORT
+        elif 1/ratio > 1.5:
+            return State.SHORT
+        elif 1/ratio > 1:
+            return State.N_SHORT
         else:
             return State.SHORT
 
@@ -159,17 +168,17 @@ class AutoTrader(BaseAutoTrader):
                 self.reset_orders(self.etf_asks, 0, 0, 0)
                 return
 
-            # Calculating inputs
+            # Calculating lot sizes and liquidity
             avg_price = (ask_prices[0] + bid_prices[0]) / 2
             self.calc_lot_sizes(
                 avg_price, ask_prices, ask_volumes, bid_prices, bid_volumes)
 
             # Determining hedging behaviour
-            market_state = self.define_market_state()
-            print(f"Prev hedge behaviour: {self.hedge_behaviour}, new market state: {market_state}")
-            if int(market_state / 2):
-                self.hedge_behaviour = market_state
-            elif abs(self.hedge_behaviour - market_state) > 2:
+            self.market_state = self.define_market_state()
+            print(f"Prev hedge behaviour: {self.hedge_behaviour}, new market state: {self.market_state}")
+            if int(self.market_state / 2):
+                self.hedge_behaviour = self.market_state
+            elif abs(self.hedge_behaviour - self.market_state) > 2:
                 self.hedge_behaviour = State.NEUTRAL
 
             self.new_bid_price, bid_spread = self.calc_price(
@@ -187,8 +196,9 @@ class AutoTrader(BaseAutoTrader):
             # Log inputs
             with open("output/inputs.csv", "a", newline='') as f:  # DELETEME
                 writer = csv.writer(f)
-                writer.writerow([self.etf_position, self.futures_position, avg_price, market_state, self.bid_liquidity,
-                                bid_spread, self.new_bid_lot, self.ask_liquidity, ask_spread, self.new_ask_lot])
+                ratio = 0 if (self.bid_liquidity == 0 or self.bid_liquidity == 0) else self.bid_liquidity / self.ask_liquidity
+                writer.writerow([self.etf_position, self.futures_position, avg_price, ratio, self.market_state, self.bid_liquidity / 10**LIQUIDITY_MAGNITUDE,
+                                bid_spread, self.new_bid_lot, self.ask_liquidity / 10**LIQUIDITY_MAGNITUDE, ask_spread, self.new_ask_lot])
 
     def reset_orders(self, order_set, side, lot, price):
         """Replace all orders in the order set with new orders.
@@ -213,14 +223,45 @@ class AutoTrader(BaseAutoTrader):
         on the liquidity of each side of the market and the position of the
         trader.
         """
+        spread = SPREAD
 
-        spread = 3
+        if is_ask:
+            spread += self.market_state
 
-        for threshold in LIQUIDITY_THRESHOLDS:
-            if liquidity > threshold:
-                spread -= 1
+            adj = 3
+            for threshold in POSITION_THRESHOLDS:
+                if self.etf_position > threshold:
+                    adj -= 1
+            
+        else:
+            spread -= self.market_state
 
-        adj = -4
+            adj = -3
+            for threshold in POSITION_THRESHOLDS:
+                if self.etf_position > threshold:
+                    adj += 1
+
+        spread += adj
+        extra_adj = 0
+        if spread < 0:
+            extra_adj = -spread
+            spread = 0
+        elif spread > 4:
+            extra_adj = spread - 4
+            spread = 4
+
+        return prices[spread] + extra_adj*TICK_SIZE_IN_CENTS if prices[spread] != 0 else 0, spread
+        
+
+
+        spread = SPREAD
+
+        if is_ask:
+            spread += self.market_state
+        else:
+            spread -= self.market_state
+
+        adj = -3
 
         for threshold in POSITION_THRESHOLDS:
             if self.etf_position > threshold:
@@ -230,9 +271,9 @@ class AutoTrader(BaseAutoTrader):
             adj = -adj
         emergency_adj = 0
 
-        if adj == -4:
+        if adj == -3:
             emergency_adj = 3
-        elif adj == 4:
+        elif adj == 3:
             emergency_adj = -3
 
         if is_ask:
@@ -284,19 +325,9 @@ class AutoTrader(BaseAutoTrader):
         liquidity of the market and inversely proportional to the position 
         of the trader.
         """
-        max_l = 2 * 10 ** 7
-        liquidity = min(liquidity, max_l)
-
         position = -1*self.etf_position if is_ask else self.etf_position
         p = math.sqrt(1 - (position+100)/200)
-        l = math.sqrt(1 - (max_l-liquidity)/max_l)
-
-        # if liquidity > LIQUIDITY_THRESHOLD:
-        #     return 15
-        # else:
-        #     return 5
-
-        return math.floor(20 * p * l)
+        return math.floor(20 * p)
 
     def on_order_filled_message(self, client_order_id: int, price: int, volume: int) -> None:
         """Called when one of your orders is filled, partially or fully.
